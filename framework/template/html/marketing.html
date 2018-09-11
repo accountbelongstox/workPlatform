@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>客户资料提取工具 1.0版 (Talent大数据|动点世纪科技 - 开发)</title>
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="assets/css/ace.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+		<script src="assets/js/jquery-2.0.3.min.js" ></script>
+		<style>
+			.row{
+			    margin-right: 0px;
+				margin-left: 0px;
+			}
+			.col-xs-12,.col-sm-12,.col-md-12{
+			    padding-right: 0px;
+				padding-left: 0px;
+			}
+		</style>
+		<script type="text/javascript">
+			const app_path = require('../framework/app_path.js')
+			const ipc = require("electron").ipcRenderer;
+			const md5 = require(`${app_path.framework_path}md5.js`).md5;
+
+		</script>
+	</head>
+	
+<body style="margin: 0px">
+	<!-- /.确认对话框-content -->  
+<div class="modal fade" id="delcfmModel" >  
+  <div class="modal-dialog">  
+    <div class="modal-content message_align">  
+      <div class="modal-header">  
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>  
+        <h4 class="modal-title">提示</h4>  
+      </div>  
+      <div class="modal-body">  
+        <p>您确认要删除吗？</p>  
+      </div>  
+      <div class="modal-footer">  
+         <input type="hidden" id="url"/>  
+         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+         <a  onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>  
+      </div>  
+    </div><!-- /.modal-content -->  
+  </div><!-- /.modal-dialog -->  
+</div><!-- /.modal -->  
+<div class="main-container-inner">
+	
+
+				<div class="ace-settings-container" id="ace-settings-container">
+					<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+						<i class="icon-cog bigger-150"></i>
+					</div>
+
+					<div class="ace-settings-box" id="ace-settings-box">
+						<div style="max-height: 1000px">
+							<div class="pull-left">
+								<select id="skin-colorpicker" class="hide">
+									<option data-skin="default" value="#438EB9">#438EB9</option>
+									<option data-skin="skin-1" value="#222A2D">#222A2D</option>
+									<option data-skin="skin-2" value="#C6487E">#C6487E</option>
+									<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+								</select>
+							</div>
+							<span>过滤数据, 缺失以下勾选项的数据,将不会被保存. </span>
+						</div>
+					</div>
+				</div><!-- /#ace-settings-container -->
+
+</div>
+
+<div class="page-content" style="padding:0;position:absolute;top:0;height:104px;width:100%;">
+	<div class="row" >
+		<div class="col-xs-12">
+			<div class="alert alert-block alert-success" style="padding:5px;margin-bottom: 0px;-webkit-app-region: drag;">
+			<a href="javascript:;" onclick="window_close();" class="btn btn-danger btn-xs pull-right" style="margin-left:10px;-webkit-app-region: no-drag;padding: 0 3px; height: 20px; line-height: 14px;"><i class="icon-remove"></i> 关闭 </a>
+			<a href="javascript:;" onclick="window_mini();" class="btn btn-success btn-xs pull-right" style="margin-left:10px;-webkit-app-region: no-drag;padding: 0 3px; height: 20px; line-height: 14px;"><i class="icon-caret-down icon-only"></i> 小化 </a>
+			<a href="javascript:;" onclick="window_help();" class="btn btn-pink btn-xs pull-right" style="margin-left:10px;-webkit-app-region: no-drag;padding: 0 3px; height: 20px; line-height: 14px;"><i class=" icon-info-sign"></i> 帮助中心 </a
+									
+				<i class="icon-ok green"></i>
+				欢迎使用
+				<strong class="green">
+					客户资料提取工具
+					<small>(v1.0)</small>
+				</strong>
+				动点世纪科技 - 开发
+			</div>
+			<div class="row">
+				<div class="vspace-sm"></div>
+
+				<div class="col-sm-12 col-md-12">
+					<div class="widget-box" style="margin: 0;">
+							<div class="widget-main">
+								<div id="piechart-placeholder"></div>
+
+								<div class="clearfix">
+									<div class="grid4">
+										<div style="width: 50%; float: left;">
+											<span class="grey">
+												准备状态&nbsp; 
+												<i class="icon-circle web-status"></i>
+											</span>
+											<h6 style="margin: 0;line-height:21px;" class="bigger pull-left"><span class="green">0</span><span class="green">条可抓取</span></h6>
+											
+										</div>
+										<div style="width: 50%; float: left;">
+											<span class="grey blue">
+												<i class=" icon-laptop blue"></i>
+												&nbsp; <span class="blue">支持的网站</span>
+											</span>
+											<select class="form-control" id="select_web" style="padding: 0px 6px; height: 21px; line-height: 21px;">
+												<!--此处配置config.js文件本-->
+											</select>
+											
+										</div>
+										
+									</div>
+									<div class="grid2">
+										<span class="grey">
+											<i class="icon-envelope-alt purple"></i>
+											&nbsp; 营销(抓取后发送) 
+										</span>
+										<div>
+										<div class="controls col-md-12">
+											<div class="row">
+												<div class="col-xs-4" style="padding: 0px;width: 70px;">
+													<label>
+														<input name="marketing-field-mail" class="ace ace-switch ace-switch-extend ace-switch-mail" type="checkbox">
+														<span class="lbl"></span>
+													</label>
+												</div>
+												<div class="col-xs-4" style="padding: 0px;width: 70px;">
+													<label>
+														<input name="marketing-field-mail" class="ace ace-switch ace-switch-extend ace-switch-sms" type="checkbox">
+														<span class="lbl"></span>
+													</label>
+												</div>
+												<div class="col-xs-4" style="padding: 0px;width: 70px;">
+												<button type="button" class="btn btn-info btn-sm" style="
+																									    padding: 0 6px;
+																									    border-width: 1px;
+																									    position: absolute;">
+															<i class=" icon-cogs bigger-110"></i>
+															Api设置
+														</button>
+												</div>
+											</div>
+										</div>
+										</div>
+										
+									</div>
+													
+									
+									
+								</div>
+							</div><!-- /widget-main -->
+					</div><!-- /widget-box -->
+				</div><!-- /span -->
+			</div><!-- /row -->
+		</div><!-- /.col -->
+	</div><!-- /.row -->
+</div><!-- /.page-content -->
+
+<div id="bottom_div" style="
+	z-index: 1;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom:0;    
+    padding: 15px;
+    margin-bottom: 0px;
+    width: 100%;
+    ">
+	<div class="col-xs-12">
+		<p style="    text-align: center;">
+			<button class="btn btn-app  btn-xs" >
+				<i class="icon-arrow-left icon-on-left bigger-160"></i>
+				上页
+			</button>
+			<a href="javascript:;"  onclick="save_web_data();" class="btn btn-app btn-info btn-sm no-radius">
+				<i class="icon-save bigger-200"></i>
+				保存
+				<span class="label label-inverse arrowed-in "><font class="historical_data">0</font>+</span>
+			</a>
+			<span style="cursor: pointer;" onclick="refresh_url();" class="badge badge-success"><i class="icon-refresh bigger-160"></i></span>
+				
+			<button class="btn btn-app btn-pink btn-sm "  onclick="export_web_data();">
+				<i class="icon-share-alt bigger-200"></i>
+				导出
+			</button>
+			<button class="btn btn-app btn-success btn-xs">
+				<i class="icon-arrow-right icon-on-right bigger-160"></i>
+				下页
+			</button>
+			<textarea style="display: none;" class="form-control" id="form-field-test" placeholder="Default Text">测试数据发送</textarea>
+			<button style="display: none;"  class="btn btn-info" type="button" onclick="test_web_data();">
+				<i class="icon-ok bigger-110"></i>
+				测试
+			</button>
+		</p>
+	</div>
+</div>
+
+<div style="position: absolute; right: 6px; top: 45px;">
+<button class="btn btn-xs btn-warning" style="padding: 0 3px;">
+	<i class="icon-trash "></i>
+
+	清空
+</button>
+</div>
+
+<webview data-first="1" autosize="no" id="webview" src="http://www.ddweb.com.cn" style="position: fixed; width:100%; height:100%;top:104px;"></webview>
+<script>
+	/*初始化页面*/
+	const extend = require(`${app_path.framework_path}extend.js`)
+	extend.get_tmp_file('all',function(j){
+		setting(j)
+	})
+
+	var currentConfig={}//当前的网站使用的配置config.js
+	var currentSettin={//当前配置的JSON
+		"ignore_field":0,
+		"app-set-long":0
+	}
+	function setting(a,b){
+		/*前面的判断用于传2个参数或3个参数
+		可以直接设置一个json
+		也可以设置key,value值.
+		*/
+		if(typeof a == 'object'){
+			var j = a
+		}
+		if(typeof a == 'string'){
+			var j = {}
+			j[a]=b
+		}
+		for(var p in j){
+			var v = j[p]
+			$("."+p).html(v)
+		}
+	}
+
+	var loadTime = 0;
+	var currentWeb;//当前正在处理的网站。
+	var currentUrl='';//当前url
+	/*webview*/
+    var webview = document.getElementById('webview'),
+    webviewContents;
+    webview.addEventListener("dom-ready", function (){
+
+    });
+    var SetLoadTime=null;
+    /*
+    解决网页是否加载中，如果加载中，则不允许保存网页
+    如果加载中超过5秒，则允许保存
+    loadTime 已经加载时间。
+    SetLoadTime 用来计时的
+    */
+    var loadstop = function() {
+    	$(".web-status").addClass("green")
+    	if($(webview).attr("data-first") == "1"){
+    		//初次加载
+    		$(webview).attr({"data-first":0});
+    		send_web("#select_web");
+    		loadTime = 0;
+    		if(SetLoadTime)clearInterval(SetLoadTime);
+    	}
+    },
+    loadstart = function (){
+    	$(".web-status").removeClass("green")
+		webviewContents = webview.getWebContents();
+    	loadTime = 5;//加载到计时
+    	SetLoadTime = setInterval(function(){
+	    	loadTime -- ;
+	    	if(loadTime == 1){
+	    		clearInterval(SetLoadTime);
+	    		SetLoadTime = null;
+	    	}
+	    },1000);
+    };
+     
+    /*
+    以下两句代码用来执行上面的加载中，和加载结束函数。
+    */
+    webview.addEventListener("did-start-loading", loadstart);
+    webview.addEventListener("did-stop-loading", loadstop);
+
+    var Menu = require('electron').remote.Menu;
+	/*加载支持的网站*/
+	var web_config = require(`${app_path.app_path}config.js`).web_config;
+	/*
+	从上面的web_config中读出来JSON后
+	添加到支持的网站列表中。。。
+	下面的循环开始添加*/
+	for(var p in web_config){
+		var j = web_config[p]
+		$("#select_web").append('<option data-url="'+j.url+'" value="'+p+'" >'+j.name+'</option>');
+	}
+	/*则web_config中将可供过滤的选择传入*/
+
+	/*改变网站时发送*/
+	$("#select_web").change(function(){
+		send_web(this);
+	});
+	/*切换网站的时候，该函数用于实时将webview的地址改变。*/
+	function send_web(e){
+		var url = $(e).find("option:selected").attr('data-url');
+		var val = $(e).val();
+		currentWeb = val
+		currentConfig = web_config[currentWeb]//将总的配置文件转为当前的配置
+		webview.src = url
+		/*配置网站支持的字段过滤*/
+		currentSettin["ignore_field"] = 0;
+		if("reg" in currentConfig){
+			if("replace_reg" in currentConfig.reg){
+				var settings_box_html = ''
+				/*从配置文件读取历史配置*/
+				extend.get_tmp_file(`ignore_field_${currentWeb}`,function(ignore_field){
+					for(var p in currentConfig.reg.replace_reg){
+						var _settion = currentConfig.reg.replace_reg[p]
+						var checked = ''
+						/*对比配置文件中的历史过滤文件*/
+						if(p in ignore_field){
+							if( ignore_field[p] == true ){
+								currentSettin["ignore_field"] ++
+								checked = 'checked'
+							}
+						}
+						settings_box_html+='<div>'+
+							'<input onclick="ignore_field();" type="checkbox" '+ checked +' class="ace ace-checkbox-2 ace-settings-web-ignore-field" id="ace-settings-'+p+'" value="'+p+'" />'+
+							'<label class="lbl" for="ace-settings-'+p+'">'+_settion.name+'</label>'+
+						'</div>';
+					}
+					$("#ace-settings-box").append(settings_box_html);
+				},"json")
+			}
+		}
+
+		
+		
+    	webviewContents.setAudioMuted(true)
+		ipc.send( val );
+
+
+	}
+	/*保存数据抓取过滤字段*/
+	function ignore_field(){
+		var j = {},n=0
+		$('.ace-settings-web-ignore-field').each(function(a,b){
+			var check = $(b).is(":checked")
+			if(check)n++//统计被排除的字段
+			j[$(b).val()] = check
+		})
+		var j2 = JSON.stringify(j)
+		extend.set_tmp_file(`ignore_field_${currentWeb}`,j2,function(err){
+			currentSettin["ignore_field"] = n;
+		})
+	}
+	/*保存网站数据*/
+	function save_web_data(){
+		if( webview.isLoading() ){
+			if(loadTime > 0){
+				message("请等待加载，还有"+loadTime+"秒","warning");
+				return;
+			}
+		}
+		ipc.send('app-web-save');
+	}
+
+	/*刷新网站*/
+	function refresh_url() {
+		message("正在刷新中...")
+		webview.src = webviewContents.getURL()
+	}
+
+	/*替换网页的*/
+	var getSource = require(`${app_path.framework_path}getSource.js`);
+
+	ipc.on('session-create-file', function(event, create_file) {
+    	var file_name =  `${app_path.html_tmp_path}` + md5(create_file);
+    	if( currentUrl ==  webviewContents.getURL()  ){
+    		message("该页面已经抓取过。","warning");
+    		return;
+    	}
+        webviewContents.savePage(file_name,"HTMLOnly",(err)=>{
+            if(err){
+            	message("保存网页到缓存错误"+err,"warning");
+            	console.log("保存网页到缓存错误",err);
+            }else{
+            	message("保存网页到缓存成功");
+            	getSource.replace(currentConfig,file_name,function(mess,long,is_get){
+            		if(is_get)currentUrl = webviewContents.getURL()
+            		$(".app-set-long").html( parseInt($(".app-set-long").html()) + long ) 
+            		message(mess);
+            	})
+            }
+        })
+    });
+
+	//测试
+	function test_web_data(){
+		ipc.send('app-web-test');
+	}
+    /*与node.js的放大,缩小功能模块*/
+    function window_close(){
+    	if(confirm("是否确定要关闭程序？")){
+        	ipc.send('window-all-closed');
+    	}
+    }
+    //小化
+    function window_mini(){
+    	ipc.send('window-mini');
+    }
+    
+    //通知
+    function message(m,t){
+    	if(!t){
+    		t = 'success'
+    	}
+	var e = $('<div data-message="message" class="alert alert-'+t+'" style="z-index: 99999;\n'+
+		'position: absolute;\n'+
+		'top: 114px;\n'+
+		'right: 35%;\n'+
+		'left: 35%;\n'+
+		'display: none;\n'+
+		'width: 30%;">\n'+
+		'<a href="javascript:void(0);" class="close" data-dismiss="alert">\n'+
+		'	&times;\n'+
+		'</a>\n'+
+		'<strong>' + ( m ? m : "提示信息！" ) + '</strong>\n'+
+		'</div>');
+    	$("body").eq(0).append(e)
+    	e.slideDown(500, ()=>{
+	    	e.fadeOut(3000 , ()=>{
+	    		e.remove()
+	    	})
+    	})
+    }
+    //帮助中心
+    function window_help(){
+    	ipc.send('app-help-show');
+    }
+
+    //展开右侧面设置
+    $("#ace-settings-btn").click(function(){
+    	$("#ace-settings-box").toggle();
+    })
+</script>
+</body>
+</html>

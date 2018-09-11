@@ -1,0 +1,5 @@
+dist/
+apps/
+.web_server/
+node_modules/
+.idea/

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>客户资料提取工具 1.0版 (Talent大数据|动点世纪科技 - 开发)</title>
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="assets/css/ace.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+		<script src="assets/js/jquery-2.0.3.min.js" ></script>
+		<style>
+			.row{
+			    margin-right: 0px;
+				margin-left: 0px;
+			}
+			.col-xs-12,.col-sm-12,.col-md-12{
+			    padding-right: 0px;
+				padding-left: 0px;
+			}
+		</style>
+		<script type="text/javascript">
+			const app_path = require('../framework/app_path.js')
+			const ipc = require("electron").ipcRenderer;
+		</script>
+
+	</head>
+	
+<body style="margin: 0px">
+<div class="page-content" style="height: 400px;">
+	<div class="row" >
+		<div class="col-md-12" style="width: 100%;">
+			<div class="alert alert-block alert-success" style="padding:5px;margin-bottom: 0px;-webkit-app-region: drag;">
+			<a data-app-transform-page=""javascript:;"" href="javascript:void(0);"class="btn btn-danger btn-xs pull-right app-help-hide" style="margin-left:10px;-webkit-app-region: no-drag;padding: 0 3px; height: 20px; line-height: 14px;"><i class="icon-remove"></i> 关闭 </a>
+				<strong class="green">
+					帮助中心
+				</strong>
+			</div>
+
+			<div class="tabbable tabs-left">
+				<ul class="nav nav-tabs" id="myTab3">
+					<li class="active">
+						<a data-toggle="tab" data-app-transform-page=""#home3"" href="javascript:void(0);"
+							<i class="pink icon-dashboard bigger-110"></i>
+							使用说明
+						</a>
+					</li>
+
+					<li>
+						<a data-toggle="tab" data-app-transform-page=""#profile3"" href="javascript:void(0);"
+							<i class="icon-rocket"></i>
+							计费说明
+						</a>
+					</li>
+
+					<li>
+						<a data-toggle="tab" data-app-transform-page=""#dropdown13"" href="javascript:void(0);"
+							<i class="blue icon-user bigger-110"></i>
+							关于我们
+						</a>
+					</li>
+				</ul>
+
+				<div class="tab-content">
+					<div id="home3" class="tab-pane in active">
+						<p>1.选择需要采集资料的网站，等待加载完毕。</p>
+						<p>2.按Ctrl+Alt+Shift+z键快速提取资料，此时提取的数据被保存。</p>
+						<p>3.网站的上下翻页为左右快捷键<- | ->。/p>
+						<p>4.导出数据即可。导出的数据为svc格式。</p>
+						<p>5.点击清空可以清除之前的数据。</p>
+					</div>
+
+					<div id="profile3" class="tab-pane">
+						<p>该功能暂不推出，目前软件只限内部使用。</p>
+					</div>
+
+					<div id="dropdown13" class="tab-pane">
+						<p>Talent-BigData.旗下：贵州动点世纪科技有限公司.</p>
+						<p>www.ddweb.com.cn</p>
+						<p>qq 2620631</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!-- /.row -->
+</div><!-- /.page-content -->
+
+<div id="message_alert" class="alert alert-success" style="    z-index: 99999;
+    position: absolute;
+    top: 114px;
+    right: 35%;
+    left: 35%;
+    display: none;
+    width: 30%;">
+	<a data-app-transform-page=""#"" href="javascript:void(0);"class="close" data-dismiss="alert">
+		&times;
+	</a>
+	<strong>提示信息！</strong>
+</div>
+<script>
+
+    /*与node.js的放大,缩小功能模块*/
+    function window_close(){
+    	ipc.send('app-help-hide');
+    }
+
+</script>
+
+<script src="assets/js/bootstrap.min.js"></script>
+</body>
+</html>
+        
+
+        /*
+        @func 该类是模版的公共类,调用该类的run方法,并传入页面路由,则下级会自动启用
+        */
+        <script type="text/javascript">
+        const
+        common = require("../../public/common.class.js")
+        ;
+        common.get_module("page_extend",2);
+        common.module["page_extend"].run("help.html");
+        </script>
+        
+
+        
