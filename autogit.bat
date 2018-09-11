@@ -1,7 +1,7 @@
 rem @echo off
 title talent bigdata
-git add -A
 set /p commit=commit(default NowTime):
+git add -A
 if '%commit%' EQU '' (
 goto setCommit
 ) else ( goto git )
