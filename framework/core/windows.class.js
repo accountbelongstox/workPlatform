@@ -93,28 +93,23 @@ class win32{
 
     /*
     @func 判读一个windows服务是否运行中..
+    @return true运行中 false未运行 null没有安装
     */
-    WinServiceIsRun (server_name,callback){
-        /*0运行中 1未运行 2没有安装
-        * */
-        is_server(server_name,function(is_server){
+    serviceIsRun(server_name,callback){
+        let
+            that = this,
+            isRun = false
+        ;
+        that.isService(server_name,function(is_server){
             if(!is_server){
-                var is_run = 2;/*没有安装该服务*/
-                callback(is_run);
+                callback(null);
             }else{
-                child_process.exec(`SC QUERY "${server_name}"`,{ encoding: binaryEncoding },function(err,standard_output,standard_error){
-                    let result = standard_output + standard_error ;
-                    result = iconv.decode(Buffer.alloc(result.length,result, binaryEncoding), encoding);
-                    console.log(result);
+                that.common.core.func.exec(`SC QUERY "${server_name}"`,function(result){
                     if(/\s*STATE\s*\:\s*[0-9]*\sSTOPPED*/.test(result)){
-                        var is_run = 1;
-                    }else{
-                        var is_run = 0;
+                        isRun = true;
                     }
                     if(callback){
-                        callback(is_run);
-                    }else{
-                        console.log(`server run ${is_run.toString()}`)
+                        callback(isRun);
                     }
                 });
             }
@@ -122,20 +117,63 @@ class win32{
     }
 
     /*
-    @func 查询windows是否存在一个服务
-    */
-    WinExistsService(server_name,callback){
-        child_process.exec(`SC QUERY "${server_name}"`,{ encoding: binaryEncoding },function(err,standard_output,standard_error){
-            let 
-            result = standard_output + standard_error,
-            is_server = 1
-            ;
-            result = iconv.decode(Buffer.alloc(result.length,result, binaryEncoding), encoding);
+    查询系统是否有该服务*/
+    isService(server_name,callback){
+        let
+            that = this,
+            is_server = true
+        ;
+        that.common.core.func.exec(`SC QUERY "${server_name}"`,function(result){
             if(/^[\s\r\n]*SERVICE\_NAME\:\s*[a-zA-Z0-9]/.test(result)){
-                is_server = 0;
+                is_server = false;
             }
             callback(is_server);
         });
+    }
+
+    /**
+     * @func 保存一个命令
+     * @param command
+     * @param target_path
+     * @param is_admin
+     * @param callback
+     * @param is_cmd
+     */
+    saveCommand(command,target_path,is_admin,is_cmd){
+        let
+            that = this,
+            command_text = ""
+        ;
+        if(command instanceof Array){
+            for(var i = 0 ;i<command.length;i++){
+                command_text+=command[i]+"\r\n";
+            }
+        }
+        if(command instanceof String){
+            command_text+=command[i]+"\r\n";
+        }
+        const admin_command = '@echo off\r\n'+
+            '>nul 2>&1 "%SYSTEMROOT%\\system32\\cacls.exe" "%SYSTEMROOT%\\system32\\config\\system"\r\n' +
+            'if \'%errorlevel%\' NEQ \'0\' (\r\n' +
+            'goto UACPrompt\n' +
+            ') else ( goto gotAdmin )\r\n' +
+            ':UACPrompt\r\n' +
+            'echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\\getadmin.vbs"\r\n' +
+            'echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\\getadmin.vbs"\r\n' +
+            '"%temp%\\getadmin.vbs"\r\n' +
+            'exit /B\r\n' +
+            ':gotAdmin\r\n' +
+            'if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )\r\n' +
+            'pushd "%CD%"\r\n' +
+            'CD /D "%~dp0"\r\n';
+        if(is_admin){
+            command_text = admin_command+command_text;
+        }
+        if(is_cmd){
+            command_text += '\r\ncmd';
+        }
+        command_text = iconv.encode(command_text, 'gbk');
+        that.common.core.file.writeFileSync(target_path,command_text);
     }
 
 
@@ -745,6 +783,51 @@ class win32{
                 })(0);
             }
         })(0);
+    }
+
+    /**
+     * @func 取得电脑的所有磁盘
+     * @param callback
+     * @param debug
+     * @constructor
+     */
+    AllDrive(callback){
+        let
+            that = this
+        ;
+        that.common.core.func.exec(`wmic logicaldisk where "drivetype=3" get freespace,name`,function(result) {
+            console.log(result);
+            result = result.replace(/\r/g, '');
+            result = result.replace(/\n\n/g, "\n");
+            result = result.replace(/\n$/g, "");
+            result = result.split("\n");
+            result = Array.prototype.slice.call(result);
+            if ( result[0] && /Name.*/.test( result[0] ) ) {
+                result.splice( 0, 1 );
+            }
+            var d = {};
+            result.forEach( ( drive ) => {
+                drive = drive.replace(/^\s*?|\s*$/g, "");
+                drive = drive.replace(/\s\s/g, " ");
+                drive = drive.replace(/\s\s/g, " ");
+                var a = drive.split(" ");
+                var b = a[0] ? a[0] : 0;
+                a = a[1] ? a[1] : "";
+                if( a ) {
+                    a = a.replace(/[^a-zA-Z]/g, '');
+                    b = parseInt( b );
+                }
+                if( b > 0 ){
+                    d[a] = Math.floor( ( b/1024/1024/1024 ) * 100 ) / 100;
+                }
+            });
+            if(!callback){
+                console.log(d);
+            }
+            if(callback){
+                callback(d);
+            }
+        })
     }
 }
 
