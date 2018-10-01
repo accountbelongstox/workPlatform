@@ -15,6 +15,7 @@ class appPath{
         path = that.common.node.path
         ;
         that.root = path.join(__dirname,`../../`);//安装目录
+        that.commandBat = path.join(that.root,`ddrun.bat`).replace(/\/+/ig,`\\`);
         that.framework = path.join(that.root,'./framework');//framework目录
         that.apps = path.join(that.root,'./apps/');//apps为程序内置目录,下面的所有目录都必须设置到环境变量
         that.framework_bin = path.join(that.framework,'./bin/');

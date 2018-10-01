@@ -4,7 +4,7 @@ set "nodePath=%~dp0apps\nodejs"
 set "node_modules=%~dp0\node_modules"
 if not exist "%nodePath%" (
 SET rootDir=%~dp0
-SET setEnvValue=%PATH%%rootDir%;%nodePath%;
+SET "setEnvValue=%PATH%%rootDir%;%nodePath%;"
 wmic ENVIRONMENT where "name='PATH'" delete
 wmic ENVIRONMENT create name="PATH",username="<system>",VariableValue="%setEnvValue%"
 setx PATH "%setEnvValue%"
@@ -21,4 +21,3 @@ if not exist "%nodePath%\cnpm" ( %nodePath%\node.exe %~dp0\main.js "ddrun" winto
 if not exist "%node_modules%" ( %nodePath%\cnpm --registry https://registry.npm.taobao.org install )
 %~dp0\apps\nodejs\node.exe %~dp0\main.js "ddrun" %1 %2 %3 %4 %5 %6 %7 %8 %9
 )
-

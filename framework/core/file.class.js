@@ -543,49 +543,56 @@ class fileC{
     }
 
 
+
+
     /**
      * @tools 读取文件夹,指定层级读取，需要回调函数
      */
-    readdirs(dirPath,sc,fn,Column=false/*是否分栏*/)
+    readdirs(dirPath,fn,Column=false/*是否分栏*/)
     {
-        let 
-        newReadArr = [
-            [dirPath]
-        ],
-        that = this
+        let
+            that = this,
+            newReadArr = [
+                dirPath
+            ],
+            len = 0,
+            dirs=[],
+            result = null,
+            files=[]
         ;
-        if(!sc)sc = 1;
-        for(let i = 0;i<sc;i++){
-            let 
-            a = [],
-            newReadDirArr = newReadArr[i]
-            ;
-            if(!newReadDirArr)break;
-            for(let k=0;k<newReadDirArr.length;k++){
-                let 
-                newReadDirString = newReadDirArr[k],
+        while(len < newReadArr.length){
+            let
+                newReadPathString = newReadArr[len],
                 _dirs = []
-                ;
-                if(that.common.node.fs.lstatSync(newReadDirString).isDirectory()){
-                    _dirs = that.common.node.fs.readdirSync(newReadDirString);
+            ;
+            try{
+                if(that.common.node.fs.lstatSync(newReadPathString).isDirectory()){
+                    _dirs = that.common.node.fs.readdirSync(newReadPathString);
+                    _dirs.forEach((_dirItem,index)=>{
+                        _dirs[index] = that.common.node.path.join(newReadPathString,_dirItem);
+                    });
+                    newReadArr = newReadArr.concat(_dirs);
+                    dirs.push(newReadPathString);
+                }else{
+                    files.push(newReadPathString);
                 }
-                for(let p=0;p<_dirs.length;p++){
-                    _dirs[p] = that.common.node.path.join(newReadDirString,_dirs[p]);
-                }
-                a = a.concat(_dirs);
+            }catch(err){
+                console.log(err);
+                files.push(newReadPathString);
             }
-            if(a.length > 0)newReadArr.push(a);
+            len++;
         }
-        newReadArr.splice(0,1);
-        if(!Column){
-            let a = [];
-            for(let i = 0;i<newReadArr.length;i++){
-                a = a.concat(newReadArr[i]);
+        dirs = that.common.core.array.filter(dirs);
+        files = that.common.core.array.filter(files);
+        if(Column){
+            result = {
+                dirs,files
             }
-            newReadArr = a;
+        }else{
+            result = dirs.concat(files);
         }
-        if(fn)fn(newReadArr);
-        if(!fn)return newReadArr;
+        if(fn)fn(result);
+        if(!fn)return result;
     }
 
     /*
@@ -648,12 +655,10 @@ class fileC{
     /*
     @func 递归读取文件夹
     */
-    deepReadDir(dir,fn){
-
-        let 
-        that = this
+    deepReadDir(dir,callback){
+        let
+            that = this
         ;
-
     }
 
 
@@ -693,8 +698,10 @@ class fileC{
      * @tools 删除所有的空文件夹
      */
     emptydir(fileUrl){
-        let that = this;
-        let files = that.common.node.fs.readdirSync(fileUrl);
+        let
+            that = this,
+            files = that.common.node.fs.readdirSync(fileUrl)
+        ;
         if(files.length>0){
             let tempFile = 0;
             files.forEach(function(fileName)
@@ -708,6 +715,12 @@ class fileC{
         }else{
             that.common.node.fs.rmdirSync(fileUrl);
         }
+    }
+    emptyDir(fileUrl){
+        let
+            that = this
+        ;
+        return that.emptydir(fileUrl);
     }
 
     /**
@@ -777,11 +790,9 @@ class fileC{
 
     //复制一个文件夹
     copy(source,target,fn){
-        
-        let 
-        that = this
+        let
+            that = this
         ;
-
         let dirs = [];
         //如果传入不是数组,则处理为一个二维数组,以便递归调用.
         if( !(source instanceof Array) ){
@@ -800,13 +811,15 @@ class fileC{
                 fn = target;
             }
         }
-
         (function _copy(i){
-            let source = that.common.node.path.normalize(dirs[i][0]);
-            source = source.replace(/\/$|\\$/,"");
-            let target = that.common.node.path.normalize(dirs[i][1]);
+            let
+                dir = dirs[i][0],
+                dirNormalize = that.common.node.path.normalize(dir),
+                source = dirNormalize.replace(/\/$|\\$/,""),
+                target = dirNormalize,
+                copy = child_process_spawn(`xcopy`,[`${source}`,`${target}`,`/E`,`/Y`,`/C`,`/H`])
+            ;
 
-            let copy = child_process_spawn(`xcopy`,[`${source}`,`${target}`,`/E`,`/Y`,`/C`,`/H`]);
             copy.stdout.on('data', function (data) {
                 console.log('spawn_stdout: ' + data);
             });
@@ -877,22 +890,33 @@ class fileC{
                 newPathParse = that.common.node.path.parse(newPath)
             ;
             //同路径则更名
-            if(pathParse.root.toLowerCase() == newPathParse.root.toLowerCase()){
+            if(pathParse.root.replace(/\\/g,`/`).toLowerCase() == newPathParse.root.replace(/\\/g,`/`).toLowerCase()){
                 //取得另一个临时路径,用于临时路径的
                 let
                     pathTmp = path,
                     tmpParse = that.common.node.path.parse(pathTmp),
+                    newPathParse = that.common.node.path.parse(newPath),
                     dirRoot = tmpParse.root,
                     tmpPathArray = pathTmp.split(/[\\\/]+/).splice(1),
                     newTmpPathname = tmpPathArray.splice(-2).join(`_`),
-                    newTmpPath = that.common.node.path.join(dirRoot,tmpPathArray.join(`/`)+`/`+newTmpPathname)
+                    renameTmpDir = ".rename.tmp",
+                    renameTmpRoot = that.common.node.path.join(dirRoot,renameTmpDir),
+                    newTmpPath = that.common.node.path.join(renameTmpRoot,(tmpPathArray.join(`_`)+`_`+newTmpPathname).replace(/\s+/ig,`_`))
                 ;
+                that.mkdirSync(renameTmpRoot);
+                that.common.core.console.info(`node fs rename ${path} to ${newTmpPath}.`);
                 that.common.node.fs.rename(path,newTmpPath,function(err){
+                    that.common.core.console.info(`node fs rename ${path} to ${newTmpPath} success.`,4);
                     if(err)console.log(err);
                     if(targetExists){
                         that.deleteSync(newPath);
                     }
+                    if(!that.isDirSync(newPathParse.dir)){
+                        that.mkdirSync(newPathParse.dir);
+                    }
+                    that.common.core.console.info(`node fs rename ${newTmpPath} to ${newPath}.`);
                     that.common.node.fs.rename(newTmpPath,newPath,function(err){
+                        that.common.core.console.info(`node fs rename ${newTmpPath} to ${newPath} success.`,4);
                         if(callback)callback(err);
                     })
                 });
@@ -905,275 +929,136 @@ class fileC{
                     }catch(e){
 
                     }
+                    that.common.core.console.info(`node copy source:"${path}" to target:"${newPath}" success.`,4);
                     if(callback)callback();
                 }
-                that.node_copy({
-                    source:path,
-                    target:newPath
-                },fn);
+                that.common.core.console.info(`node copy source:"${path}" to target:"${newPath}".`);
+                that.node_copy(path,newPath,fn);
             }
         }
     }
-
-
     /*
     @func 使用node来复制一个文件夹
     @param boolean force 是否强制复制
     @param string SourceDir 源文件夹
     @param string targetDir 目标文件夹
     */
-    node_copy(option,callback=null,test=""){
-        /*
-        *
-        * 1.每个排入的复制都要按队例进行,当上一个队列复制完后,再继续一下们.队列存入 that.option.nodecopy.waitcopylist
-        * */
+    node_copy(sourceDir,targetDir,callback){
         let
             that = this,
-            {
-                source,//源文件夹
-                target,//目标文件夹
-                cover,//强制覆盖
-                highWaterMark//写入速度
-            } = option
+            copyObject ={sourceDir,targetDir,callback},
+            copyArrayTemp = []
         ;
 
-        if(!that.option.nodecopy){
-            // --------------------------------------------------------------------------
-            that.option.nodecopy = {
-                //等待复制的源及目标队列
-                waitCopySourceAndTargetList:new Set(),
-                //允许进入复制队列
-                allowCopyList : true,
-                //函数迭代列表
-                callbackSet :[]
-            };
-            // 给队列生成迭代器 -----------------------------------------------------------
-            that.option.nodecopy.waitCopySourceAndTargetListIterator = that.common.core.array.iterator(that.option.nodecopy.waitCopySourceAndTargetList);
-            // 顶级队列统计
-            that.option.nodecopy.copySourceAndTargetListCount = 0;
+        if(!that.option.nodeCopyList){
+            that.option.nodeCopyList = [
+                copyObject
+            ];
+        }else{
+            that.option.nodeCopyList.push(copyObject);
         }
-
-        if(!this.fileCount)this.fileCount=0;
-
-        //即有目标也有源文件夹时,添加到复制队列
-        if(target && source){
-            that.option.nodecopy.waitCopySourceAndTargetList.add({
-                source,
-                target
-            });
-        }
-
-        that.option.nodecopy.callbackSet.push(callback);
-
-        (function StartCopy(data,test=""){            
-
-            // console.log(`allowCopyList =>${that.option.nodecopy.allowCopyList} / copySourceAndTargetListCount => ${that.option.nodecopy.copySourceAndTargetListCount} waitCopySourceAndTargetList.size => ${that.option.nodecopy.waitCopySourceAndTargetList.size} test =>${test}`);
-            //如果当前队列没有结束,由不允许下一个进入.
-            if(that.option.nodecopy.allowCopyList){
-                //在队列进行时,设置为不允许一下个进入
-                that.option.nodecopy.allowCopyList = false;
-
-                //如果总队列复制次数已经大于当前的总队列大小,则不再迭代数据,以防数据被多迭代一次造成不同步
-                if(  that.option.nodecopy.copySourceAndTargetListCount >= that.option.nodecopy.waitCopySourceAndTargetList.size  ) {
-
-                    //全部总队列复制结束
-                    //重新开启允许复制
-                    that.option.nodecopy.allowCopyList = true;
-                    //总队列统计重新归0
-                    that.option.nodecopy.copySourceAndTargetListCount = 0;
-                }else{
-                    
+        (function copy(len){
+            copyArrayTemp = that.option.nodeCopyList.splice(0,1);
+            if( copyArrayTemp.length ) {
+                let
+                    copyObjectOne = copyArrayTemp[0],
+                    scanResult = that.readdirs(copyObjectOne.sourceDir,null,true),
+                    removeSymbolReg = /\\+/ig,
+                    fileListSourceDirToTargetDirKeyValue = []
+                ;
+                for(let p in scanResult){
                     let
-                        //每次取一个复制源及目标最顶层队列
-                        currentFolder = that.option.nodecopy.waitCopySourceAndTargetListIterator.next(),
-                        //等待复制的被扫描出的文件队列
-                        waitCopyFilesList = new Set(),
-                        waitCopyFilesListIterator = that.common.core.array.iterator(waitCopyFilesList)
+                        scanResultOne = scanResult[p]
                     ;
-
-                    if(!currentFolder.done){
-                        //将顶级路径添加到队列复制路径
-                        waitCopyFilesList.add(currentFolder.value);
-                        that.common.core.console.success(`StartCopy:\n\tsource:\t${currentFolder.value.source} \n\ttarget:\t${currentFolder.value.target}\n\tinfo:\t${JSON.stringify(data)}`);
-
-                        //开始扫路径下的文件夹
-                        (function scanFolders(j){
-                            let
-                                currentFolder = waitCopyFilesListIterator.next()
-                            ;
-                            //扫描结束
-                            if(currentFolder.done){
-                                //将扫出的文件重新迭代,用于复制队列
-                                let
-                                    copyFilesListIterator = that.common.core.array.iterator(waitCopyFilesList)
-                                ;
-                                (function executeCopyFilesList(k,p){
-                                    let
-                                        currentCopyFileList = copyFilesListIterator.next()
-                                    ;
-                                    if(currentCopyFileList.done){
-                                        //所有复制队列结束. 可以重新将顶层目标/源文件夹载入队列
-                                        that.option.nodecopy.copySourceAndTargetListCount++;
-                                        that.option.nodecopy.allowCopyList = true;
-                                        data = {
-                                            copyList:that.option.nodecopy.copySourceAndTargetListCount,//复制队列总数
-                                            scanList:(j-1) ? (j-1) : j,//扫描出的文件/文件夹总数数
-                                            fileList:k,//扫描出的文件总数数
-                                            folderList:(p-1) ? (p-1) : p//扫描出的文件夹总数数
-                                        };
-
-                                        let
-                                        callback = that.option.nodecopy.callbackSet.splice(0,1)
-                                        ;
-                                        if(callback)callback = callback[0];
-                                        StartCopy(data,"next");
-                                        //执行回调
-                                        if(callback)callback(data);
-                                    }else{
-
-                                        let
-                                            {
-                                                source,
-                                                target
-                                            } = currentCopyFileList.value
-                                        ;
-                                        that.isDir(source,(isDir)=>{
-                                            //如果是文件夹,则要建立
-                                            if(isDir){
-
-                                                p++;
-                                                //通过检测源路径来建立目标路径
-                                                that.common.node.fs.exists(target,(exists)=>{
-                                                    if(!exists){
-                                                        that.mkdir(target,()=>{
-                                                            //建立完成,则进入下一次
-                                                            executeCopyFilesList(k,p);
-                                                        });
-                                                    }else{
-                                                        //目录存在,直接进入下一次
-                                                        executeCopyFilesList(k,p);
-                                                    }
-                                                });
-
-                                            }else{
-                                                //如果是文件则调用复制
-                                                k++;
-                                                try{
-                                                    let
-                                                        targetParentDir = that.common.node.path.parse(target).dir
-                                                    ;
-                                                    //通过检测源路径来建立目标路径
-                                                    that.common.node.fs.exists(targetParentDir,(exists)=>{
-                                                        if(!exists){
-                                                            that.mkdir(targetParentDir,(err)=>{
-                                                                //建立完成,进入读取文件流,并回调下一次
-                                                                createFile(source,target,()=>{
-                                                                    executeCopyFilesList(k,p);
-                                                                });
-                                                            });
-                                                        }else{
-                                                            //目录存在,进入读取文件流,并回调下一次
-                                                            createFile(source,target,()=>{
-                                                                executeCopyFilesList(k,p);
-                                                            });
-                                                        }
-                                                    });
-
-                                                }catch(e){
-                                                    console.log(e);
-                                                    //出错.继续下一次
-                                                    executeCopyFilesList(k,p);
-                                                }
-                                            }
-                                        });
-                                    }
-                                    
-                                })(0,0);
-                            }else{
-                                let
-                                    source = currentFolder.value.source,
-                                    target = currentFolder.value.target
-                                ;
-                                j++;
-                                //如果是文件夹,继续下级扫描
-                                that.isDir(source,(isDir)=>{
-                                    if(isDir){
-
-                                        that.common.node.fs.readdir(source,(err,newFolders)=>{
-                                            //先对文件遍历
-                                            if(err){
-                                                console.log(err);
-                                            }else{
-                                                //添加到队例,继续搜索
-                                                newFolders.forEach((thisOneFolder,index)=>{
-                                                    let
-                                                        o = {
-                                                            source:that.common.node.path.join(source,thisOneFolder),
-                                                            target:that.common.node.path.join(target,thisOneFolder)
-                                                        }
-                                                    ;
-                                                    //添加到扫描队伍
-                                                    waitCopyFilesList.add(o);
-                                                });
-                                            }
-                                            //一个文件扫结束.继续调用扫一下个
-                                            scanFolders(j);
-                                        });
-                                    }else{
-                                        //一个文件扫结束.继续调用扫一下个
-                                        scanFolders(j);
-                                    }
-                                });
-
-                            }
-                        })(0);
-                    }
-                }
-            }
-        })({ copyList:0,/*复制队列总数*/ scanList:0,/*扫描出的文件/文件夹总数数*/ fileList:0, /*扫描出的文件总数数*/ folderList:0/*扫描出的文件夹总数数*/ });
-
-        //异步执行文件对流复制
-        function createFile(source,target,fn){
-            that.common.node.fs.exists(target,(exists)=>{
-                if(!exists || cover /*强制覆盖*/){
-                    //如果文件不存在,则创建
-                    that.common.node.fs.writeFile(target,"",(err)=>{
-                        if(!err){
-                            try{
-                                //建立完成,则进入下一次
-                                let
-                                    readerStream  = that.common.node.fs.createReadStream(source),
-                                    writerStream  = that.common.node.fs.createWriteStream(target)
-                                ;
-                                //是否指定编码
-                                //readerStream.setEncoding('UTF8');
-                                readerStream.on('data',(chunk)=>{
-                                    writerStream.write(chunk);
-                                });
-                                readerStream.on('end',()=>{
-                                    writerStream.end();
-                                });
-                                writerStream.on('finish',()=>{
-                                    //复制完成,则进入下一次
-                                    if(fn)fn();
-                                });
-                            }catch(_err){
-                                //对流出错,直接进入下一次
-                                console.log(_err);
-                                if(fn)fn();
-                            }
-                        }else{
-                            console.log(err);
-                            //创建文件出错,直接进入下一次
-                            if(fn)fn();
+                    scanResultOne.forEach((item,index)=>{
+                        let
+                            _item = item.replace(removeSymbolReg,`/`)
+                        ;
+                        copyObjectOne.sourceDir = copyObjectOne.sourceDir.replace(removeSymbolReg,`/`);
+                        _item = _item.replace(copyObjectOne.sourceDir,``);
+                        _item = that.common.node.path.join(copyObjectOne.targetDir,_item);
+                        scanResultOne[index] = _item;
+                        if(p === "dirs"){
+                            that.mkdirSync(_item);
+                        }
+                        if(p === "files"){
+                            fileListSourceDirToTargetDirKeyValue.push({
+                                source:item,
+                                target:_item
+                            });
                         }
                     });
-                }else{
-                    //目标文件存在,直接进入下一次
-                    if(fn)fn();
                 }
-            });
-        }
+                (function copyFile(fileLen){
+                    let
+                        fileAllLen = fileListSourceDirToTargetDirKeyValue.length
+                    ;
+                    if( fileLen < fileAllLen) {
+                        let
+                            fileObject = fileListSourceDirToTargetDirKeyValue[fileLen],
+                            readStream = that.common.node.fs.createReadStream(fileObject.source),
+                            writeStream = that.common.node.fs.createWriteStream(fileObject.target),
+                            next = true
+                        ;
+                        readStream.on('data', function(chunk) { // 当有数据流出时，写入数据
+                            if (writeStream.write(chunk) === false) { // 如果没有写完，暂停读取流
+                                readStream.pause();
+                            }
+                        });
+                        writeStream.on('drain', function() { // 写完后，继续读取
+                            readStream.resume();
+                        });
+
+                        readStream.on('end', function() { // 当没有数据时，关闭数据流
+                            that.common.core.console.info(`Copy ${fileLen+1}/${fileAllLen} : "${fileObject.source}"->"${fileObject.target}" success.`,6);
+                            writeStream.end();
+                            if(next){
+                                next = false;
+                                copyFile(++fileLen);
+                            }
+                        });
+                        readStream.on('error', function(err){
+                            that.common.core.console.error(err.stack);
+                            if(next){
+                                next = false;
+                                copyFile(++fileLen);
+                            }
+                        });
+                    }else{
+                        that.common.core.console.success(`node copy finish. files:${fileAllLen},dirs:${scanResult.dirs.length}`);
+                        let
+                            nextSet = new Set([copy,copyObjectOne.callback]),
+                            nextIterator = that.common.core.array.iterator(nextSet),
+                            execSort = 0
+                        ;
+                        (function executeCallback(){
+                            let
+                                next = nextIterator.next()
+                            ;
+                            if(!next.done)
+                            {
+                                executeCallback();
+                                switch (execSort) {
+                                    case 0:
+                                        //callback
+                                        execSort++;
+                                        if(next.value)next.value(scanResult);
+                                        break;
+                                    case 1:
+                                        //copy
+                                        execSort++;
+                                        next.value(++len);
+                                        break;
+                                }
+                            }
+                        })();
+                    }
+                })(0);
+            }else{
+                that.option.nodeCopyList = null;
+                that.common.core.console.success(`node copy list finish.`);
+            }
+        })(0);
     }
 
     /**

@@ -49,6 +49,31 @@
         },
         "activator": ""
       },
+      "1dbe3b1a88afeebd709a2f1e42d0f148": {
+        "sort": 10,
+        "group": "program-common",
+        "name": "e",
+        "md5": "1dbe3b1a88afeebd709a2f1e42d0f148",
+        "icon": "",
+        "downUrl": "e.7z",
+        "description": "",
+        "setupInstall": false,
+        "allowConfig": false,
+        "allowChangeVersion": false,
+        "application": {
+          "e.exe": {
+            "description": "易语言"
+          }
+        },
+        "dataBackup": [],
+        "Activator": "",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callback": "e",
+        "environmentVariable": {
+          "path": "./bin"
+        },
+        "activator": ""
+      },
       "c45fc316a7b04d114a8a45bace1a3ed8": {
         "sort": 1,
         "group": "programming_platform",
@@ -298,6 +323,30 @@
         },
         "activator": "",
         "configCallback": "init"
+      },
+      "c80bcac1ceb273f99a91b50bfa163c90": {
+        "sort": 26,
+        "group": "webserver",
+        "name": "glassfish",
+        "md5": "c80bcac1ceb273f99a91b50bfa163c90",
+        "icon": "",
+        "downUrl": "glassfish-5.0.zip",
+        "description": "",
+        "setupInstall": false,
+        "allowConfig": false,
+        "allowChangeVersion": true,
+        "application": "",
+        "dataBackup": [],
+        "Activator": "",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callback": "glassfish",
+        "environmentVariable": {
+          "path": [
+            "./bin",
+            "glassfish/bin"
+          ]
+        },
+        "activator": ""
       },
       "2f286189bee5d071fb3f54548ee1b8d5": {
         "sort": 2,
@@ -565,7 +614,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-committer"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -583,7 +636,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-cpp"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -601,7 +658,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-dsl"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -619,7 +680,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-java"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -637,7 +702,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-javascript"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -655,7 +724,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-jee"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -673,7 +746,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-modeling"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -691,7 +768,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-parallel"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -709,7 +790,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-php"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -727,7 +812,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-rcp"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -745,7 +834,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-reporting"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -763,7 +856,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-rust"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -781,7 +878,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-scout"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -799,7 +900,11 @@
         "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "eclipse.exe",
+        "application": {
+          "eclipse.exe": {
+            "description": "eclipse-testing"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -918,30 +1023,6 @@
         "activator": "",
         "environmentVariable": {
           "path": "./bin"
-        }
-      },
-      "c80bcac1ceb273f99a91b50bfa163c90": {
-        "sort": 26,
-        "group": "ide_common",
-        "name": "glassfish",
-        "md5": "c80bcac1ceb273f99a91b50bfa163c90",
-        "icon": "",
-        "downUrl": "glassfish-4.1.1.zip",
-        "description": "",
-        "setupInstall": true,
-        "allowConfig": false,
-        "allowChangeVersion": false,
-        "application": "",
-        "dataBackup": [],
-        "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
-        "callback": "glassfish",
-        "activator": "",
-        "environmentVariable": {
-          "path": [
-            "./bin",
-            "glassfish/bin"
-          ]
         }
       },
       "6a7273a87ac5d08f7dbef857e3f830ee": {
@@ -1070,10 +1151,14 @@
         "icon": "",
         "downUrl": "Microsoft VS Code.7z",
         "description": "",
-        "setupInstall": true,
+        "setupInstall": false,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "",
+        "application": {
+          "Code.exe": {
+            "description": "Microsoft VS Code"
+          }
+        },
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -1192,7 +1277,7 @@
             "description": "QT/Qt Creator 4.6.2 (Enterprise)",
             "args": " /A /Q /K %applicationDir%/5.11.1/mingw53_32/bin/qtenv2.bat",
             "desktop": true,
-            "removeDesktopDir":true,
+            "removeDesktopDir": true,
             "programs": true
           },
           "5.11.1/mingw53_32/bin/assistant.exe": {
@@ -1215,7 +1300,7 @@
               "description": "QT/5.11.1/MinGW 5.3.0 (32-bit)/Qt 5.11.1 for Desktop (MinGW 5.3.0 32 bit)",
               "args": " /A /Q /K %applicationDir%/5.11.1/mingw53_32/bin/qtenv2.bat",
               "desktop": true,
-              "removeDesktopDir":true,
+              "removeDesktopDir": true,
               "programs": true
             },
             {
@@ -1321,7 +1406,7 @@
         },
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:/WorkPlatform/framework/modules/command_modules/wintools/install",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Qt",
         "activator": ""
       },
@@ -1435,24 +1520,6 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "W3Cschool",
-        "activator": ""
-      },
-      "678b84807a2d533ecb5353977b47b33d": {
-        "sort": 46,
-        "group": "ide_common",
-        "name": "webmatrix",
-        "md5": "678b84807a2d533ecb5353977b47b33d",
-        "icon": "",
-        "downUrl": "webmatrix.zip",
-        "description": "",
-        "setupInstall": true,
-        "allowConfig": false,
-        "allowChangeVersion": false,
-        "application": "",
-        "dataBackup": [],
-        "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
-        "callback": "webmatrix",
         "activator": ""
       },
       "bc9930f244da73db65cab4d448f32a46": {
@@ -1912,6 +1979,26 @@
         "callback": "TortoiseSVN",
         "activator": ""
       },
+      "0b5cc6d1f7706ed193857855f9df41c8": {
+        "sort": 34,
+        "group": "program-common",
+        "name": "totalcmd",
+        "md5": "0b5cc6d1f7706ed193857855f9df41c8",
+        "icon": "",
+        "downUrl": "totalcmd.7z",
+        "description": "",
+        "setupInstall": false,
+        "allowConfig": false,
+        "allowChangeVersion": false,
+        "application": [
+          "TOTALCMD.EXE"
+        ],
+        "dataBackup": [],
+        "Activator": "",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callback": "totalcmd",
+        "activator": ""
+      },
       "de5a0edac377e4dca6934766eb9d5476": {
         "sort": 10,
         "group": "tools",
@@ -2004,6 +2091,26 @@
         "callback": "WinMPGVideoConvert",
         "activator": ""
       },
+      "728c844972e67022e28f698f80242ae5": {
+        "sort": 41,
+        "group": "program-common",
+        "name": "WinSCP",
+        "md5": "728c844972e67022e28f698f80242ae5",
+        "icon": "",
+        "downUrl": "WinSCP.7z",
+        "description": "",
+        "setupInstall": false,
+        "allowConfig": false,
+        "allowChangeVersion": false,
+        "application": [
+          "WinSCP.exe"
+        ],
+        "dataBackup": [],
+        "Activator": "",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callback": "WinSCP",
+        "activator": ""
+      },
       "973b54ddc7c2399b577a70c8c948dfc6": {
         "sort": 13,
         "group": "tools",
@@ -2024,6 +2131,24 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "ZZDS",
+        "activator": ""
+      },
+      "927e628bf2d1808dd702178336c1cb40": {
+        "sort": 36,
+        "group": "program-common",
+        "name": "u5c4fu5e55u5f55u50cfu4e13u5bb6v",
+        "md5": "927e628bf2d1808dd702178336c1cb40",
+        "icon": "",
+        "downUrl": "屏幕录像专家 v20170328.7z",
+        "description": "",
+        "setupInstall": true,
+        "allowConfig": false,
+        "allowChangeVersion": false,
+        "application": [],
+        "dataBackup": [],
+        "Activator": "",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callback": "u5c4fu5e55u5f55u50cfu4e13u5bb6v",
         "activator": ""
       }
     }
@@ -2073,6 +2198,23 @@
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Shadowsocks",
         "activator": ""
+      },
+      "918c45722bacf2efdedf844659b4d5b7": {
+        "sort": 3,
+        "group": "vpn",
+        "name": "SocksCap",
+        "md5": "918c45722bacf2efdedf844659b4d5b7",
+        "icon": "",
+        "downUrl": "SocksCap64-setup-4.7.exe.7z",
+        "description": "",
+        "setupInstall": true,
+        "allowConfig": false,
+        "allowChangeVersion": false,
+        "application": [],
+        "dataBackup": [],
+        "Activator": "",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callback": "SocksCap"
       }
     }
   },
@@ -2097,31 +2239,6 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "_2345Soft",
-        "activator": ""
-      },
-      "6b919217e4a4fd9c13f2648c19416a12": {
-        "sort": 2,
-        "group": "program-common",
-        "name": "_360",
-        "md5": "6b919217e4a4fd9c13f2648c19416a12",
-        "icon": "",
-        "downUrl": "360.7z",
-        "description": "",
-        "setupInstall": false,
-        "allowConfig": false,
-        "allowChangeVersion": false,
-        "application": {
-          "360DrvMgr.exe": {
-            "description": "360驱动大师"
-          },
-          "360Safe.exe": {
-            "description": "360安全"
-          }
-        },
-        "dataBackup": [],
-        "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
-        "callback": "_360",
         "activator": ""
       },
       "51aee6b26fc327d051fa62327edcf66a": {
@@ -2200,28 +2317,6 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "BaiduNetdiskv",
-        "activator": ""
-      },
-      "1dbe3b1a88afeebd709a2f1e42d0f148": {
-        "sort": 10,
-        "group": "program-common",
-        "name": "e",
-        "md5": "1dbe3b1a88afeebd709a2f1e42d0f148",
-        "icon": "",
-        "downUrl": "e.7z",
-        "description": "",
-        "setupInstall": false,
-        "allowConfig": false,
-        "allowChangeVersion": false,
-        "application": {
-          "e.exe": {
-            "description": "易语言"
-          }
-        },
-        "dataBackup": [],
-        "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
-        "callback": "e",
         "activator": ""
       },
       "6c1156cac6783704e179cc83546b407c": {
@@ -2499,26 +2594,6 @@
         "callback": "Tencent",
         "activator": ""
       },
-      "0b5cc6d1f7706ed193857855f9df41c8": {
-        "sort": 34,
-        "group": "program-common",
-        "name": "totalcmd",
-        "md5": "0b5cc6d1f7706ed193857855f9df41c8",
-        "icon": "",
-        "downUrl": "totalcmd.7z",
-        "description": "",
-        "setupInstall": false,
-        "allowConfig": false,
-        "allowChangeVersion": false,
-        "application": [
-          "TOTALCMD.EXE"
-        ],
-        "dataBackup": [],
-        "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
-        "callback": "totalcmd",
-        "activator": ""
-      },
       "f8f5662cc2bfe170ae7ff6bac96dd397": {
         "sort": 5,
         "group": "program",
@@ -2561,26 +2636,6 @@
           },
           "FF31K-AHZD1-H8ETZ-8WWEZ-WUUVA \n CV7T2-6WY5Q-48EWP-ZXY7X-QGUWD"
         ]
-      },
-      "728c844972e67022e28f698f80242ae5": {
-        "sort": 41,
-        "group": "program-common",
-        "name": "WinSCP",
-        "md5": "728c844972e67022e28f698f80242ae5",
-        "icon": "",
-        "downUrl": "WinSCP.7z",
-        "description": "",
-        "setupInstall": false,
-        "allowConfig": false,
-        "allowChangeVersion": false,
-        "application": [
-          "WinSCP.exe"
-        ],
-        "dataBackup": [],
-        "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
-        "callback": "WinSCP",
-        "activator": ""
       },
       "514b9ae84963362457a7ac141191619f": {
         "sort": 32,
@@ -2635,7 +2690,8 @@
         "allowChangeVersion": false,
         "application": {
           "YoudaoDict.exe": {
-            "description": "有道词典"
+            "description": "有道词典",
+            "startup": true
           }
         },
         "dataBackup": [],
@@ -2643,30 +2699,37 @@
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Youdao",
         "activator": ""
-      },
-      "927e628bf2d1808dd702178336c1cb40": {
-        "sort": 36,
-        "group": "program-common",
-        "name": "u5c4fu5e55u5f55u50cfu4e13u5bb6v",
-        "md5": "927e628bf2d1808dd702178336c1cb40",
-        "icon": "",
-        "downUrl": "屏幕录像专家 v20170328.7z",
-        "description": "",
-        "setupInstall": true,
-        "allowConfig": false,
-        "allowChangeVersion": false,
-        "application": [],
-        "dataBackup": [],
-        "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
-        "callback": "u5c4fu5e55u5f55u50cfu4e13u5bb6v",
-        "activator": ""
       }
     }
   },
   "repair": {
     "sort": 120,
     "list": {
+      "6b919217e4a4fd9c13f2648c19416a12": {
+        "sort": 2,
+        "group": "program-common",
+        "name": "_360",
+        "md5": "6b919217e4a4fd9c13f2648c19416a12",
+        "icon": "",
+        "downUrl": "360.7z",
+        "description": "",
+        "setupInstall": false,
+        "allowConfig": false,
+        "allowChangeVersion": false,
+        "application": {
+          "360DrvMgr.exe": {
+            "description": "360驱动大师"
+          },
+          "360Safe.exe": {
+            "description": "360安全"
+          }
+        },
+        "dataBackup": [],
+        "Activator": "",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callback": "_360",
+        "activator": ""
+      },
       "bdb87d868bb9b90c7581f31d404c0bd2": {
         "sort": 0,
         "group": "repair",
@@ -3261,12 +3324,12 @@
         "name": "OfficeToolPlus",
         "md5": "437b82e2bc9ff576c29309708a24c1d5",
         "icon": "",
-        "downUrl": "Office Tool Plus.zip",
+        "downUrl": "OfficeToolPlus.7z",
         "description": "",
         "setupInstall": true,
         "allowConfig": false,
         "allowChangeVersion": false,
-        "application": "",
+        "application": "Office Tool Plus.exe",
         "dataBackup": [],
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
@@ -3294,6 +3357,7 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "CCFamilyCC",
+        "installBeforeRestart": true,
         "activator": ""
       },
       "1f7dbfc69a6f6f6ce4e22f9f669f5440": {
@@ -3312,10 +3376,29 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "cnsqlserver",
+        "installBeforeRestart": true,
         "activator": "TDKQD-PKV44-PJT4N-TCJG2-3YJ6B",
         "environmentVariable": {
           "path": "./bin"
         }
+      },
+      "93233acd1318f4d6f3cd77569f06340f": {
+        "sort": 0,
+        "group": "develop",
+        "name": "CocosCreatorsetup",
+        "md5": "93233acd1318f4d6f3cd77569f06340f",
+        "icon": "",
+        "downUrl": "CocosCreator_setup.7z",
+        "description": "",
+        "setupInstall": true,
+        "allowConfig": false,
+        "allowChangeVersion": false,
+        "application": "",
+        "dataBackup": [],
+        "Activator": "",
+        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callback": "CocosCreatorsetup",
+        "activator": ""
       },
       "15dc9dbad8848d6387500bf9c8434343": {
         "sort": 5,
@@ -3333,6 +3416,7 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SQLServerReportingServices",
+        "installBeforeRestart": true,
         "activator": "",
         "environmentVariable": {
           "path": "./bin"
@@ -3354,6 +3438,7 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SSMSSetupCHS",
+        "installBeforeRestart": true,
         "activator": "",
         "environmentVariable": {
           "path": "./bin"
@@ -3375,6 +3460,7 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "vsEnterprise",
+        "installBeforeRestart": true,
         "activator": "NJVYC-BMHX2-G77MM-4XJMR-6Q8QF"
       },
       "1d894dc63ed81208c272aa3636c8e204": {
@@ -3393,6 +3479,7 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "WINDOWSX",
+        "installBeforeRestart": true,
         "activator": "",
         "environmentVariable": {
           "path": "./bin"
@@ -3414,6 +3501,7 @@
         "Activator": "",
         "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "winx",
+        "installBeforeRestart": true,
         "activator": "",
         "environmentVariable": {
           "path": "./bin"

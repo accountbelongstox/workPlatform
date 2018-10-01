@@ -24,7 +24,14 @@ class C{
                     extend: {}
                 },
                 onesoft: {
-                    description: "安装的软件名",
+                    description: "安装一个软件 / alias : one",
+                    keyValue: true,//表示是键值对参数
+                    mustParams: {//必要的命令参数
+                    },
+                    extend: {}
+                },
+                one: {
+                    description: "安装一个软件",
                     keyValue: true,//表示是键值对参数
                     mustParams: {//必要的命令参数
                     },
@@ -33,6 +40,10 @@ class C{
                 allsoft:{
                     keyValue: false,//表示是键值对参数,
                     description: "安装全部软件"
+                },
+                group:{
+                    keyValue: false,//表示是键值对参数,
+                    description: "安装一组软件"
                 },
                 scanlist: {
                     description: "根据本地资源目录扫瞄成软件列表.",

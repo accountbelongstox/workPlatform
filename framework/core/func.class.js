@@ -344,8 +344,8 @@ class func{
         }
         let 
             param,
-            isValueExp = new RegExp(`^\\-*?${paramName}\\:(.+)`,"i"),
-            notValueExp = new RegExp(`^\\-*?${paramName}$`,"i"),
+            isValueExp = new RegExp(`^\\-*${paramName}\\:(.+)`,"i"),
+            notValueExp = new RegExp(`^\\-*${paramName}$`,"i"),
             isNumberValueExp = new RegExp(`^\\-+`,"ig"),
             isNumber = parseInt(paramName)//如果值是数字,则判断是否有该值即可
         ;
@@ -360,12 +360,14 @@ class func{
             }
             return null;
         }
+        let
+            _v = null
+        ;
         //如果是指定名字来取参数 
         for(let i=0;i<opt.length;i++){
 
             let
-                command = opt[i],
-                _v
+                command = opt[i]
             ;
             //该参数是否是KEY,value型的
             if(isValueExp.test(command)){
@@ -389,15 +391,19 @@ class func{
                     }
                     return _v;
                 }
-                return null;
             }else{
                 if(notValueExp.test(command)){
                     return true;
                 }
             }
         }
-        if(defaultV !== null) return defaultV;//如果没有找到参数则返回默认值
-        return null;//以上条件都不成立的情况下最终返回空
+        if(defaultV !== null){
+            //如果没有找到参数则返回默认值
+            return defaultV;
+        }else{
+            //以上条件都不成立的情况下最终返回空
+            return _v;
+        }
     }
 }
 

@@ -3,6 +3,7 @@ class index{
     //
     constructor(common){
         common.get_node("child_process");
+        common.get_node("readline");
 
         common.get_core("string");
         common.get_core("array");
@@ -16,8 +17,7 @@ class index{
 
     run(callback,){
         let
-            that = this,
-            command = that.common.params.contain(that.option.params)
+            that = this
         ;
         //平台配置 Object
         that.option.platformBase = that.common.config.platform.base;
@@ -31,6 +31,10 @@ class index{
         that.option.installList = that.common.support.install;
         //安装单个软件
         that.option.onesoft = that.common.params.get(`onesoft`);
+        if(!that.option.onesoft){
+            //安装单个软件
+            that.option.onesoft = that.common.params.get(`one`);
+        }
         //查找软件
         that.option.querySoft = that.common.params.get(`query`);
         //安装所有软件
@@ -42,6 +46,15 @@ class index{
     }
 
 
+    /*
+    @func 安装一个软件
+    */
+    one(callback,softname=null,force=false){
+        let
+            that = this
+        ;
+        return that.onesoft(callback,softname,force);
+    }
 
     /*
     @func 安装一个软件
@@ -50,8 +63,8 @@ class index{
         let 
             that = this
         ;
-
-        if(!softname)softname = that.common.core.array.find(that.option.softlist,that.option.onesoft,true)
+        if(!softname)softname = that.common.core.array.find(that.option.softlist,that.option.onesoft,true);
+        that.common.core.console.info(`start install software ${softname} ...`,8);
         for(let p in that.option){
             if( !that.common.tools.install.option[ p ] ){
                 that.common.tools.install.option[ p ] = that.option[ p ]
@@ -60,7 +73,7 @@ class index{
         if( !("force" in that.option) ){
             that.option.force = force;
         }
-        if( !softname ){
+        if(!softname){
             that.common.core.console.error(` not find software : ${that.option.onesoft}\n please use *--list* qurey soft list.`);
             that.query(callback,that.option.onesoft);
         }else{
@@ -71,79 +84,107 @@ class index{
                 softinfo = that.common.tools.install.getSoftInfo(softname),
                 xTarget = `x`
             ;
-            //如果软件本地没有，则下载
-            that.common.tools.install.getLocalSoftwaerOrNotDownload(softinfo,(softdir)=>{
-                softinfo["softdir"] = softdir;
-                softinfo.setupInstall ? xTarget = `--xtmp` : xTarget = `--x`;
-                //如果软件是一个可执行文件,则直接执行即可,通过检测线程判断是否安装完成
-                if(softdir && that.common.core.file.isExeFile(softdir)){
-                    that.common.tools.install.executeInstallFile(softinfo,callback);
-                    //如果软件是压缩文件,则先提取解压,再查找内部是否有setup.exe安装文件,如果有则执行安装文件
-                }else if(softdir && that.common.core.file.isZipFile(softdir)){
-                    let
-                        zipOpt =[
-                            `zip`,
-                            xTarget,
-                            `file:"${softdir}"`,
-                            `target:"${softinfo.applicationDir}"`
-                        ],
-                        zipModule = that.common.core.module.getModule(`command`,zipOpt),
-                        applicationDirExists = (that.common.node.fs.existsSync(softinfo.applicationDir) && !softinfo.setupInstall)
-                    ;
-                    if(applicationDirExists && that.option.force){
-                        that.common.core.file.deleteSync(softinfo.applicationDir);
+            //安装前要求重启系统
+            if(softinfo.installBeforeRestart && !that.option.force){
+                const
+                    readLine = that.common.node.readline.createInterface({
+                        input: process.stdin,
+                        output: process.stdout
+                    })
+                ;
+                that.common.core.console.info(`You need to restart the system before installation...`,8);
+                readLine.question(`Do you want to restart the system immediately? (y|n) : `, (answer) => {
+                    answer = answer.toLowerCase();
+                    if(answer === "y" || answer === "yes"){
+                        let
+                            systemReset = `${that.common.core.appPath.commandBat} wintools install --onesoft:^"${softname}^" --group-next`
+                        ;
+                        that.common.core.windows.startup(systemReset,()=>{
+
+                        });
+                    }else{
+                        that.common.core.console.info(`End of installation`,8);
                     }
-                    //快速安装,不执行解压解压
-                    (that.option.force || !applicationDirExists) ? zipModule.option.run = true : zipModule.option.run = false;
-                    applicationDirExists = that.common.node.fs.existsSync(softinfo.applicationDir);
-                    zipModule.run((option)=>{
-                        softinfo["tmp"] = option.target;
-                        softinfo["forceInstall"] = that.option.force;
-                        softinfo["option"] = that.option;
-                        softinfo["callbackBaseDir"] = __dirname;
-                        if(applicationDirExists){
-                            that.common.tools.install.startInstall(softinfo,()=>{
-                                if(callback)callback();
-                            },true);
-                        }else{
+                    readLine.close();
+                });
+            }else{
+                //如果软件本地没有，则下载
+                that.common.tools.install.getLocalSoftwaerOrNotDownload(softinfo,(softdir)=>{
+                    softinfo["softdir"] = softdir;
+                    softinfo.setupInstall ? xTarget = `--xtmp` : xTarget = `--x`;
+                    //如果软件是一个可执行文件,则直接执行即可,通过检测线程判断是否安装完成
+                    if(softdir){
+                        if(softinfo.setupInstall  && that.common.core.file.isExeFile(softdir)){
+                            that.common.tools.install.executeInstallFile(softinfo,callback);
+                            //如果软件是压缩文件,则先提取解压,再查找内部是否有setup.exe安装文件,如果有则执行安装文件
+                        }else if(that.common.core.file.isZipFile(softdir)){
                             let
-                                isOneFolder = that.common.core.file.isOneFolder(softinfo.tmp),
-                                isNormalProgram = that.common.core.file.isNormalProgram(softinfo.tmp)
+                                zipOpt =[
+                                    `zip`,
+                                    xTarget,
+                                    `file:"${softdir}"`,
+                                    `target:"${softinfo.applicationDir}"`
+                                ],
+                                zipModule = that.common.core.module.getModule(`command`,zipOpt),
+                                applicationDirExists = (that.common.node.fs.existsSync(softinfo.applicationDir) && !softinfo.setupInstall)
                             ;
-                            //如果是安装文件
-                            //解压完成后查看此文件是否是可执行的安装文件
-                            if(softinfo.setupInstall){
-                                //通过各类优先级查找出要执行的文件名,然后开始执行
-                                that.common.tools.install.queryInstallFile(softinfo,(installFile)=>{
-                                    softinfo["softdir"] = installFile;
-                                    that.common.tools.install.executeInstallFile(softinfo,callback);
-                                });
-                                //如果当前只有一个文件夹,并且是不可改变版本号的软件,则提升至上一级
-                            }else if(isOneFolder && !softinfo.allowChangeVersion){
-                                that.common.tools.install.OnlyOneFolderIsSuperior(softinfo.tmp,()=>{
-                                    that.common.tools.install.startInstall(softinfo,()=>{
-                                        if(callback)callback();
-                                    });
-                                });
-                                //如果是可以改变软件版本号,同是是一个普通程序,则下降一级别
-                            }else if(softinfo.allowChangeVersion && isNormalProgram ){
-                                that.common.tools.install.OnlyOneFolderIsDesc(softinfo,()=>{
-                                    that.common.tools.install.startInstall(softinfo,()=>{
-                                        if(callback)callback();
-                                    });
-                                });
-                            }else{
-                                that.common.tools.install.startInstall(softinfo,()=>{
-                                    if(callback)callback();
-                                });
+                            if(applicationDirExists && that.option.force){
+                                that.common.core.file.deleteSync(softinfo.applicationDir);
                             }
+                            //快速安装,不执行解压解压
+                            (that.option.force || !applicationDirExists) ? zipModule.option.run = true : zipModule.option.run = false;
+                            applicationDirExists = that.common.node.fs.existsSync(softinfo.applicationDir);
+                            zipModule.run((option)=>{
+                                softinfo["tmp"] = option.target;
+                                softinfo["forceInstall"] = that.option.force;
+                                softinfo["option"] = that.option;
+                                softinfo["callbackBaseDir"] = __dirname;
+                                if(applicationDirExists){
+                                    that.common.tools.install.startInstall(softinfo,()=>{
+                                        if(callback)callback();
+                                    },true);
+                                }else{
+                                    let
+                                        isOneFolder = that.common.core.file.isOneFolder(softinfo.tmp),
+                                        isNormalProgram = that.common.core.file.isNormalProgram(softinfo.tmp)
+                                    ;
+                                    //如果是安装文件
+                                    //解压完成后查看此文件是否是可执行的安装文件
+                                    if(softinfo.setupInstall){
+                                        //通过各类优先级查找出要执行的文件名,然后开始执行
+                                        that.common.tools.install.startInstall(softinfo,()=>{
+                                            if(callback)callback();
+                                        });
+                                        //如果当前只有一个文件夹,并且是不可改变版本号的软件,则提升至上一级
+                                    }else if(isOneFolder && !softinfo.allowChangeVersion){
+                                        that.common.tools.install.OnlyOneFolderIsSuperior(softinfo.tmp,()=>{
+                                            that.common.tools.install.startInstall(softinfo,()=>{
+                                                if(callback)callback();
+                                            });
+                                        });
+                                        //如果是可以改变软件版本号,同是是一个普通程序,则下降一级别
+                                    }else if(softinfo.allowChangeVersion && isNormalProgram ){
+                                        that.common.tools.install.OnlyOneFolderIsDesc(softinfo,()=>{
+                                            that.common.tools.install.startInstall(softinfo,()=>{
+                                                if(callback)callback();
+                                            });
+                                        });
+                                    }else{
+                                        that.common.tools.install.startInstall(softinfo,()=>{
+                                            if(callback)callback();
+                                        });
+                                    }
+                                }
+                            });
                         }
-                    });
-                }else{
-                    that.common.core.console.error(`Not find softdir ${softdir}.`);
-                    if(callback)callback();
-                }
-            });
+                    }else{
+                        that.common.core.console.error(`Not find soft dir in ${softname}.`);
+                        if(callback){
+                            callback(false);
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -151,7 +192,7 @@ class index{
     /*
     @func 安装所有软件
     */
-    allsoft(callback){
+    allsoft(callback,installListSortArray){
         //1.先安装编程平台
         //2.安装系统软件
         //3.安装数据库
@@ -159,19 +200,20 @@ class index{
         //6.安装其他软件
         let
             that = this,
-            installList = that.option.installList,
-            installListSortArray = []
+            installList = that.option.installList
         ;
-        for(let p in installList){
-            let
-                installListOne = installList[p]
-            ;
-            installListOne.name = p;
-            installListSortArray.push(installListOne);
+        if(!installListSortArray){
+            for(let p in installList){
+                let
+                    installListOne = installList[p]
+                ;
+                installListOne.group = p;
+                installListSortArray.push(installListOne);
+            }
+            installListSortArray.sort((a,b)=>{
+                return a.sort - b.sort;
+            });
         }
-        installListSortArray.sort((a,b)=>{
-            return a.sort - b.sort;
-        });
         (function StartSoftGorup(GLen){
             if(GLen >= installListSortArray.length){
                 if(callback)callback();
@@ -179,7 +221,7 @@ class index{
                 let
                     GObject = installListSortArray[GLen],
                     GList = GObject.list,
-                    GName = GObject.name,
+                    GGroup = GObject.group,
                     GSort = GObject.sort,
                     GSoftArray = []
                 ;
@@ -197,7 +239,8 @@ class index{
                             SObject = GSoftArray[SLen],
                             SName = SObject.name
                         ;
-                        that.common.core.console.info(`Start install software ${SName}`,4);
+                        that.common.core.console.info(`Start install software ${SName}`,3);
+                        //StartSoftOne(++SLen);
                         that.onesoft(()=>{
                             StartSoftOne(++SLen);
                             that.common.core.console.success(`${SName} install  finish!`);
@@ -206,6 +249,58 @@ class index{
                 })(0);
             }
         })(0);
+    }
+
+    /*
+    @func 安装一组软件
+    */
+    group(callback){
+        //1.先安装编程平台
+        //2.安装系统软件
+        //3.安装数据库
+        //4.安装服务器平台
+        //6.安装其他软件
+        let
+            that = this,
+            group = that.option.onesoft = that.common.params.getValue(`group`),
+            installList = that.option.installList,
+            installListSortArray = [],
+            groupList = [],
+            isGroup = null
+        ;
+        for(let p in installList){
+            let
+                installListOne = installList[p]
+            ;
+            groupList.push(p);
+            installListOne.group = p;
+            installListSortArray.push(installListOne);
+        }
+
+        installListSortArray.sort((a,b)=>{
+            return a.sort - b.sort;
+        });
+
+        if(group && (isGroup = that.common.core.array.findX(groupList,group))){
+            for(let index = 0;index < installListSortArray.length;index++){
+                let
+                    installOne = installListSortArray[index]
+                ;
+                if(installOne.group !== isGroup){
+                    installListSortArray.splice(index,1);
+                    index--;
+                }
+            }
+            that.allsoft(()=>{
+                that.common.core.console.success(`Group ${isGroup} install success!`);
+                if(callback){
+                    callback();
+                }
+            },installListSortArray);
+        }else{
+            that.common.core.console.error(`Not find the group ${group}`);
+            console.log(groupList);
+        }
     }
 
     /*

@@ -65,6 +65,57 @@ class stringC{
     }
 
     /**
+     * @func 字符串处理
+     * @param str
+     */
+    trimX(str,symbol = []){
+        if(typeof symbol ==="string"){
+            symbol = [symbol]
+        }
+        let
+            that = this,
+            symbols = [`'`,`"`].concat(symbol)
+        ;
+        symbols.forEach((symbolOne)=>{
+            let
+                _text = that.strToRegText(symbolOne),
+                _reg = new RegExp(`^${_text}.+?${_text}$`),
+                _replaceReg = new RegExp(`^${_text}+|${_text}+$`,`ig`)
+            ;
+            if(_reg.test(str)){
+                console.log(_replaceReg);
+                str = str.replace(_replaceReg,``);
+            }
+        });
+        return str;
+    }
+
+    /**
+     * @func 分离字符串
+     * @space
+     */
+    splitSpace(str){
+        let
+            that = this,
+            len = 0,
+            _strTmp = ``,
+            removeSpace = /^\s+\s+$/g,
+            symbolRead = false
+        ;
+        str = str.replace(removeSpace);
+        while(len < str.length - 1){
+            let
+                _str = str[len]
+            ;
+            if(`'"`.includes(_str)){
+                symbolRead = true;
+                console.log(`\`'"\`.includes(_str)`,`'"`.includes(_str));
+            }
+            len++;
+        }
+    }
+
+    /**
      * @tools 字符转正则字符.
      * @param str,force增强字符串 fast 是否加上^标识
      * @returns {string}

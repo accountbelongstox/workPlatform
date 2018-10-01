@@ -4,12 +4,10 @@
 @func 程序主入口,当有命令参数时执行命令行,无命令参数时则启动程序 
 */
 
-
 const
 options = process.argv,
 funcs = `./framework/funcs/`
 ;
-
 if(options[2] == "ddrun"){
 	
 	const 

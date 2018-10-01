@@ -231,14 +231,9 @@ class systembakC{
             needBackupFolders.forEach((backupOneFolder)=>{
                 let
                     pathName = backupOneFolder.replace(/^.+?[\\\/]/,'').replace(/[\/|\\]+$/,''),
-                    backupOneDir = that.common.node.path.join(that.option.backupDir,pathName),
-                    backSourceTarget = {
-                        source:backupOneFolder,
-                        target:backupOneDir,
-                        cover:false//强制覆盖
-                    }
+                    backupOneDir = that.common.node.path.join(that.option.backupDir,pathName)
                 ;
-                that.common.core.file.node_copy(backSourceTarget,(data)=>{
+                that.common.core.file.node_copy(backupOneFolder,backupOneDir,(data)=>{
                     if(callback)callback();
                 });
             });

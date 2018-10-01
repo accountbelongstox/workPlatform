@@ -251,7 +251,7 @@ class networkC{
         ;
         //如果没有指定存放地址,则下载将被存放到临时文件中
         if(!savePath){
-            savePath = that.common.node.path.join(that.common.config.platform.base.workDir.application,".dowm")
+            savePath = that.common.node.path.join(that.common.config.platform.base.local.tmpDir,".down")
         }
         
         if(!saveDir){

@@ -179,17 +179,9 @@ class index{
          */
         function recoveryHomeDir(BackupDirs,fn){
             BackupDirs.forEach((item,index)=>{
-                console.log(item)
-                let
-                    backSourceTarget = {
-                        source:item.target,
-                        target:item.source,
-                        cover:true//强制覆盖
-                    }
-                ;
-                that.common.core.file.node_copy(backSourceTarget,(data)=>{
+                console.log(item);
+                that.common.core.file.node_copy(item.target,item.source,(data)=>{
                     //将备份的文件进行压缩
-
                 });
             });
         }

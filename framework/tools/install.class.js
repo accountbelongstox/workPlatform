@@ -282,17 +282,37 @@ class installC{
     @func 查询并执行安装文件
     */
     startInstall(softinfo,callback,applicationDirExists=false){
-
         let
         that = this,
         errInfo = ``
         ;
         //如果是安装执行,则寻找安装文件
         if(softinfo.setupInstall){
-            let
+            //通过各类优先级查找出要执行的文件名,然后开始执行
+            that.common.tools.install.queryInstallFile(softinfo,(installFile)=>{
+                if(installFile){
+                    softinfo["softdir"] = installFile;
+                    that.common.tools.install.executeInstallFile(softinfo,()=>{
+                        that.getProgramInstallCallback(softinfo,callback);
+                    });
+                }else if(installFile === null || installFile === false){
+                    let
+                        optCmd = `explorer "${softinfo.tmp}"`
+                    ;
+                    that.common.core.func.spawn(optCmd,(info)=>{
+                        that.common.core.console.info(`open application in ${softinfo.tmp}`,6);
+                        that.getProgramInstallCallback(softinfo,callback);
+                    });
+                }else{
+                    errInfo = `Not find setup.exe or entry application..`;
+                    that.common.core.console.error(errInfo);
+                    if(callback)callback(errInfo);
+                }
+            });
+
+/*            let
             softdir = that.isSetup(softinfo.tmp)
             ;
-
             if(!softdir){
             	softdir = that.isSetupX(softinfo.tmp)
             }
@@ -305,7 +325,7 @@ class installC{
             	errInfo = `Not find setup.exe or entry application..`;
             	that.common.core.console.error(errInfo);
             	if(callback)callback(errInfo);
-            }
+            }*/
         //解压并设置环境变量
         }else{
         	//将软件移到指定的目录
@@ -474,7 +494,6 @@ class installC{
             icon = application,
             shortcutItem = function(){
                 let o ={
-                    icon : application,
                     args : ``,
                     shortcutType : []
                 }
@@ -507,7 +526,7 @@ class installC{
                 return o;
             }
         ;
-        if(typeofIs === "string"){
+        if(typeofIs === "string" && application){
             that.common.core.console.info(`application is a String.`,4);
             let
                 currentShortcutItem = new shortcutItem()
@@ -517,7 +536,7 @@ class installC{
             currentShortcutItem.description = softName;
             currentShortcutItem.shortcutType = that.common.core.array.getObjectTrue((new shortcutType()),true);
             applicationList.push(currentShortcutItem);
-        }else if(typeofIs === "object" && application instanceof Array){
+        }else if(typeofIs === "object" && application instanceof Array  && application.length){
             that.common.core.console.info(`application is a Array.`,4);
             application.forEach((app)=>{
                 let
@@ -557,10 +576,12 @@ class installC{
                         _icon = p
                     ;
                     currentShortcutItem.application = p;
-                    currentShortcutItem.icon = _icon;
+                    if(currentShortcutItem.icon && typeof currentShortcutItem.icon === "string"){
+                        currentShortcutItem.icon = _icon;
+                    }
                     currentShortcutItem.shortcutType = that.common.core.array.getObjectTrue(currentShortcutType,true);
                     //如果该软件自定了是否启动,以定义的为准
-                    if(!currentShortcutItem[`icon`]){
+                    if(!currentShortcutItem.icon){
                         //如果有总的图标,则使用
                         if(softinfo.icon){
                             _icon = softinfo.icon;
@@ -568,7 +589,7 @@ class installC{
                         currentShortcutItem.icon = _icon;
                     }
                     applicationList.push(currentShortcutItem);
-                };
+                }
             }
         }
         applicationList.forEach((entry,index)=>{
@@ -599,6 +620,7 @@ class installC{
             if(entry.application){
                 that.common.core.console.info(`Query ${softinfo.applicationDir} to ${entry.application} path.`,4);
                 that.common.core.console.info(`Query ${softinfo.applicationDir} to ${entry.icon} path.`,4);
+                console.log(entry.icon);
                 let
                     app_ = that.common.core.file.queryFileSync(softinfo.applicationDir,entry.application),
                     icon_ = that.common.core.file.queryFileSync(softinfo.applicationDir,entry.icon)
@@ -623,60 +645,68 @@ class installC{
     @func 查找目录下的安装文件
     */
     queryInstallFile(softinfo,callback){
-
         let
-        that = this,
-        dir = softinfo.tmp,
-        isOneExeFile = that.common.core.file.isOneExeFile(dir),
-        setupFiles = ``
+            that = this,
+            application = softinfo.application,
+            dir = softinfo.tmp,
+            isOneExeFile = that.common.core.file.isOneExeFile(dir),
+            applicationExists = (((typeof application) === "string") && application),
+            setupFiles = ``
         ;
-        if(isOneExeFile){
-
-            setupFiles = isOneExeFile;
-            
-        } else {
-            let
-            files = that.common.core.file.scanGetFileSync(dir),
-            exeFiles = [],
-            setupFileSize = 0
-            ;
-            files.forEach((file)=>{
-                if(that.common.core.file.isExeFile(file)){
-                    exeFiles.push(file);
-                }
-            });
-            exeFiles.forEach((file)=>{
-                let
-                name = that.common.node.path.parse(file).name
-                ;
-                //1.优先查找带setup的文件
-                if(/setup/ig.test(name)){
-                    setupFiles = file;
-                    return;
-                }
-                //2.查找文件名互相包含的项
-                if(name.includes(softinfo.name)){
-                    setupFiles = file;
-                    return;
-                }
-                //3.查找文件最大的项
-                let
-                stat = that.common.node.fs.lstatSync(file)
-                ;
-                if(stat.size > setupFileSize){
-                    setupFiles = file;
-                    setupFileSize = stat.size;
-                }
-
-            });
-        }
-
-        if(callback){
-            callback(setupFiles);
+        /*-------------------------------------------------------------------*/
+        if(application === null || application === false ){
+            if(callback)callback(null);
         }else{
-            return setupFiles;
+            if(applicationExists ){
+                applicationExists = that.common.core.file.queryFileSync(dir,application);
+            }
+            /*-------------------------------------------------------------------*/
+            if(applicationExists){
+                callback(applicationExists);
+            }else{
+                if(isOneExeFile){
+                    setupFiles = isOneExeFile;
+                }else{
+                    let
+                        files = that.common.core.file.scanGetFileSync(dir),
+                        exeFiles = [],
+                        setupFileSize = 0,
+                        setupCheckRegexp = /setup/ig
+                    ;
+                    files.forEach((file)=>{
+                        if(that.common.core.file.isExeFile(file)){
+                            exeFiles.push(file);
+                        }
+                    });
+                    exeFiles.forEach((file)=>{
+                        let
+                            name = that.common.node.path.parse(file).name
+                        ;
+                        //1.优先查找带setup的文件
+                        if(setupCheckRegexp.test(name)){
+                            setupFiles = file;
+                            return;
+                        }
+                        //2.查找文件名互相包含的项
+                        if(name.includes(softinfo.name)){
+                            setupFiles = file;
+                            return;
+                        }
+                        //3.查找文件最大的项
+                        let
+                            stat = that.common.node.fs.lstatSync(file)
+                        ;
+                        if(stat.size > setupFileSize){
+                            setupFiles = file;
+                            setupFileSize = stat.size;
+                        }
+                    });
+                }
+                if(callback)callback(setupFiles);
+            }
         }
     }
+
     /*
     @func 执行一个安装文件
     */
@@ -684,30 +714,65 @@ class installC{
         let 
         	that = this,
             softdir = softinfo.softdir,
-            exeInstall = this.common.node.child_process.spawn(softdir),
+            newSoftDir = null,
+            softdirParse = that.common.node.path.parse(softdir),
+            isMsi = (softdirParse.ext.toLowerCase() === ".msi")
+        ;
+
+        if(softdir.match(/\s+/)){
+            newSoftDir = softdir.replace(/\s+/ig);
+            that.common.core.file.rename(softdir,newSoftDir,()=>{
+                softdir = newSoftDir;
+                that.executeMisOrExe(softdir,isMsi,softinfo,callback);
+            });
+        }else{
+            that.executeMisOrExe(softdir,isMsi,softinfo,callback);
+        }
+    }
+
+    /**
+     * @func 执行一个安装文件或者程序文件
+     * @param softdir
+     * @param isMsi
+     * @param callback
+     */
+    executeMisOrExe(softdir,isMsi,softinfo,callback){
+        let
+            that = this,
+            exeInstall = null,
             exeCallback = true
         ;
-        exeInstall.stdout.on('data', (data) => {
-            that.common.core.console.info(data,4);
-        });
-
-        exeInstall.stderr.on('data', (data) => {
-            that.common.core.console.error(data);
-        });
-        exeInstall.on('exit', (code) => {
-            if(callback && exeCallback){
-                exeCallback = false;
-                that.common.core.console.success(`Install exited with code ${code}`);
-                that.keyCodeActions(softinfo,callback);
-            }
-        });
-        exeInstall.on('close', (code) => {
-            if(callback && exeCallback){
-                exeCallback = false;
-                that.common.core.console.success(`Install close with code ${code}`);
-                that.keyCodeActions(softinfo,callback);
-            }
-        });
+        if(isMsi){
+            that.common.core.func.exec(softdir,(info)=>{
+                if(callback && exeCallback){
+                    exeCallback = false;
+                    that.common.core.console.success(`Install exited with child_process exec.`);
+                    that.keyCodeActions(softinfo,callback);
+                }
+            });
+        }else{
+            exeInstall = that.common.node.child_process.spawn(softdir);
+            exeInstall.stdout.on('data', (data) => {
+                that.common.core.console.info(data,4);
+            });
+            exeInstall.stderr.on('data', (data) => {
+                that.common.core.console.error(data);
+            });
+            exeInstall.on('exit', (code) => {
+                if(callback && exeCallback){
+                    exeCallback = false;
+                    that.common.core.console.success(`Install exited with code ${code}`);
+                    that.keyCodeActions(softinfo,callback);
+                }
+            });
+            exeInstall.on('close', (code) => {
+                if(callback && exeCallback){
+                    exeCallback = false;
+                    that.common.core.console.success(`Install close with code ${code}`);
+                    that.keyCodeActions(softinfo,callback);
+                }
+            });
+        }
     }
 
     /*

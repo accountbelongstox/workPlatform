@@ -29,45 +29,8 @@
 10. `--asar`加密打包选项，是否在resource文件夹下面，生成app.asar文件。否则将会是个app文件夹加上自己的代码文件
 11. `electron-packager --help`查看更多信息
 
-- 在管理员模式下运行
-1. `ResourceHacker`修改请求管理员权限 `Manifest`修改`requestedExecutionLevel`的`level`为`requireAdministrator`. `asInvoker`以前当权限运行.`highestAvailable`这个是以当前用户可以获得的最高权限运行。`requireAdministrator`: 这个是仅以系统管理员权限运行。
-2. 添加sudo.exe到目录下.编写start.bat.内容`sudo.exe dwork.exe`
-3. 使用`vbsedit`编译sudu.vbs.
-```
-	Set UAC = CreateObject("Shell.Application")  
-	Set Shell = CreateObject("WScript.Shell")  
-	If WScript.Arguments.count<1 Then
-		WScript.arguments(0) = "xxx.exe"
-		'WScript.echo "example sudo <command> [args]"  
-	ElseIf WScript.Arguments.count=1 Then  
-		UAC.ShellExecute WScript.arguments(0), "", "", "runas", 1  
-	'    WScript.Sleep 10  
-	'    Dim ret  
-	'    ret = Shell.Appactivate("用户账户控制")  
-	'    If ret = true Then  
-	'        Shell.sendkeys "%y"          
-	'    Else  
-	'        WScript.echo "自动获取管理员权限失败，请手动确认。"  
-	'    End If  
-	Else  
-		Dim ucCount  
-		Dim args  
-		args = NULL  
-		For ucCount=1 To (WScript.Arguments.count-1) Step 1  
-			args = args & " " & WScript.Arguments(ucCount)  
-		Next  
-		UAC.ShellExecute WScript.arguments(0), args, "", "runas", 5  
-	End If  
-```
-
-- 添加右键菜单`bin/add_menu.bat`
-```
-	#参数1 BashName(注册表名字)
-	#参数2 Command命令地址
-	#参数3 Icon图标地址(可选)
-	#参数4 右键菜单名字
-```
-
-
-
-
+- ddrun
+	- wintools
+		- install
+			- onesoft:安装软件
+			- activation:激活软件

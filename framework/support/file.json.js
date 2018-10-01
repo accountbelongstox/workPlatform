@@ -1,6 +1,6 @@
 let files = {
 	exe:{
-		extend:['EXE','BAT']
+		extend:['EXE','BAT',`MSI`]
 	},
 	zip:{
 		extend:['7z','XZ','BZIP2','GZIP','TAR','ZIP','WIM','AR','ARJ','CAB','CHM','CPIO','CramFS','DMG','EXT','FAT','GPT','HFS','IHEX','ISO','LZH','LZMA','MBR','MSI','NSIS','NTFS','QCOW2','RAR','RPM','SquashFS','UDF','UEFI','VDI','VHD','VMDK','XAR','Z','7Z','ZIPX','TGZ','GZ','ACE','AES','ALZ','BH','BIN','BZ','BZ2','Compound','EGG','IMG','ISZ','LHA','LZ','PMA','RAR5','SFX','TBZ','TBZ2','TLZ','TXZ','XPI','ZPAQ']

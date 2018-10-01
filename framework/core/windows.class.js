@@ -211,7 +211,7 @@ class win32{
             keyValues = keyValue.split(/\s/),
             key = keyValues[0],
             value = keyValues[1] ? keyValues[1] : "",
-            homedir = os.homedir(),
+            homedir = that.homedir(),
             driveRoot = that.common.node.path.parse(homedir).root,
             hostsDir = that.common.node.path.join(driveRoot,`Windows/System32/drivers/etc/hosts`),
             hostsContent = that.common.core.file.readFileSync(hostsDir),
@@ -474,30 +474,45 @@ class win32{
         return o;
     }
 
+    /**
+     * @func 判断是否是一个命令行
+     */
+    isCommand(command){
+        let
+            that = this,
+            commandParse = that.common.core.string.trimX(command)
+        ;
+        if(that.common.core.file.isFileSync(commandParse)){
+            return false;
+        }else{
+            let
+                spaceSplit = that.common.core.string.splitSpace(commandParse)
+            ;
+            console.log(spaceSplit);
+            return true;
+        }
+    }
+
     /*
     @func 创建一个启动项 Desktop
     */
-    desktop(filedirs,callback,callbackPose=function(){}){
+    startup(filedirs,deleteStartUP=false,callback){
+        if(deleteStartUP instanceof Function){
+            callback = deleteStartUP;
+            deleteStartUP = false;
+        }
         let
             that = this,
-            startupIs = true,
             deleteTempBak = true,
             result = []
         ;
         // 如果第二项被设置为true  或 falsh
         // 则第三项为函数
-        if(typeof callback === "boolean"){
-            startupIs = callback;
-            callback = callbackPose;
-        }
         if(typeof filedirs === "string"){
             filedirs = [filedirs];
         }
         if(typeof filedirs === "object" && !(filedirs instanceof Array) ){
             filedirs = [filedirs];
-        }
-        if(typeof callbackPose === "boolean"){
-            deleteTempBak = callbackPose;
         }
         (function Startup(i){
             if(i>=filedirs.length){
@@ -507,49 +522,62 @@ class win32{
                 let
                     entry = filedirs[i],
                     entrys = {
-                        Application : "",
-                        Icon : "",
-                        Arguments : "",
-                        WindowsStyle : 1,
-                        Description : "",
-                        WorkingDirectory : "",
-                        Hotkey : "",
-                        Target : startupIs ? "Startup" : false,
+                        application : "",
+                        icon : "005",
+                        arguments : "",
+                        windowsStyle : 1,
+                        description : "",
+                        workingDirectory : "",
+                        hotkey : "",
+                        shortcutType :  "Startup",
                         lnk:""
                     }
                 ;
                 if(typeof entry === "string"){
-                    entrys.Application = entry;
-                    entrys.Icon = entry;
-                    entrys.Description = that.common.node.path.parse(entry).name;
-                    entrys.WorkingDirectory = that.common.node.path.parse(entry).dir;
+                    console.log(111,that.isCommand(entry));
+                    if(that.common.core.file.isPath(entry)){
+                        entrys.application = entry;
+                        entrys.icon = entry;
+                        entrys.description = that.common.node.path.parse(entry).name;
+                        entrys.workingDirectory = that.common.node.path.parse(entry).dir;
+                    }else{
+                        let
+                            starUpTmpDir = that.common.node.path.join(that.common.config.platform.base.local.tmpDir,`.startup`),
+                            batFileName = `${Date.parse(new Date())}${Math.ceil(Math.random()*10)}.bat`,
+                            starUpDir = that.common.node.path.join(starUpTmpDir,batFileName)
+                        ;
+                        return that.common.core.file.writeFile(starUpDir,entry,()=>{
+                            that.startup({
+                                application:starUpDir,
+                                icon:that.common.node.path.join(that.common.core.windows.systemDisk(),"Windows\\system32\\cmd.exe")
+                            },callback);
+                        });
+                    }
                 }else{
                     let
-                        app = entry.Application,
+                        app = entry.application,
                         appParse = that.common.node.path.parse(app)
                     ;
-                    entrys.Application = app;
-                    entrys.Icon = entry.Icon?entry.Icon:app;
-                    entrys.Description = entry.Description?entry.Description : appParse.name;
-                    entrys.WorkingDirectory = entry.WorkingDirectory?entry.WorkingDirectory : appParse.dir;
-
-                    if(entry.Arguments)entrys.Arguments = entry.Arguments;
-                    if(entry.WindowsStyle)entrys.WindowsStyle = entry.WindowsStyle;
-                    if(entry.Hotkey)entrys.Hotkey = entry.Hotkey;
-                    if(entry.Target)entrys.Target = entry.Target;
-                    if(entry.lnk)entrys.lnk = entry.lnk;
+                    entrys.application = app;
+                    entrys.icon = entry.icon ? entry.icon : app;
+                    entrys.description = entry.description ? entry.description : appParse.name;
+                    entrys.workingDirectory = entry.workingDirectory?entry.workingDirectory : appParse.dir;
+                    for(let p in entry){
+                        entrys[p] = entry[p];
+                    }
                 }
                 let 
                     startPath = that.common.node.path.join(that.homedir(),`AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup`),
-                    startName = that.common.node.path.parse(entrys.Application).name+".lnk",
+                    startName = that.common.node.path.parse(entrys.application).name+".lnk",
                     startNamePath = that.common.node.path.join(startPath,startName)
                 ;
                 //如果是关闭,则删除启动项
-                if(!entrys.Target){
+                if(deleteStartUP){
                     that.common.core.file.deleteFile(startNamePath,(err)=>{
                         Startup(++i);
                     });
                 }else{
+                    console.log(entrys);
                     that.createShortcut(entrys,(tempBakPath)=>{
                         result.push(tempBakPath);
                         Startup(++i);
@@ -716,7 +744,6 @@ class win32{
                             application.link = application.link.replace(/\.+$/,``);
                         }
 
-
                         for(let p in application){
                             let
                                 removeThis = p.match(/remove(.+?)Dir/i)
@@ -743,7 +770,6 @@ class win32{
                             }
                             if(that.common.core.array.findX(removeDir,Target)) {
                                 application.link = LinkParse.base;
-                                console.log(application.link,Target,333);
                             }else{
                                 TargetDir = that.common.node.path.join(ProgramsDir,LinkParse.dir);
                                 that.common.core.file.mkdirSync(TargetDir);
@@ -772,11 +798,13 @@ class win32{
                             ]
                         ;
                         that.common.core.file.mkdirSync(tmpDir);
-                        if( deleteTempBak )commands.push(`del /f /q "${tmpVbs}"`);
+                        //if( deleteTempBak )commands.push(`del /f /q "${tmpVbs}"`);
                         result.push(tmpVbs);
-                        that.common.core.console.info(`create ${Target} :`,4);
-                        //console.log(application);
+                        that.common.core.console.info(`create ${Target} to ${ProgramsDir}`,4);
+                        console.log(application);
+                        console.log(commands);
                         that.common.core.func.exec(commands,()=>{
+                            console.log(124);
                             shortcutTypeFunc(++shortcutTypeLen);
                         });
                     }
@@ -791,7 +819,7 @@ class win32{
      * @param debug
      * @constructor
      */
-    AllDrive(callback){
+    getDrive(callback){
         let
             that = this
         ;
@@ -805,17 +833,21 @@ class win32{
             if ( result[0] && /Name.*/.test( result[0] ) ) {
                 result.splice( 0, 1 );
             }
-            var d = {};
+            let
+                d = {}
+            ;
             result.forEach( ( drive ) => {
                 drive = drive.replace(/^\s*?|\s*$/g, "");
                 drive = drive.replace(/\s\s/g, " ");
                 drive = drive.replace(/\s\s/g, " ");
-                var a = drive.split(" ");
-                var b = a[0] ? a[0] : 0;
+                let
+                    a = drive.split(/\s+/),
+                    b = a[0] ? a[0] : 0
+                ;
                 a = a[1] ? a[1] : "";
                 if( a ) {
                     a = a.replace(/[^a-zA-Z]/g, '');
-                    b = parseInt( b );
+                    b = parseInt( b );//parseFloat();
                 }
                 if( b > 0 ){
                     d[a] = Math.floor( ( b/1024/1024/1024 ) * 100 ) / 100;
