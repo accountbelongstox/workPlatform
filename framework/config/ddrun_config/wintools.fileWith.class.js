@@ -10,9 +10,6 @@ class C{
                 description:"恢复文件关联"
             }
 		;
-
-
-
 		return o;
 
 	}

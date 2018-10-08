@@ -604,15 +604,15 @@ class fileC{
         encode = 'utf8',
         parentDir = that.common.node.path.join(p,"../")
         ;
-        if(typeof encodeObj == `function`){
+        if(typeof encodeObj === `function`){
             fn = encodeObj;
         }
 
-        if(typeof encodeObj == `object`){
-            encode = encodeObj.encode;
+        if(typeof encodeObj === `object`){
+            encode = encodeObj.encoding;
         }
 
-        if(typeof encodeObj == `string`){
+        if(typeof encodeObj === `string`){
             encode = encodeObj;
         }
 
@@ -643,11 +643,14 @@ class fileC{
     */
     writeFileSync(p,content,opt){
         let
-        that = this,
-        parentDir = that.common.node.path.join(p,"../")
+            that = this,
+            encoding = 'utf8'
         ;
         that.mkFileDirSync(p);
-        if(!opt)opt={encoding:"utf8"};
+        if(!opt){
+            opt={encoding};
+        }
+        content = that.common.node["iconv-lite"].encode(content, encoding);
         that.common.node.fs.writeFileSync(p,content,opt);
     }
 
@@ -1040,12 +1043,10 @@ class fileC{
                                 executeCallback();
                                 switch (execSort) {
                                     case 0:
-                                        //callback
                                         execSort++;
                                         if(next.value)next.value(scanResult);
                                         break;
                                     case 1:
-                                        //copy
                                         execSort++;
                                         next.value(++len);
                                         break;
@@ -1157,17 +1158,14 @@ class fileC{
             files = that.common.core.file.isDirSync(path) ? that.common.node.fs.readdirSync(path) : [],
             fullPath = that.common.node.path.join(path,file)
         ;
-
         if(that.isFileSync(fullPath)){
             return fullPath;
         }else{
             that.common.core.console.waring(`Not Find ${fullPath}, continue.`);
         }
-
         if(queryResult){
             return queryResult;
         }
-
         for(let i =0;i<files.length;i++){
             let
             fileOne = files[i],
@@ -1176,13 +1174,42 @@ class fileC{
             if(that.isDirSync(fileOnePath)){
                 queryResult = that.queryFileSync(fileOnePath,file,queryResult);
             }else{
-                if(fileOne == file){
+                if(fileOne === file){
                     return fileOnePath;
                 }
             }
-        };
-
+        }
         return queryResult;
+    }
+
+    /**
+     * @func 在一个文件里查找一行字符串
+     * @param filePath
+     * @param text
+     * @returns {null,string}
+     */
+    queryTextLineInFile(filePath,text){
+        let
+            that = this,
+            fileContent,
+            fileLines,
+            fileSplitReg = /[\r\n]+/,
+            textRegText = that.common.core.string.strToRegText(text),
+            textReg = new RegExp(`${textRegText}`),
+            queryTextResult = ``
+        ;
+        if(that.isFileSync(filePath)){
+            fileContent = that.readFileSync(filePath);
+            fileLines = fileContent.split(fileSplitReg);
+            fileLines.forEach((fileLine)=>{
+                if(fileLine.test(textReg)){
+                    queryTextResult = fileLine;
+                }
+            });
+            return queryTextResult;
+        }else{
+            return null
+        }
     }
 
     /*
@@ -1190,21 +1217,49 @@ class fileC{
     */
     isPath(path){
         let
-        that = this
+            that = this,
+            //路径里禁止出现的字符
+            ignores = `*?"<>|`.split(/\B/),
+            isIgnore = false,
+            pathParse = null
         ;
 
-        if(typeof path != "string"){
+        path = that.common.core.string.trimX(path);
+        pathParse = that.common.node.path.parse(path);
+
+        if(typeof path !== "string"){
             return false;
         }
-
-        if(path.length > 1024){
+        ignores.forEach((ignore)=>{
+           if(path.includes(ignore)){
+               isIgnore = true;
+           }
+        });
+        if( isIgnore ){
+            return false;
+        }else if( pathParse.root && !(/\s/.test(pathParse.base)) ){
+            return true;
+        }else{
             return false;
         }
+    }
 
-        if(that.common.node.path.parse(path).root){
-            return true
-        }
-        return false
+    /**
+     * @func 将路径格式化为一种形式
+     * @param path
+     */
+    pathFormat(...paths){
+        let
+            that = this,
+            pathJoin = ``
+        ;
+        paths.forEach((path)=>{
+            pathJoin = that.common.node.path.join(pathJoin,path)
+        });
+        pathJoin = pathJoin.replace(/\\+/ig,`/`);
+        pathJoin = pathJoin.replace(/\/+/ig,`/`);
+        pathJoin = pathJoin.replace(/\/$/ig,``);
+        return pathJoin
     }
 
     /*

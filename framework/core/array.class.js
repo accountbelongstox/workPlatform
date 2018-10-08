@@ -6,7 +6,25 @@ class arrayC{
     @func 数组去重复
     */
     unique(arr){
-        return Array.from(new Set(arr));
+        let
+            sourceArr = arr
+        ;
+        arr.forEach((item,index)=>{
+           if(typeof item === "string"){
+               arr[index] = item.toLowerCase();
+           }
+        });
+        let
+            newArr = Array.from(new Set(arr))
+        ;
+        newArr.forEach((item1,index1)=>{
+            sourceArr.forEach((item2)=>{
+                if(typeof item1 === "string" && typeof item2 === "string" && item1.toLowerCase() === item2.toLowerCase()){
+                    newArr[index1] = item2;
+                }
+            });
+        });
+        return newArr;
     }
 
     /*
@@ -138,9 +156,9 @@ class arrayC{
         let 
         objtype = (typeof obj)
         ;
-        if(objtype == "string" || objtype =="boolean")return [obj];
+        if(objtype === "string" || objtype === "boolean")return [obj];
         if(obj instanceof Array)return obj;
-        if(objtype == "object")return Object.keys(obj).map(key=> obj[key]);
+        if(objtype === "object")return Object.keys(obj).map(key=> obj[key]);
 
     }
 
@@ -193,20 +211,26 @@ class arrayC{
      */
     isArray(arr){
         let
-            typeofArr = typeof arr
+            r = false
         ;
-        if(typeofArr === "object" && arr instanceof Array){
-            return true;
+        if(arr instanceof Array){
+            r = true;
         }
-        return false;
+        return r;
     }
 
+    /**
+     * @func
+     * @param json
+     * @returns {boolean}
+     */
     isJson(json){
         let
             that = this
         ;
         return that.isObject(json);
     }
+
     /**
      * @func 判断是否是一个对象
      * @param arr
@@ -214,12 +238,15 @@ class arrayC{
      */
     isObject(arr){
         let
-            typeofArr = typeof arr
+            r = false,
+            that = this
         ;
-        if(typeofArr === "object" && !(arr instanceof Array)){
-            return true;
+        if(arr instanceof Object){
+            if(!arr.length){
+                r = true;
+            }
         }
-        return false;
+        return r;
     }
 
     /**

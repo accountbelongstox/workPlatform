@@ -11,11 +11,10 @@ class installC{
         common.get_core("windows");
         common.get_core("console");
         common.get_core("module");
-		
+
         common.get_config();
-
-        common.get_support("install");
-
+        common.config_load(`wintools.install`);
+        common.get_support(`install`);
 	}
 
 	run(){
@@ -27,12 +26,18 @@ class installC{
         that.option.platform = that.common.config.platform;
         that.option.srouceUrl = that.option.platform.base.web.srouceUrl;
         that.option.sourceDir = that.option.platform.base.sourceDir;
+        that.option.workDir = that.option.platform.base.workDir;
+
         that.option.softwareSourceDir = that.option.sourceDir.softwareSourceDir;
         //安装app的目录
-        that.option.applicationDir = that.option.sourceDir.application;
+        that.option.applicationDir = that.option.workDir.application;
         //安装程序的目录
-        that.option.programFiles = that.option.sourceDir.programFiles;
-        that.option.workroomDir = that.option.sourceDir.workroom;
+        that.option.programFiles = that.option.workDir.programFiles;
+        //工作目录
+        that.option.workroomDir = that.option.workDir.workroom;
+
+        that.option.conf = that.common.config_load[`wintools.install`];
+
 	}
 
 
@@ -175,8 +180,9 @@ class installC{
                 }
             });
         }
-        insatllDir = that.common.node.path.join(appBaseDir_,`${installPath}${softInfo.name}`);
 
+        console.log(appBaseDir_,installPath,softInfo.name);
+        insatllDir = that.common.node.path.join(appBaseDir_,`${installPath}${softInfo.name}`);
         return insatllDir;
     }
 
@@ -289,7 +295,7 @@ class installC{
         //如果是安装执行,则寻找安装文件
         if(softinfo.setupInstall){
             //通过各类优先级查找出要执行的文件名,然后开始执行
-            that.common.tools.install.queryInstallFile(softinfo,(installFile)=>{
+            that.queryInstallFile(softinfo,(installFile)=>{
                 if(installFile){
                     softinfo["softdir"] = installFile;
                     that.common.tools.install.executeInstallFile(softinfo,()=>{
@@ -405,11 +411,11 @@ class installC{
     */
     setEnvironment(softinfo,callback){
         let
-        that = this,
-        environmentVariable = softinfo.environmentVariable,
-        envQueue = [],
-        isNormalProgram = that.common.core.file.isNormalProgram(softinfo.applicationDir),
-        isChangeVersion = (softinfo.allowChangeVersion && !isNormalProgram)
+            that = this,
+            environmentVariable = softinfo.environmentVariable,
+            envQueue = [],
+            isNormalProgram = that.common.core.file.isNormalProgram(softinfo.applicationDir),
+            isChangeVersion = (softinfo.allowChangeVersion && !isNormalProgram)
         ;
         //处理后的环境变量信息
         softinfo.environmentVariableX = {};
@@ -430,7 +436,7 @@ class installC{
                     oneEvns.forEach((theOne)=>{
                         let
                             //如果直接判断临时地址是存在的,则本次设置采用临时设置
-                            oneEvnTmp = that.common.node.path.join(softinfo.applicationDir,theOne),
+                            oneEvnTmp = that.common.core.file.pathFormat(softinfo.applicationDir,theOne),
                             versions = that.common.node.fs.readdirSync(softinfo.applicationDir)
                         ;
                         //将版本号排序
@@ -438,10 +444,10 @@ class installC{
                             return b>a;
                         });
                         theOne = theOne.replace(/[\\\/]+$/,``);
-                        oneEvnTmp = oneEvnTmp.replace(/[\\\/]+$/,``);
+                        oneEvnTmp = that.common.core.file.pathFormat(oneEvnTmp);
                         //如果连接后的地址是相等的,则代表指定的环境变量是当前目录
                         //但因为此软件可以改变版本号,因此需要将最高版本号的当前目录设置为环境变量
-                        if(oneEvnTmp === softinfo.applicationDir){
+                        if(oneEvnTmp === that.common.core.file.pathFormat(softinfo.applicationDir)){
                             oneEvnTmp = that.common.node.path.join(softinfo.applicationDir,versions[0]);
                         }
                         // 不存在时,则向下继续查找
@@ -518,6 +524,7 @@ class installC{
                     startMenu : null,
                     templates : null,
                 }
+                ;
                 for(let l in softinfo){
                     if(o[l] && softinfo[l]){
                         o[l] = softinfo[l];
@@ -702,6 +709,9 @@ class installC{
                         }
                     });
                 }
+                if(!setupFiles){
+                    setupFiles = that.common.core.file.queryFileSync(dir,`setup.exe`);
+                }
                 if(callback)callback(setupFiles);
             }
         }
@@ -723,10 +733,10 @@ class installC{
             newSoftDir = softdir.replace(/\s+/ig);
             that.common.core.file.rename(softdir,newSoftDir,()=>{
                 softdir = newSoftDir;
-                that.executeMisOrExe(softdir,isMsi,softinfo,callback);
+                that.executeMisfileOrExefile(softdir,isMsi,softinfo,callback);
             });
         }else{
-            that.executeMisOrExe(softdir,isMsi,softinfo,callback);
+            that.executeMisfileOrExefile(softdir,isMsi,softinfo,callback);
         }
     }
 
@@ -736,7 +746,7 @@ class installC{
      * @param isMsi
      * @param callback
      */
-    executeMisOrExe(softdir,isMsi,softinfo,callback){
+    executeMisfileOrExefile(softdir,isMsi,softinfo,callback){
         let
             that = this,
             exeInstall = null,
@@ -753,10 +763,10 @@ class installC{
         }else{
             exeInstall = that.common.node.child_process.spawn(softdir);
             exeInstall.stdout.on('data', (data) => {
-                that.common.core.console.info(data,4);
+                that.common.core.console.info(data.toString(),4);
             });
             exeInstall.stderr.on('data', (data) => {
-                that.common.core.console.error(data);
+                that.common.core.console.error(data.toString());
             });
             exeInstall.on('exit', (code) => {
                 if(callback && exeCallback){

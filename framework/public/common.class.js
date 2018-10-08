@@ -30,15 +30,20 @@ class commonC{
     /*
     @func 取得一个node内置模块
     */
-    get_node(name,bind){
-
+    get_node(name,bind,catchFn){
         let
-        that = this,
-        jsonTile = that.core.string.commonClassNameFormat(name)
+            that = this,
+            jsonTile = that.core.string.commonClassNameFormat(name)
         ;
 
         if(!that.node[jsonTile]){
-            that.node[jsonTile] = require(name);
+            try{
+                that.node[jsonTile] = require(name);
+            }catch(err){
+                if(catchFn){
+                    catchFn(err);
+                }
+            }
         }
 
         if(bind){
@@ -54,37 +59,33 @@ class commonC{
     /*
     @func 取得core下面的类
     */
-    get_core(name,bind){
-
+    get_core(name,bind,run=true){
         if(!this.core){
             this.core = {};
         }
-
         let
-        that = this,
-        jsonTile = name
+            that = this,
+            jsonTile = name
         ;
-
         if(that.core.string){//该函数需要做特殊处理,因为第一个加载的是该函数,所以在没有字符串时要判断
             jsonTile = that.core.string.commonClassNameFormat(name)
         }
         if(!that.core[jsonTile]){
             let 
-            _p = that.node.path.join( __dirname, `../core/${name}.class.js`),
-            _c = require(_p),
-            _m = new _c(that)
+                _p = that.node.path.join( __dirname, `../core/${name}.class.js`),
+                _c = require(_p),
+                _m = new _c(that)
             ;
 
             that.core[jsonTile] = _m;
             that.core[jsonTile].common = that;
             that.core[jsonTile].option = {};
 
-            if(_m["run"]){
+            if(_m["run"] && run){
                 _m.run();
             }
 
         }
-
         if(bind){
             if(!bind.core){
                 bind.core = {};
@@ -98,27 +99,27 @@ class commonC{
     @func 获取一个全局工具类
     */
     get_tools(name,bind){
-
         if(!this.tools){
             this.tools = {};
         }
-
         let 
-        that = this,
-        jsonTile = that.core.string.commonClassNameFormat(name)
+            that = this,
+            jsonTile = that.core.string.commonClassNameFormat(name)
         ;
         if(!this.tools[jsonTile]){
             let 
-            tools_path = that.node.path.join(that.core.appPath.tools,name.replace(/\.class\.js$/,``)+".class.js"),
-            tools_path_f = require(tools_path),
-            tools_path_c = new tools_path_f(that)
+                tools_path = that.node.path.join(that.core.appPath.tools,name.replace(/\.class\.js$/,``)+".class.js"),
+                tools_path_f = require(tools_path),
+                tools_path_c = new tools_path_f(that)
             ;
             tools_path_c.common = that;
             tools_path_c.option = {};
             that.tools[jsonTile] = tools_path_c;
 
             if(that.tools[jsonTile]["run"]){
-                let callback = null;
+                let
+                    callback = null
+                ;
                 if(bind instanceof Function){
                     callback = bind;
                     bind = null;
@@ -169,7 +170,7 @@ class commonC{
             /*
             @explain 默认时直接给值
             */
-            if(name == 'config'){
+            if(name === 'config'){
                 for(let p in configC){
                     that.config[p] = configC[p];
                 }
@@ -266,9 +267,9 @@ class commonC{
         }
 
         let
-        that = this,
-        jsonTile = that.core.string.commonClassNameFormat(module),
-        params = that.core.func.getParam(that.optionToArgv(option))
+            that = this,
+            jsonTile = that.core.string.commonClassNameFormat(module),
+            params = that.core.func.getParam(that.optionToArgv(option))
         ;
         switch(mType){
             case 1:
@@ -300,19 +301,24 @@ class commonC{
     */
     config_load(name){
         let
-        that = this,
-        p = that.node.path.join(that.core.appPath.config,`./ddrun_config/${name}.class.js`),
-        c =  require(p),
-        c2 = new c(that)
+            that = this,
+            p = that.node.path.join(that.core.appPath.config,`./ddrun_config/${name}.class.js`),
+            c =  require(p),
+            c2 = new c(that)
         ;
+
+        if(!that[`config_load`]){
+            that[`config_load`] = {};
+        }
+
         c2.common = that;
         c2.option = {};
 
-        let 
-        o = c2.run()
-        ;
+        if(!that[`config_load`][name]){
+            that[`config_load`][name] = c2.run();
+        }
 
-        return o;
+        return that[`config_load`][name];
     }
 }
 

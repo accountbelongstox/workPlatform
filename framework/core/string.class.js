@@ -1,7 +1,65 @@
 
 class stringC{
+    /**
+     * @func 将字符转为对应的格式
+     * @param str
+     */
+    parse(str){
+        let
+            that = this,
+            theString = that.trim(str),
+            isNumber = /^\d+$/,
+            isFloat = /^\d+\.\d+$/,
+            isBoolean = /^(false|true)$/i,
+            isNull = /^null$/i,
+            result = null
+        ;
+            //匹配整数
+        if(isNumber.test(theString)){
+            result = parseInt(theString);
+            //匹配浮点
+        }else if(isFloat.test(theString)){
+            result = parseFloat(theString);
+            //匹配布尔
+        }else if(isBoolean.test(theString)){
+            (theString.toLowerCase() === "true") ? result = true : result = false;
+            //匹配null
+        }else if(isNull.test(theString)){
+            result = null;
+            //尝试转json
+        }else{
+            try{
+                result = JSON.parse(theString);
+            }catch(err){
+                result = str;
+            }
+        }
+        return result;
+    }
+    /**
+     * @func 判断一个字符串的长度
+     * @param fact 是否取得实际长度
+     * @returns {number}
+     */
+    length(o,fact=false){
+        let
+            that = this,
+            len = o.length ,
+            strLen = 0
+        ;
+        while(strLen < o.length ){
+            let
+                strTmp = o.charAt(strLen)
+            ;
+            if(that.isChinese(strTmp)){
+                fact ? len-- : len++;
+            }
+            strLen++;
+        }
 
-    // 字符串处理   -----------------------------------------------------------------------------------------------------------------------------------
+        return len;
+    }
+
     /*
     @func 清洁字符串
     */
@@ -90,30 +148,6 @@ class stringC{
         return str;
     }
 
-    /**
-     * @func 分离字符串
-     * @space
-     */
-    splitSpace(str){
-        let
-            that = this,
-            len = 0,
-            _strTmp = ``,
-            removeSpace = /^\s+\s+$/g,
-            symbolRead = false
-        ;
-        str = str.replace(removeSpace);
-        while(len < str.length - 1){
-            let
-                _str = str[len]
-            ;
-            if(`'"`.includes(_str)){
-                symbolRead = true;
-                console.log(`\`'"\`.includes(_str)`,`'"`.includes(_str));
-            }
-            len++;
-        }
-    }
 
     /**
      * @tools 字符转正则字符.
@@ -134,47 +168,51 @@ class stringC{
                 { reg:/\v/ig,replace:"\\v{1,}"},
                 { reg:/\d/ig,replace:"\\d{1,}"},
                 //非打印字符
-                { reg:/(\~)/ig,replace:"\\$1"},
-                { reg:/(\`)/ig,replace:"\\$1"},
-                { reg:/(\!)/ig,replace:"\\$1"},
-                { reg:/(\@)/ig,replace:"\\$1"},
-                { reg:/(\#)/ig,replace:"\\$1"},
-                { reg:/(\%)/ig,replace:"\\$1"},
-                { reg:/(\^)/ig,replace:"\\$1"},
-                { reg:/(\&)/ig,replace:"\\$1"},
-                { reg:/(\()/ig,replace:"\\$1"},
-                { reg:/(\))/ig,replace:"\\$1"},
-                { reg:/(\-)/ig,replace:"\\$1"},
-                { reg:/(\_)/ig,replace:"\\$1"},
-                { reg:/(\=)/ig,replace:"\\$1"},
-                { reg:/(\+)/ig,replace:"\\$1"},
-                { reg:/(\<)/ig,replace:"\\$1"},
-                { reg:/(\>)/ig,replace:"\\$1"},
-                { reg:/(\?)/ig,replace:"\\$1"},
-                { reg:/(\/)/ig,replace:"\\$1"},
-                { reg:/(\:)/ig,replace:"\\$1"},
-                { reg:/(\;)/ig,replace:"\\$1"},
-                { reg:/(\,)/ig,replace:"\\$1"},
-                { reg:/(\")/ig,replace:"\\$1"},
-                { reg:/(\')/ig,replace:"\\$1"},
-                { reg:/(\.)/ig,replace:"\\$1"},
-                { reg:/(\[)/ig,replace:"\\$1"},
-                { reg:/(\])/ig,replace:"\\$1"},
-                { reg:/(\{)/ig,replace:"\\$1"},
-                { reg:/(\})/ig,replace:"\\$1"},
-                { reg:/(\$)/ig,replace:"\\$1"},
-                { reg:/(\\)/ig,replace:"\\$1"},
-                { reg:/(\|)/ig,replace:"\\$1"}
+                { reg:[
+                    /(\~)/ig,
+                    /(\`)/ig,
+                    /(\!)/ig,
+                    /(\@)/ig,
+                    /(\#)/ig,
+                    /(\%)/ig,
+                    /(\^)/ig,
+                    /(\&)/ig,
+                    /(\()/ig,
+                    /(\))/ig,
+                    /(\-)/ig,
+                    /(\_)/ig,
+                    /(\=)/ig,
+                    /(\+)/ig,
+                    /(\<)/ig,
+                    /(\>)/ig,
+                    /(\?)/ig,
+                    /(\/)/ig,
+                    /(\:)/ig,
+                    /(\;)/ig,
+                    /(\,)/ig,
+                    /(\")/ig,
+                    /(\')/ig,
+                    /(\.)/ig,
+                    /(\[)/ig,
+                    /(\])/ig,
+                    /(\{)/ig,
+                    /(\})/ig,
+                    /(\$)/ig,
+                    /(\\)/ig,
+                    /(\|)/ig
+                    ],
+                    replace:"\\$1"
+                }
             ]
         ;
-        // 增加替换
+        // 增强替换,通配符*亦可替换
         if(force){
             replaceObject.push(
                 { reg:/(\*)/ig,replace:"\\$1"}
             );
         }
         while(len < sourceString.length){
-            strArray[len] = sourceString[len];
+            strArray[ len ] = sourceString[ len ];
             len++
         }
         strArray.forEach((str,index)=>{
@@ -182,11 +220,18 @@ class stringC{
                 queryResult = false
             ;
             replaceObject.forEach((replaceItem)=>{
-                if(replaceItem.reg.test(str) && !queryResult){
-                    str = str.replace(replaceItem.reg,replaceItem.replace);
-                    strArray[index] = str;
-                    queryResult = true;
-                }
+                let
+                    regs = replaceItem.reg,
+                    regArray = (regs instanceof Array) ? regs : [regs],
+                    replaceResult = replaceItem.replace
+                ;
+                regArray.forEach((regItem)=>{
+                    if(regItem.test(str) && !queryResult){
+                        str = str.replace(regItem,replaceResult);
+                        strArray[index] = str;
+                        queryResult = true;
+                    }
+                });
             });
         });
         sourceString = strArray.join(``);
@@ -215,12 +260,11 @@ class stringC{
     /**
      * @func 通过字符串创建一个正则.
      */
-    createRegExp(str,gi=""){
+    createRegExp(str,gi="gi",force=true,fast=false){
         let
-            that = this,
-            reg = new RegExp(that.strToRegText(str,true,true),gi)
+            that = this
         ;
-        return reg;
+        return (  new RegExp(that.strToRegText(str,force,fast),gi) );
     }
 
     /**
@@ -443,13 +487,32 @@ class stringC{
 
     /*
     @func 判断是否是汉字
+    @param temp
     */
-    isChinese(temp)
-    {
-       let re=/[^\u4e00-\u9fa5]/;
-       if (re.test(temp)) return false ;
+    isChinese(temp){
+       let
+           re=/[^\u4e00-\u9fa5]/
+       ;
+       if(re.test(temp)){
+           return false ;
+       }
        return true ;
-     }
+    }
+
+    /**
+     * @func SQL转义
+     * @param sql
+     * @returns {*}
+     */
+    sqlParse(sql){
+        let
+            that = this
+        ;
+        sql = sql.replace(/\'/g,`\\'`);
+        sql = sql.replace(/\`/g,`\\\``);
+        sql = sql.replace(/\\/g,`\\\\`);
+        return sql;
+    }
 }
 
 

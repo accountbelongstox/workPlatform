@@ -11,6 +11,7 @@ class win32{
 
         common.get_node('path');
         common.get_node('fs');
+        common.get_node('iconv-lite');
 
         common.get_config();
     }
@@ -23,7 +24,7 @@ class win32{
           description,
           command,
           opt {
-          [icon]
+          [icon]:
           [type]: [file,base,multi,all]
           }
       }
@@ -139,41 +140,45 @@ class win32{
      * @param callback
      * @param is_cmd
      */
-    saveCommand(command,target_path,is_admin,is_cmd){
+    commandAsAdministrator(command,filePath,isAdmin=true){
+        if(filePath instanceof Boolean){
+            isAdmin = filePath;
+        }
         let
             that = this,
-            command_text = ""
+            EOL = that.os().EOL,
+            encoding = "gbk",
+            command_text = "",
+            admin_command = `@echo off
+title run as administrator
+>nul 2>&1 "%SYSTEMROOT%\\system32\\cacls.exe" "%SYSTEMROOT%\\system32\\config\\system"
+if '%errorlevel%' NEQ '0' (
+goto UACPrompt
+) else ( goto gotAdmin )
+:UACPrompt
+echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\\getadmin.vbs"
+echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\\getadmin.vbs"
+"%temp%\\getadmin.vbs"
+exit /B
+:gotAdmin
+if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )`
         ;
         if(command instanceof Array){
-            for(var i = 0 ;i<command.length;i++){
-                command_text+=command[i]+"\r\n";
-            }
+            command = command.join(EOL);
         }
         if(command instanceof String){
-            command_text+=command[i]+"\r\n";
+            command += EOL;
         }
-        const admin_command = '@echo off\r\n'+
-            '>nul 2>&1 "%SYSTEMROOT%\\system32\\cacls.exe" "%SYSTEMROOT%\\system32\\config\\system"\r\n' +
-            'if \'%errorlevel%\' NEQ \'0\' (\r\n' +
-            'goto UACPrompt\n' +
-            ') else ( goto gotAdmin )\r\n' +
-            ':UACPrompt\r\n' +
-            'echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\\getadmin.vbs"\r\n' +
-            'echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\\getadmin.vbs"\r\n' +
-            '"%temp%\\getadmin.vbs"\r\n' +
-            'exit /B\r\n' +
-            ':gotAdmin\r\n' +
-            'if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )\r\n' +
-            'pushd "%CD%"\r\n' +
-            'CD /D "%~dp0"\r\n';
-        if(is_admin){
-            command_text = admin_command+command_text;
+        if(isAdmin){
+            command_text = admin_command+EOL+command;
+        }else{
+            command_text = command;
         }
-        if(is_cmd){
-            command_text += '\r\ncmd';
+        command_text = that.common.node["iconv-lite"].encode(command_text, encoding);
+        if(filePath){
+            that.common.node.fs.writeFileSync(filePath,command_text);
         }
-        command_text = iconv.encode(command_text, 'gbk');
-        that.common.core.file.writeFileSync(target_path,command_text);
+        return filePath;
     }
 
 
@@ -307,7 +312,7 @@ class win32{
                     name,
                     type,
                     values
-                }
+                };
                 /** 处理后的格式
                  * { PATH:
                     {
@@ -366,6 +371,7 @@ class win32{
                         }else{
                             //如果没有重复 比添加添 JAVA_HOME 原环境变量中并没有
                             //得出最终要设置的值
+                            setEnvValues = that.common.core.array.unique(setEnvValues);
                             setEnvValue = setEnvValues.join(`;`);
                             that.common.core.console.info(`ADD ENVIRONMENT ${setEnvName} => ${setEnvValue}\n`,4);
                         }
@@ -397,7 +403,7 @@ class win32{
             return process.env[name];
         }
         o.set = function(name,fn){
-            if(typeof name != "object"){
+            if(typeof name !== "object"){
                 console.log(`params not object.`);
                 return false;
             }
@@ -475,26 +481,80 @@ class win32{
     }
 
     /**
-     * @func 判断是否是一个命令行
+     * @func 分离一个命令行
+     * @space
      */
-    isCommand(command){
+    commandParse(_command){
         let
             that = this,
-            commandParse = that.common.core.string.trimX(command)
+            removeSpace = /^\s+|\s+$/,
+            command = _command.replace(removeSpace),
+            commandArray = [],
+            matchReg = /(^[\'\"]|\s[\'\"])(.+?[\'\"])/ig,
+            matchResult = command.match(matchReg)
         ;
-        if(that.common.core.file.isFileSync(commandParse)){
-            return false;
-        }else{
+        if(matchResult){
             let
-                spaceSplit = that.common.core.string.splitSpace(commandParse)
+                points = [],
+                afterPoint = 0
             ;
-            console.log(spaceSplit);
-            return true;
+            matchResult.forEach((matchOne,index)=>{
+                let
+                    pointStart = command.indexOf(matchOne),
+                    pointEnd = pointStart+matchOne.length
+                ;
+                if(pointStart - afterPoint !== 0){
+                    points.push([afterPoint,pointStart]);
+                }
+                afterPoint = pointEnd;
+                points.push([pointStart,pointEnd]);
+                if(index === (matchResult.length - 1)){
+                    if(command.length - pointEnd !== 0){
+                        points.push([pointEnd,command.length]);
+                    }
+                }
+            });
+            points.forEach((point)=>{
+                let
+                    _tmp = command.substring(point[0],point[1]).replace(removeSpace,``),
+                    isSlice = /^[\'\"]/.test(_tmp)
+                ;
+                if(!isSlice){
+                    commandArray = commandArray.concat(_tmp.split(/\s+/));
+                }else{
+                    commandArray.push(_tmp);
+                }
+            });
+        }else{
+            commandArray = command.split(/\s+/);
         }
+        return commandArray;
+    }
+
+    /**
+     * @func 命令行转义
+     * @param command
+     */
+    commandTransference(command){
+        let
+            that = this,
+            transferenceSymbol = `"`,
+            transferenceSymbols = transferenceSymbol.split(/\B/)
+        ;
+        transferenceSymbols.forEach((transferenceSymbolOne)=>{
+            let
+                symbolRegText = that.common.core.string.strToRegText(transferenceSymbolOne),
+                symbolReg = new RegExp(`(${symbolRegText})`,`ig`)
+            ;
+            command = command.replace(symbolReg,`\^$1`);
+        });
+        return command;
     }
 
     /*
     @func 创建一个启动项 Desktop
+    @param filedirs string 可以是一个路径,也可以是一个CMD命令.路径会被直接添加到启动,如果是命令会先保存为BAT文件
+    @param deleteStartUP (boolean|string|function) 可以是布尔值,如果是FALSE则删除原有的启动项. 如果是字符串则表示指定了CMD命令的保存路径(对已经指定的路径无效),如果是函数,则代替回调函数
     */
     startup(filedirs,deleteStartUP=false,callback){
         if(deleteStartUP instanceof Function){
@@ -516,7 +576,7 @@ class win32{
         }
         (function Startup(i){
             if(i>=filedirs.length){
-                if(result.length === 1)result = result.join(``);
+                if(result.length === 1)result = result[0];
                 if(callback)callback(result);
             } else {
                 let
@@ -529,29 +589,43 @@ class win32{
                         description : "",
                         workingDirectory : "",
                         hotkey : "",
-                        shortcutType :  "Startup",
-                        lnk:""
+                        shortcutType :  "Startup"
                     }
                 ;
+
                 if(typeof entry === "string"){
-                    console.log(111,that.isCommand(entry));
-                    if(that.common.core.file.isPath(entry)){
+                    // 是一个文件路径
+                    if(that.common.core.file.isFileSync(entry)){
                         entrys.application = entry;
                         entrys.icon = entry;
                         entrys.description = that.common.node.path.parse(entry).name;
                         entrys.workingDirectory = that.common.node.path.parse(entry).dir;
                     }else{
+                        // 是一个命令行
+                        //命令行转义
                         let
                             starUpTmpDir = that.common.node.path.join(that.common.config.platform.base.local.tmpDir,`.startup`),
-                            batFileName = `${Date.parse(new Date())}${Math.ceil(Math.random()*10)}.bat`,
+                            batFileName = (deleteStartUP && typeof deleteStartUP === "string") ?
+                                (function (){
+                                    let
+                                        deleteStartUPParse = that.common.node.path.parse(deleteStartUP),
+                                        ext = deleteStartUPParse.ext
+                                    ;
+                                    if(!ext || ext.toLowerCase() !== ".bat"){
+                                        deleteStartUP = deleteStartUP+`.bat`;
+                                    }
+                                    return deleteStartUP;
+                                })()
+                                :
+                                `${Date.parse(new Date())}${Math.ceil(Math.random()*10)}.bat`,
                             starUpDir = that.common.node.path.join(starUpTmpDir,batFileName)
                         ;
-                        return that.common.core.file.writeFile(starUpDir,entry,()=>{
-                            that.startup({
-                                application:starUpDir,
-                                icon:that.common.node.path.join(that.common.core.windows.systemDisk(),"Windows\\system32\\cmd.exe")
-                            },callback);
-                        });
+                        entry = that.commandTransference(entry);
+                        that.commandAsAdministrator(entry,starUpDir);
+                        return that.startup({
+                            application:starUpDir,
+                            icon:that.common.node.path.join(that.common.core.windows.systemDisk(),"Windows\\system32\\cmd.exe")
+                        },callback);
                     }
                 }else{
                     let
@@ -566,18 +640,18 @@ class win32{
                         entrys[p] = entry[p];
                     }
                 }
-                let 
-                    startPath = that.common.node.path.join(that.homedir(),`AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup`),
-                    startName = that.common.node.path.parse(entrys.application).name+".lnk",
-                    startNamePath = that.common.node.path.join(startPath,startName)
-                ;
+
                 //如果是关闭,则删除启动项
-                if(deleteStartUP){
+                if(deleteStartUP === true){
+                    let
+                        startPath = that.common.node.path.join(that.homedir(),`AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup`),
+                        startName = that.common.node.path.parse(entrys.application).name+".lnk",
+                        startNamePath = that.common.node.path.join(startPath,startName)
+                    ;
                     that.common.core.file.deleteFile(startNamePath,(err)=>{
                         Startup(++i);
                     });
                 }else{
-                    console.log(entrys);
                     that.createShortcut(entrys,(tempBakPath)=>{
                         result.push(tempBakPath);
                         Startup(++i);
@@ -686,6 +760,7 @@ class win32{
         }
         (function shortcut(i){
             if(i>=entrys.length){
+                if(result.length === 1)result = result[0];
                 if(callback)callback(result);
             }else{
                 let
@@ -736,7 +811,6 @@ class win32{
                                 application[l] = entry[l];
                             }
                         }
-
                         if(!application.link){
                             application.link = `${application.description}.lnk`;
                         }else{
@@ -776,6 +850,7 @@ class win32{
                             }
                         }
 
+                        application.programsDir = ProgramsDir;
                         application.link = application.link.replace(/^[\\\/]+/,``).replace(/\//g,`\\`);
 
                         let
@@ -798,13 +873,11 @@ class win32{
                             ]
                         ;
                         that.common.core.file.mkdirSync(tmpDir);
-                        //if( deleteTempBak )commands.push(`del /f /q "${tmpVbs}"`);
-                        result.push(tmpVbs);
+                        if( deleteTempBak )commands.push(`del /f /q "${tmpVbs}"`);
+                        result.push(application);
                         that.common.core.console.info(`create ${Target} to ${ProgramsDir}`,4);
                         console.log(application);
-                        console.log(commands);
                         that.common.core.func.exec(commands,()=>{
-                            console.log(124);
                             shortcutTypeFunc(++shortcutTypeLen);
                         });
                     }
@@ -819,47 +892,85 @@ class win32{
      * @param debug
      * @constructor
      */
-    getDrive(callback){
+    getDrives(callback){
         let
-            that = this
+            that = this,
+            getCommand = `wmic logicaldisk where "drivetype=3"`,
+            drives = {},
+            drivesArray = []
         ;
-        that.common.core.func.exec(`wmic logicaldisk where "drivetype=3" get freespace,name`,function(result) {
-            console.log(result);
-            result = result.replace(/\r/g, '');
-            result = result.replace(/\n\n/g, "\n");
-            result = result.replace(/\n$/g, "");
-            result = result.split("\n");
-            result = Array.prototype.slice.call(result);
-            if ( result[0] && /Name.*/.test( result[0] ) ) {
-                result.splice( 0, 1 );
-            }
+        that.common.core.func.exec(getCommand,function(result) {
             let
-                d = {}
+                results = that.common.core.array.filter( result.split(/[\n\r]+/) ),
+                nameColumn =(that.common.core.string.trim( (results.splice(0,1))[0] )).match(/[a-zA-Z]+(\s+|$)/ig),
+                movePoint = 0,
+                movePointChang = false
             ;
-            result.forEach( ( drive ) => {
-                drive = drive.replace(/^\s*?|\s*$/g, "");
-                drive = drive.replace(/\s\s/g, " ");
-                drive = drive.replace(/\s\s/g, " ");
+            nameColumn.forEach((nameColumnOne)=>{
                 let
-                    a = drive.split(/\s+/),
-                    b = a[0] ? a[0] : 0
+                    nameColumnLength = nameColumnOne.length,
+                    columnLen = movePoint + nameColumnLength
                 ;
-                a = a[1] ? a[1] : "";
-                if( a ) {
-                    a = a.replace(/[^a-zA-Z]/g, '');
-                    b = parseInt( b );//parseFloat();
+                results.forEach((result,index)=>{
+                    let
+                        processString = result.slice(movePoint,columnLen),
+                        processLength = that.common.core.string.length(processString)
+                    ;
+                    if(processLength !== nameColumnLength){
+                        let
+                            newColumnLen = movePoint+nameColumnLength - (processLength-nameColumnLength)
+                        ;
+                        processString = result.slice(movePoint,newColumnLen);
+                        if(index === results.length-1){
+                            movePointChang = true;
+                            movePoint = newColumnLen;
+                        }
+                    }
+                    if(!drivesArray[index]){
+                        drivesArray[index] = {};
+                    }
+                    drivesArray[index][that.common.core.string.trim(nameColumnOne)] = that.common.core.string.trim(processString);
+                });
+                if(!movePointChang){
+                    movePoint = columnLen;
                 }
-                if( b > 0 ){
-                    d[a] = Math.floor( ( b/1024/1024/1024 ) * 100 ) / 100;
+                movePointChang = false;
+            });
+
+            drives.length = drivesArray.length;
+            drives.FreeSpaceGB = 0;
+            drives.SizeGB = 0;
+            drives.FreeSpace = 0;
+            drives.Size = 0;
+            drives.drivesArray = [];
+            drives.drives = {};
+            drivesArray.forEach((drive)=>{
+                let
+                    theDrive = drive.DeviceID,
+                    FreeSpace = that.common.core.string.parse(drive.FreeSpace),
+                    Size = that.common.core.string.parse(drive.Size),
+                    FreeSpaceGB = ( Math.floor( ( FreeSpace / (1024*1024*1024) ) * 100 ) / 100 ),
+                    SizeGB = ( Math.floor( ( Size / (1024*1024*1024) ) * 100 ) / 100 )
+                ;
+                drives.drivesArray.push(theDrive);
+                drives.FreeSpaceGB += FreeSpaceGB;
+                drives.SizeGB += SizeGB;
+                drives.FreeSpace += FreeSpace;
+                drives.Size += Size;
+                drives.drives[theDrive] = {};
+                drives.drives[theDrive].FreeSpaceGB = FreeSpaceGB;
+                drives.drives[theDrive].SizeGB = SizeGB;
+                for(let p in drive){
+                    drives.drives[theDrive][p] = that.common.core.string.parse(drive[p]);
                 }
             });
-            if(!callback){
-                console.log(d);
-            }
+
             if(callback){
-                callback(d);
+                callback(drives);
+            }else{
+                console.log(drives);
             }
-        })
+        });
     }
 }
 

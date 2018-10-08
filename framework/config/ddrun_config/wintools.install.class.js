@@ -66,7 +66,23 @@ class C{
                     description: "强制安装软件",
                     keyValue: false,//表示是键值对参数
                     extend: {}
+                },
+                next: {
+                    description: "安装完后,继续安装下一个软件",
+                    keyValue: false,//表示是键值对参数
+                    extend: {}
+                },
+                "group-next": {
+                    description: "安装完后,继续安装当前组的下一个软件",
+                    keyValue: false,//表示是键值对参数
+                    extend: {}
+                },
+                "cmd": {
+                    description: "安装完后,回调CMD命令.(特殊符号转义符^)",
+                    keyValue: false,//表示是键值对参数
+                    extend: {}
                 }
+                //
             },
             extend:{
                 //需要设置环境变量的软件分组,只支持zip解压安装的软件

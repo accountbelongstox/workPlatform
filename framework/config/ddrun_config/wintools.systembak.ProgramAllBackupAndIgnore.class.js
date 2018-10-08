@@ -46,7 +46,7 @@ class AalBackupC{
             applications = that.common.node.fs.readdirSync(applicationDir),
             eChildrenDir = {}
         ;
-        applications.forEach((folder,index)=>{
+        applications.forEach((folder)=>{
             if( !(/^[\_\.]{1,}/.test(folder)) ){
                 eChildrenDir[folder] = {
                     ignore:[],

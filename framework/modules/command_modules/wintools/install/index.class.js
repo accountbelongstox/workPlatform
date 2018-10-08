@@ -4,6 +4,7 @@ class index{
     constructor(common){
         common.get_node("child_process");
         common.get_node("readline");
+        common.get_node(`iconv-lite`);
 
         common.get_core("string");
         common.get_core("array");
@@ -39,8 +40,6 @@ class index{
         that.option.querySoft = that.common.params.get(`query`);
         //安装所有软件
         that.option.allsoft = that.common.params.get(`allsoft`);
-        //强制安装
-        that.option.force = that.common.params.get(`force`);
         //所有支持的软件
         that.option.softlist = that.list(false);
     }
@@ -59,19 +58,32 @@ class index{
     /*
     @func 安装一个软件
     */
-    onesoft(callback,softname=null,force=false){
+    onesoft(callback,softname=null,force=null,groupNext=null,softNext=null,cmdCallback=null){
         let 
-            that = this
+            that = this,
+            //回调的CMD命令
+            callbackCommand = (function (){
+                let
+                    cmd = (cmdCallback === null) ? that.common.params.get(`cmd`) : cmdCallback
+                ;
+                if(cmd){
+                    cmd = cmd.split(/\,/);
+                }
+                return cmd;
+            })()
         ;
+        //强制安装
+        if(force === null)force = that.common.params.get(`force`);
+        //当前分组的下一个软件将继续被安装
+        if(groupNext === null)groupNext = that.common.params.get(`group-next`);
+        //总列表下一个软件将继续被安装
+        if(softNext === null)softNext = that.common.params.get(`next`);
         if(!softname)softname = that.common.core.array.find(that.option.softlist,that.option.onesoft,true);
         that.common.core.console.info(`start install software ${softname} ...`,8);
         for(let p in that.option){
             if( !that.common.tools.install.option[ p ] ){
                 that.common.tools.install.option[ p ] = that.option[ p ]
             }
-        }
-        if( !("force" in that.option) ){
-            that.option.force = force;
         }
         if(!softname){
             that.common.core.console.error(` not find software : ${that.option.onesoft}\n please use *--list* qurey soft list.`);
@@ -84,28 +96,126 @@ class index{
                 softinfo = that.common.tools.install.getSoftInfo(softname),
                 xTarget = `x`
             ;
+            if(callback){
+                let
+                    _callback = callback
+                ;
+                callback = function(){
+                    let
+                        commandCallbackExecuteFinish = function(){
+                            //分组的下一个软件是否要安装
+                            if(groupNext || softNext){
+                                let
+                                    installList = that.option.installList,
+                                    groupQuery = false,
+                                    groupSoft = null,
+                                    nextSoftName
+                                ;
+                                if(groupNext){
+                                    for(let p in installList){
+                                        let
+                                            groupOne = installList[ p ],
+                                            listOne = groupOne.list
+                                        ;
+
+                                        groupQuery = false;
+
+                                        if(groupSoft)break;
+
+                                        for(let o in listOne){
+                                            let
+                                                oneSoft = listOne[o]
+                                            ;
+                                            if(groupQuery && !groupSoft){
+                                                groupSoft = oneSoft;
+                                            }else if(groupQuery){
+                                                break;
+                                            }
+                                            if(oneSoft.name === softname){
+                                                groupQuery = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                nextSoftName = (groupSoft && ("name" in groupSoft) && groupSoft.name) ?　groupSoft.name : ``;
+                                if(softNext){
+                                    let
+                                        softIndex = that.option.softlist.findIndex(value => value === softname)
+                                    ;
+                                    if(!nextSoftName){
+                                        nextSoftName = that.option.softlist[softIndex+1]
+                                    }
+                                }
+                                //如果发现下一个软件,则继续安装
+                                if(nextSoftName){
+                                    //不强制，但如果有下一个安装，则要一直安装下去
+                                    return that.onesoft(_callback,nextSoftName,null,groupNext,softNext);
+                                }else{
+                                    if(_callback)_callback();
+                                }
+                            }else{
+                                if(_callback)_callback();
+                            }
+                        }
+                    ;
+                    //回调有CMD时先执行CMD
+                    if(callbackCommand){
+                        that.common.core.func.exec(callbackCommand,(err)=>{
+                            commandCallbackExecuteFinish();
+                        });
+                    }else{
+                        commandCallbackExecuteFinish();
+                    }
+                };
+            }
             //安装前要求重启系统
-            if(softinfo.installBeforeRestart && !that.option.force){
-                const
+            if(softinfo.installBeforeRestart && !force){
+                let
                     readLine = that.common.node.readline.createInterface({
                         input: process.stdin,
                         output: process.stdout
                     })
                 ;
-                that.common.core.console.info(`You need to restart the system before installation...`,8);
+                that.common.core.console.info(`You need to restart the system before installation the software in ${softname}...`,8);
                 readLine.question(`Do you want to restart the system immediately? (y|n) : `, (answer) => {
-                    answer = answer.toLowerCase();
-                    if(answer === "y" || answer === "yes"){
+                    let
+                        batFileName = `install-${softname}.BAT`
+                    ;
+                    that.common.core.windows.startup(``,batFileName,(startupResult)=>{
                         let
-                            systemReset = `${that.common.core.appPath.commandBat} wintools install --onesoft:^"${softname}^" --group-next`
+                            applicationPath = startupResult.application,
+                            appName = that.common.node.path.parse(applicationPath).name,
+                            programsDir = that.common.node.path.join(startupResult.programsDir,`${appName}.lnk`),
+                            //安装前要求重启系统命令行
+                            systemReset = that.common.node["iconv-lite"].encode(`${that.common.core.appPath.commandBat} wintools install --onesoft:"${softname}" --force${groupNext ? ` --group-next` : ``}${softNext ? ` --next` : ``} --cmd:"DEL \\"${applicationPath}\\",DEL \\"${programsDir}\\""`, `gbk`)
                         ;
-                        that.common.core.windows.startup(systemReset,()=>{
-
+                        that.common.node.fs.appendFile(applicationPath,systemReset,(err)=>{
+                            if(err)console.log(err.toString());
+                            if(answer && ( (answer = answer.toLowerCase()) === "y" || answer === "yes") ){
+                                let
+                                    shutdown = `shutdown /r /t 15`
+                                ;
+                                that.common.core.func.exec(shutdown,()=>{
+                                    (function stopRestarting(){
+                                        that.common.core.console.info(`Warning : `,2);
+                                        readLine.question(`Stop restarting ? (y|n) `, (answer) => {
+                                            if(!answer || answer.toLowerCase() !== "n"){
+                                                //中止重启
+                                                that.common.core.func.exec(`shutdown /a`,()=>{
+                                                    that.common.core.console.info(`System restart has been cancelled. Please restart manually.`,8);
+                                                    readLine.close();
+                                                });
+                                            }else{
+                                                stopRestarting();
+                                            }
+                                        });
+                                    })();
+                                });
+                            }else{
+                                that.common.core.console.info(`End of installation, Please restart the system manually.`,8);
+                            }
                         });
-                    }else{
-                        that.common.core.console.info(`End of installation`,8);
-                    }
-                    readLine.close();
+                    });
                 });
             }else{
                 //如果软件本地没有，则下载
@@ -128,15 +238,15 @@ class index{
                                 zipModule = that.common.core.module.getModule(`command`,zipOpt),
                                 applicationDirExists = (that.common.node.fs.existsSync(softinfo.applicationDir) && !softinfo.setupInstall)
                             ;
-                            if(applicationDirExists && that.option.force){
+                            if(applicationDirExists && force){
                                 that.common.core.file.deleteSync(softinfo.applicationDir);
                             }
                             //快速安装,不执行解压解压
-                            (that.option.force || !applicationDirExists) ? zipModule.option.run = true : zipModule.option.run = false;
+                            (force || !applicationDirExists) ? zipModule.option.run = true : zipModule.option.run = false;
                             applicationDirExists = that.common.node.fs.existsSync(softinfo.applicationDir);
                             zipModule.run((option)=>{
                                 softinfo["tmp"] = option.target;
-                                softinfo["forceInstall"] = that.option.force;
+                                softinfo["forceInstall"] = force;
                                 softinfo["option"] = that.option;
                                 softinfo["callbackBaseDir"] = __dirname;
                                 if(applicationDirExists){
@@ -243,8 +353,8 @@ class index{
                         //StartSoftOne(++SLen);
                         that.onesoft(()=>{
                             StartSoftOne(++SLen);
-                            that.common.core.console.success(`${SName} install  finish!`);
-                        },SName,false);
+                            that.common.core.console.success(`${SName} install finish!`);
+                        },SName,false,true);
                     }
                 })(0);
             }
@@ -276,11 +386,9 @@ class index{
             installListOne.group = p;
             installListSortArray.push(installListOne);
         }
-
         installListSortArray.sort((a,b)=>{
             return a.sort - b.sort;
         });
-
         if(group && (isGroup = that.common.core.array.findX(groupList,group))){
             for(let index = 0;index < installListSortArray.length;index++){
                 let

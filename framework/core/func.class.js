@@ -244,13 +244,13 @@ class func{
         let
             that = this
         ;
-        if(!paramName && paramName != 0){//如果不传该值,则返回一个带有各类方法的类.!=0 防止正好取下标为0的参数。0刚好被识别为false
+        if(!paramName && paramName !== 0){//如果不传该值,则返回一个带有各类方法的类.!=0 防止正好取下标为0的参数。0刚好被识别为false
             let 
-            o = {},
-            isValueExp = new RegExp(`^\\-+?[a-zA-Z0-9]+?\\:(.+)`,"i"),
-            _isValueExp = new RegExp(`^[a-zA-Z0-9]+?\\:(.+)`,"i"),
-            notValueExp = new RegExp(`^\\-+?[a-zA-Z0-9]+?$`,"i"),
-            _notValueExp = new RegExp(`^[a-zA-Z0-9]+?$`,"i")
+                o = {},
+                isValueExp = new RegExp(`^\\-+?[a-zA-Z0-9]+?\\:(.+)`,"i"),
+                _isValueExp = new RegExp(`^[a-zA-Z0-9]+?\\:(.+)`,"i"),
+                notValueExp = new RegExp(`^\\-+?[a-zA-Z0-9]+?$`,"i"),
+                _notValueExp = new RegExp(`^[a-zA-Z0-9]+?$`,"i")
             ;
             for(let i=0;i<opt.length;i++){
                 let 
@@ -288,28 +288,28 @@ class func{
                 }else{
                     return null;
                 }
-            }
+            };
             //1. get("xxx") 该方法根据参数是否存在，返回值
             o.get = function (paramName=null,defaultV=null,isValue=false){
                 let r = that.getParam(opt,paramName,defaultV,isValue);
                 return r;
-            }
+            };
             //2. 只会返回 key部份
             o.getKey = function (paramName){
                 if(!paramName) return null;
                 let r = that.getParam(opt,paramName,null,false,true);
                 return r;
-            }
+            };
             //1. getValue("xxx") 将会返回一个KEY,VALUE的值 
             o.getValue = function (paramName=null,defaultV=null){
                 let r = that.getParam(opt,paramName,defaultV,true);
                 return r;
-            }
+            };
             //1. getValue("xxx") 将会返回一个KEY,VALUE的值 
             o.value = function (paramName=null,defaultV=null){
                 let r = that.getParam(opt,paramName,defaultV,true);
                 return r;
-            }
+            };
             /*
             @ 判断参数是否存在于某一个数组中,并返回第一个值,用于参数无序时的判断
             */
@@ -317,7 +317,7 @@ class func{
                 let 
                 that = this
                 ;
-                if(!(arr instanceof Array) && (typeof arr == "object")){
+                if(!(arr instanceof Array) && (typeof arr === "object")){
                     let
                         narr = []
                     ;
@@ -330,7 +330,7 @@ class func{
                     for(let i = 0 ;i<arr.length;i++){
                         let _ = arr[i];
                         //console.log(p)
-                        if(p.toUpperCase() == _.toUpperCase()){
+                        if(p.toUpperCase() === _.toUpperCase()){
                             return _;
                         }  
                     }
@@ -350,7 +350,7 @@ class func{
             isNumber = parseInt(paramName)//如果值是数字,则判断是否有该值即可
         ;
         //如果是指定数组来取参数
-        if(isNumber == isNumber){
+        if(isNumber === isNumber){
             let oneV = opt[isNumber];
             if(oneV){
                 oneV = oneV.replace(isNumberValueExp,"");
@@ -381,7 +381,7 @@ class func{
                 _v = command.match(isValueExp);
                 if(_v && _v.length > 1){
                     _v = _v[1];
-                    _v = that.common.core.string.trim(_v);
+                    _v = that.common.core.string.trimX(_v);
                     let
                         _vIsInt = parseInt(_v)
                     ;

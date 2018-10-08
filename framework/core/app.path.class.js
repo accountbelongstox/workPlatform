@@ -11,8 +11,8 @@ class appPath{
     }
     run(){
         let
-        that = this,
-        path = that.common.node.path
+            that = this,
+            path = that.common.node.path
         ;
         that.root = path.join(__dirname,`../../`);//安装目录
         that.commandBat = path.join(that.root,`ddrun.bat`).replace(/\/+/ig,`\\`);
@@ -21,6 +21,7 @@ class appPath{
         that.framework_bin = path.join(that.framework,'./bin/');
         that.bin = path.join(that.framework,'./bin/');
         that.tmp = path.join(that.framework,'./tmp/');//临时目录
+        that.data = path.join(that.framework,'./data/');//数据目录
         that.tmp_html = path.join(that.tmp,"./_html/");//HTML临时目录
         that.tmp_csv = path.join(that.tmp,"./_csv/");//CSV临时目录
         that.template = path.join(that.framework,"./template/");
@@ -47,20 +48,21 @@ class appPath{
     @params "support.files"
     */
     get(_name,name2=null){
-        let 
-        that = this
+        let
+            that = this
         ;
         if(!_name){
             return false;
         }
-        if(typeof _name == "string"){
-            let 
-            _nameArr = _name.split("."),
-            _tmp 
+        if( (typeof _name) === "string"){
+            let
+                _nameArr = _name.split("."),
+                _tmp
             ;
-
             for(let i=0;i<_nameArr.length;i++){
-                let _s = _nameArr[i];
+                let
+                    _s = _nameArr[i]
+                ;
                 if(!_tmp)_tmp = that;
                 if(_tmp[_s]){
                     _tmp = _tmp[_s];
@@ -69,8 +71,8 @@ class appPath{
                 }
             }
             if(name2){
-                let 
-                ext = ["",".class.js",".js"]
+                let
+                    ext = ["",".class.js",".js"]
                 ;
                 for(let i=0;i<ext.length;i++){
                     let _t_ = that.common.node.path.join(_tmp,name2+ext[i]);
@@ -80,12 +82,7 @@ class appPath{
                 }
                 return {};
             }
-            if(that.common.node.fs.existsSync(_tmp)){
-                let
-                    _ = require(_tmp)
-                ;
-                return _ ;
-            }
+            if(that.common.node.fs.existsSync(_tmp))return require(_tmp);
         }
         return {};
     }

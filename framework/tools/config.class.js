@@ -31,7 +31,12 @@ class configC{
 		;
         versions.forEach((version)=>{
             if(reg.test(version)){
-                r.push( that.common.node.path.join(installDir,version));
+                let
+                    apache = that.common.node.path.join(installDir,version)
+                ;
+                if(that.common.core.file.isDirSync(apache)){
+                    r.push(apache);
+                }
             }
         });
         return r;
@@ -158,7 +163,8 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
                 }
                 tmpJson[p] = {
                 	version:versionObject,
-                	multiPHP:{}
+                	multiPHP:{},
+                    dir
 				};
                 if(FCgiD) tmpJson[p].multiPHP[`httpd-php-fcgid${p}`] = FCgiD;
                 if(sApi) tmpJson[p].multiPHP[`httpd-php-sapi${p}`] = sApi;
@@ -167,14 +173,29 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
         });
         return multiPHP;
 	}
+
+    /**
+     * @func 不管何种格式,将APACHE版格号格式化为  2.X 形式
+     * @param version
+     * @returns {*}
+     */
+    formatApacheVersion(version="2.4"){
+        let
+            that = this
+        ;
+        version = that.common.node.path.parse(version).base;
+        version = version.replace(/.+?(?=\d)/,``);
+        version = version.replace(/[^0-9]/g,``);
+        return version;
+    }
     /**
      * @func 将 PHP 的 CIG 添加到配置中
 	 * @params version string apache 版本号: apache2.4
      */
-    GetOrAddMultiPHPsApiAndFCgiDConf(version,force=false){
+    GetOrAddMultiPHPsApiAndFCgiDConf(version,force=true,waring=true){
         let
             that = this,
-        	ApacheVersion = version.match(/\d+/)[0],
+        	ApacheVersion = that.formatApacheVersion(version),
             multiPHP = that.GetApacheMultiplePHPsApi(ApacheVersion),
             phpMulti = {}
 		;
@@ -184,22 +205,27 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
             ;
             for(let o in PHPObjectOne){
                 let
-                    PHPOne = PHPObjectOne[o].multiPHP
+                    PHPObjectItem = PHPObjectOne[o],
+                    PHPOne = PHPObjectItem.multiPHP
                 ;
                 for(let u in PHPOne){
                     let
                         multiPHPOne = PHPOne[u],
-                        confPath = that.common.node.path.join(version,`conf/php/${u}.conf`)
+                        sourceConf = `conf/php/${u}.conf`,
+                        confPath = that.common.node.path.join(version,sourceConf)
                     ;
                     phpMulti[o] = {
                         version : o,
-                        conf : confPath
+                        conf : confPath,
+                        sourceConf,
+                        dir:PHPObjectItem.version.dir,
+                        ini:PHPObjectItem.version.conf
                     };
-                    if(!that.common.core.file.isFileSync(confPath) && !force){
-                        that.common.core.console.info(`Create conf => ${confPath}`,4);
+                    if(!that.common.core.file.isFileSync(confPath) && force){
+                        that.common.core.console.info(`Create configuration file => ${confPath}`,4);
                         that.common.core.file.writeFileSync(confPath,multiPHPOne);
                     }else{
-                        that.common.core.console.waring(`Exists conf => ${confPath}`);
+                        if(waring)that.common.core.console.waring(`Configuration file exists => ${confPath}`);
                     }
                 }
             }
