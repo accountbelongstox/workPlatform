@@ -15,10 +15,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Msvbcrtaio",
         "activator": ""
       }
@@ -45,10 +44,9 @@
             "Scripts"
           ]
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Anaconda3",
         "activator": ""
       },
@@ -71,10 +69,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "e",
         "activator": ""
       },
@@ -93,10 +90,9 @@
         "environmentVariable": {
           "path": "./net45"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "IronPython",
         "activator": ""
       },
@@ -120,10 +116,9 @@
             "./jdk1.8.0_171/lib/tools.jar"
           ]
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Java",
         "activator": ""
       },
@@ -142,10 +137,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "jython",
         "activator": ""
       },
@@ -164,10 +158,9 @@
         "environmentVariable": {
           "path": "./php-7.2.2-nts"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "php",
         "activator": ""
       },
@@ -186,10 +179,9 @@
         "environmentVariable": {
           "path": "./"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "python",
         "activator": ""
       },
@@ -208,10 +200,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Ruby",
         "activator": ""
       }
@@ -236,10 +227,9 @@
           "path": "./mariadb-10.3.9-winx64/bin",
           "MYSQL_HOME": "./mariadb-10.3.9-winx64"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "mariadb",
         "activator": "",
         "configCallback": "init"
@@ -259,10 +249,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "mongodb",
         "activator": "",
         "configCallback": "init"
@@ -282,10 +271,9 @@
         "environmentVariable": {
           "path": "./"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "redis",
         "activator": ""
       },
@@ -304,10 +292,9 @@
         "environmentVariable": {
           "path": "./"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "sqlitetoolswin",
         "activator": ""
       }
@@ -331,10 +318,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "apachetomcat",
         "activator": "",
         "configCallback": "init"
@@ -357,10 +343,9 @@
             "glassfish/bin"
           ]
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "glassfish",
         "activator": ""
       },
@@ -379,10 +364,10 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": "httpd -k install -n \"httpd\"",
+        "service":"httpd -k install -n \"httpd\"",
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "httpd",
         "activator": "",
         "configCallback": "init"
@@ -402,10 +387,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "nginx",
         "activator": "",
         "configCallback": "init"
@@ -434,10 +418,9 @@
             "./vendor/git-for-windows/usr/bin"
           ]
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "cmder",
         "activator": ""
       },
@@ -460,10 +443,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "MinGW",
         "activator": ""
       }
@@ -485,10 +467,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "CocosCreatorv",
         "activator": ""
       },
@@ -505,10 +486,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "DetoursVersion",
         "activator": ""
       },
@@ -525,10 +505,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": "bin",
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "ffmpeg"
       },
       "2bdfb0df96f96bc8c434fd7908d47859": {
@@ -544,10 +523,9 @@
         "allowChangeVersion": false,
         "application": "jd-gui.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "JavaDecompiler",
         "activator": ""
       },
@@ -566,10 +544,9 @@
           "WinMergeU.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "WinMerge",
         "activator": ""
       }
@@ -591,10 +568,9 @@
         "allowChangeVersion": false,
         "application": "ko.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "ActiveStateKomodoEdit6",
         "activator": ""
       },
@@ -611,10 +587,9 @@
         "allowChangeVersion": false,
         "application": "atom.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "atom",
         "activator": ""
       },
@@ -631,10 +606,9 @@
         "allowChangeVersion": false,
         "application": "CbLauncher.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "CodeBlocks",
         "activator": ""
       },
@@ -651,10 +625,9 @@
         "allowChangeVersion": false,
         "application": "codelite.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "CodeLite",
         "activator": ""
       },
@@ -675,10 +648,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsecommittersphotonRwin",
         "activator": ""
       },
@@ -699,10 +671,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsecppphotonRwin",
         "activator": ""
       },
@@ -723,10 +694,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsedslphotonRwin",
         "activator": ""
       },
@@ -747,10 +717,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsejavaphotonRwin",
         "activator": ""
       },
@@ -771,10 +740,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsejavascriptphotonRwin",
         "activator": ""
       },
@@ -795,10 +763,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsejeephotonRwin",
         "activator": ""
       },
@@ -819,10 +786,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsemodelingphotonRwin",
         "activator": ""
       },
@@ -843,10 +809,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipseparallelphotonRwin",
         "activator": ""
       },
@@ -867,10 +832,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsephpphotonRwin",
         "activator": ""
       },
@@ -891,10 +855,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsercpphotonRwin",
         "activator": ""
       },
@@ -915,10 +878,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsereportingphotonRwin",
         "activator": ""
       },
@@ -939,10 +901,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipserustphotonRincubationwin",
         "activator": ""
       },
@@ -963,10 +924,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsescoutphotonRwin",
         "activator": ""
       },
@@ -987,10 +947,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eclipsetestingphotonRwin",
         "activator": ""
       },
@@ -1007,10 +966,9 @@
         "allowChangeVersion": false,
         "application": "editplus.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "EditPlus",
         "activator": "Username:  host1991 \n Regcode: 14F50-CD5C8-E13DA-51100-BAFE6"
       },
@@ -1027,10 +985,9 @@
         "allowChangeVersion": false,
         "application": "EgretWing.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "EgretWing3",
         "activator": ""
       },
@@ -1047,10 +1004,9 @@
         "allowChangeVersion": false,
         "application": "EgretLauncher.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Egret",
         "activator": ""
       },
@@ -1069,10 +1025,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "emacs",
         "activator": ""
       },
@@ -1089,10 +1044,9 @@
         "allowChangeVersion": false,
         "application": "EmEditorPortable.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "emeditorttrar",
         "activator": ""
       },
@@ -1111,10 +1065,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "erl92",
         "activator": ""
       },
@@ -1131,10 +1084,9 @@
         "allowChangeVersion": false,
         "application": "HBuilder.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "HBuilder",
         "activator": ""
       },
@@ -1176,10 +1128,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "JetBrains",
         "activator": "EB101IWSWD-eyJsaWNlbnNlSWQiOiJFQjEwMUlXU1dEIiwibGljZW5zZWVOYW1lIjoibGFuIHl1IiwiYXNzaWduZWVOYW1lIjoiIiwiYXNzaWduZWVFbWFpbCI6IiIsImxpY2Vuc2VSZXN0cmljdGlvbiI6IkZvciBlZHVjYXRpb25hbCB1c2Ugb25seSIsImNoZWNrQ29uY3VycmVudFVzZSI6ZmFsc2UsInByb2R1Y3RzIjpbeyJjb2RlIjoiSUkiLCJwYWlkVXBUbyI6IjIwMTgtMTAtMTQifSx7ImNvZGUiOiJSUzAiLCJwYWlkVXBUbyI6IjIwMTgtMTAtMTQifSx7ImNvZGUiOiJXUyIsInBhaWRVcFRvIjoiMjAxOC0xMC0xNCJ9LHsiY29kZSI6IlJEIiwicGFpZFVwVG8iOiIyMDE4LTEwLTE0In0seyJjb2RlIjoiUkMiLCJwYWlkVXBUbyI6IjIwMTgtMTAtMTQifSx7ImNvZGUiOiJEQyIsInBhaWRVcFRvIjoiMjAxOC0xMC0xNCJ9LHsiY29kZSI6IkRCIiwicGFpZFVwVG8iOiIyMDE4LTEwLTE0In0seyJjb2RlIjoiUk0iLCJwYWlkVXBUbyI6IjIwMTgtMTAtMTQifSx7ImNvZGUiOiJETSIsInBhaWRVcFRvIjoiMjAxOC0xMC0xNCJ9LHsiY29kZSI6IkFDIiwicGFpZFVwVG8iOiIyMDE4LTEwLTE0In0seyJjb2RlIjoiRFBOIiwicGFpZFVwVG8iOiIyMDE4LTEwLTE0In0seyJjb2RlIjoiUFMiLCJwYWlkVXBUbyI6IjIwMTgtMTAtMTQifSx7ImNvZGUiOiJDTCIsInBhaWRVcFRvIjoiMjAxOC0xMC0xNCJ9LHsiY29kZSI6IlBDIiwicGFpZFVwVG8iOiIyMDE4LTEwLTE0In0seyJjb2RlIjoiUlNVIiwicGFpZFVwVG8iOiIyMDE4LTEwLTE0In1dLCJoYXNoIjoiNjk0NDAzMi8wIiwiZ3JhY2VQZXJpb2REYXlzIjowLCJhdXRvUHJvbG9uZ2F0ZWQiOmZhbHNlLCJpc0F1dG9Qcm9sb25nYXRlZCI6ZmFsc2V9-Gbb7jeR8JWOVxdUFaXfJzVU/O7c7xHQyaidCnhYLp7v32zdeXiHUU7vlrrm5y9ZX0lmQk3plCCsW+phrC9gGAPd6WDKhkal10qVNg0larCR2tQ3u8jfv1t2JAvWrMOJfFG9kKsJuw1P4TozZ/E7Qvj1cupf/rldhoOmaXMyABxNN1af1RV3bVhe4FFZe0p7xlIJF/ctZkFK62HYmh8V3AyhUNTzrvK2k+t/tlDJz2LnW7nYttBLHld8LabPlEEjpTHswhzlthzhVqALIgvF0uNbIJ5Uwpb7NqR4U/2ob0Z+FIcRpFUIAHEAw+RLGwkCge5DyZKfx+RoRJ/In4q/UpA==-MIIEPjCCAiagAwIBAgIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwMjA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAwwGcHJvZDN5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZuYgQedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+HxAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJbmAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9bVzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4zwfadHk3bQVvbfdAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxEdek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDSU9lMCv8qdHKm+wnPRb0l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h7Z2gsx5LcIf5kYNsqJ0GavXTVyWh7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38AknZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0lRJnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog=="
       },
@@ -1198,10 +1149,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "KDevelop",
         "activator": ""
       },
@@ -1218,10 +1168,9 @@
         "allowChangeVersion": false,
         "application": "Cuke.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "LeanPro",
         "activator": ""
       },
@@ -1238,10 +1187,9 @@
         "allowChangeVersion": false,
         "application": "liteide.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "liteide",
         "activator": ""
       },
@@ -1262,10 +1210,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "MicrosoftVSCode",
         "activator": ""
       },
@@ -1282,10 +1229,9 @@
         "allowChangeVersion": false,
         "application": "myeclipse.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "MyEclipse",
         "activator": "My-Eclipse-ci-10.7z"
       },
@@ -1302,10 +1248,9 @@
         "allowChangeVersion": false,
         "application": "netbeans64.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "NetBeans",
         "activator": ""
       },
@@ -1326,10 +1271,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Notepad",
         "activator": ""
       },
@@ -1348,10 +1292,9 @@
           "NSIS.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "NSIS",
         "activator": ""
       },
@@ -1368,10 +1311,9 @@
         "allowChangeVersion": false,
         "application": "PyScripter.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "PyScripter",
         "activator": ""
       },
@@ -1519,10 +1461,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Qt",
         "activator": ""
       },
@@ -1539,10 +1480,9 @@
         "allowChangeVersion": false,
         "application": "sasm.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SASM",
         "activator": ""
       },
@@ -1563,10 +1503,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SublimeText3",
         "activator": ""
       },
@@ -1583,10 +1522,9 @@
         "allowChangeVersion": false,
         "application": "texstudio.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "TeXstudio",
         "activator": ""
       },
@@ -1603,10 +1541,9 @@
         "allowChangeVersion": false,
         "application": "uedit32.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "UltraEdit",
         "activator": ""
       },
@@ -1623,10 +1560,9 @@
         "allowChangeVersion": false,
         "application": "vbsedit.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Vbsedit",
         "activator": ""
       },
@@ -1643,10 +1579,9 @@
         "allowChangeVersion": false,
         "application": "W3Cschool.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "W3Cschool",
         "activator": ""
       },
@@ -1663,10 +1598,9 @@
         "allowChangeVersion": false,
         "application": "wechatdevtools.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "wechatdevtools",
         "activator": ""
       },
@@ -1683,10 +1617,9 @@
         "allowChangeVersion": false,
         "application": "WinEdt.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "WinEdt",
         "activator": ""
       },
@@ -1703,10 +1636,9 @@
         "allowChangeVersion": false,
         "application": "ZendStudio.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "ZendStudio",
         "activator": "ZendStudio-13.6.1-win32.win32.x86_64.7z"
       }
@@ -1728,10 +1660,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "_7z18",
         "activator": ""
       },
@@ -1748,10 +1679,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "BANDIZIPSETUP",
         "activator": ""
       },
@@ -1768,10 +1698,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Fencessetup",
         "activator": ""
       },
@@ -1788,10 +1717,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "peazip",
         "activator": ""
       }
@@ -1813,10 +1741,9 @@
         "allowChangeVersion": false,
         "application": "heidisql.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "HeidiSQL",
         "activator": ""
       },
@@ -1833,10 +1760,9 @@
         "allowChangeVersion": false,
         "application": "MySQLWorkbench.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "MySQLWorkbench",
         "activator": ""
       },
@@ -1853,10 +1779,9 @@
         "allowChangeVersion": false,
         "application": "navicat.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "NavicatPremium",
         "activator": ""
       },
@@ -1873,10 +1798,9 @@
         "allowChangeVersion": false,
         "application": "SQLiteExpertPers64.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Personal5",
         "activator": ""
       },
@@ -1893,10 +1817,9 @@
         "allowChangeVersion": false,
         "application": "rdm.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "RedisDesktopManager",
         "activator": ""
       },
@@ -1913,10 +1836,9 @@
         "allowChangeVersion": false,
         "application": "robo3t.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Robo",
         "activator": ""
       },
@@ -1933,10 +1855,9 @@
         "allowChangeVersion": false,
         "application": "Studio 3T.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Studio",
         "activator": ""
       }
@@ -1960,10 +1881,9 @@
           "Caesium.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Caesium",
         "activator": ""
       },
@@ -1980,10 +1900,9 @@
         "allowChangeVersion": false,
         "application": "colorpad.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "colorpad",
         "activator": ""
       },
@@ -2004,10 +1923,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "FileZillaFTPClient",
         "activator": ""
       },
@@ -2024,10 +1942,9 @@
         "allowChangeVersion": false,
         "application": "GTubeGet.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "GihosoftTubeGet",
         "activator": ""
       },
@@ -2044,10 +1961,9 @@
         "allowChangeVersion": false,
         "application": "Inpaint.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Inpaint",
         "activator": ""
       },
@@ -2064,10 +1980,9 @@
         "allowChangeVersion": false,
         "application": "PhotoZoomPro.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "PhotoZoomPro",
         "activator": ""
       },
@@ -2086,10 +2001,9 @@
           "Postman.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Postman",
         "activator": ""
       },
@@ -2108,10 +2022,9 @@
           "putty.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "putty",
         "activator": ""
       },
@@ -2128,10 +2041,9 @@
         "allowChangeVersion": false,
         "application": "ultra.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "TeleportUltra",
         "activator": ""
       },
@@ -2148,10 +2060,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "TortoiseSVN",
         "activator": ""
       },
@@ -2170,10 +2081,9 @@
           "TOTALCMD.EXE"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "totalcmd",
         "activator": ""
       },
@@ -2190,10 +2100,9 @@
         "allowChangeVersion": false,
         "application": "TransMac.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "TransMac",
         "activator": ""
       },
@@ -2210,10 +2119,9 @@
         "allowChangeVersion": false,
         "application": "ga_main.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "uleadgifanimatorxz",
         "activator": ""
       },
@@ -2230,10 +2138,9 @@
         "allowChangeVersion": false,
         "application": "UltraISO.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "UltraISO",
         "activator": "王涛 7C81-1689-4046-626F \n Guanjiu A06C-83A7-701D-6CFC"
       },
@@ -2252,10 +2159,9 @@
           "uTorrent.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "uTorrent",
         "activator": ""
       },
@@ -2272,10 +2178,9 @@
         "allowChangeVersion": false,
         "application": "WinMPGVideoConvert.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "WinMPGVideoConvert",
         "activator": ""
       },
@@ -2294,10 +2199,9 @@
           "WinSCP.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "WinSCP",
         "activator": ""
       },
@@ -2318,10 +2222,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "ZZDS",
         "activator": ""
       },
@@ -2338,10 +2241,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "u5c4fu5e55u5f55u50cfu4e13u5bb6v",
         "activator": ""
       }
@@ -2369,10 +2271,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Lantern",
         "activator": "",
         "startup": true
@@ -2390,10 +2291,9 @@
         "allowChangeVersion": false,
         "application": "Shadowsocks.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Shadowsocks",
         "activator": ""
       },
@@ -2410,10 +2310,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SocksCap"
       }
     }
@@ -2436,10 +2335,9 @@
           "2345Pic.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "_2345Soft",
         "activator": ""
       },
@@ -2460,10 +2358,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "AliWangWang",
         "activator": ""
       },
@@ -2482,10 +2379,9 @@
           "AnySDK.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "AnySDK",
         "activator": ""
       },
@@ -2502,10 +2398,9 @@
         "allowChangeVersion": false,
         "application": "aria2c.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "aria2",
         "activator": ""
       },
@@ -2522,10 +2417,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "BaiduNetdiskv",
         "activator": ""
       },
@@ -2546,10 +2440,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "eMule",
         "activator": ""
       },
@@ -2570,10 +2463,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "FeiQ",
         "activator": ""
       },
@@ -2594,10 +2486,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Fishv",
         "activator": ""
       },
@@ -2618,10 +2509,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "FreeDownloadManagerORG",
         "activator": ""
       },
@@ -2642,10 +2532,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Lingoes",
         "activator": ""
       },
@@ -2666,10 +2555,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "MailMaster",
         "activator": ""
       },
@@ -2688,10 +2576,9 @@
           "mpc-be64.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "MPCBEx",
         "activator": ""
       },
@@ -2712,10 +2599,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SigmaRT",
         "activator": ""
       },
@@ -2732,10 +2618,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "sogouwubi",
         "activator": ""
       },
@@ -2754,10 +2639,9 @@
           "Steam.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Steam",
         "activator": ""
       },
@@ -2776,10 +2660,9 @@
           "TeamViewer.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "TeamViewer",
         "activator": ""
       },
@@ -2821,10 +2704,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Tencent",
         "activator": ""
       },
@@ -2841,10 +2723,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "VdhCoAppSetup",
         "activator": ""
       },
@@ -2861,10 +2742,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "VMwareworkstationfull",
         "activator": [
           {
@@ -2888,10 +2768,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "XunLeiWebSetup",
         "activator": ""
       },
@@ -2912,10 +2791,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Xvid",
         "activator": ""
       },
@@ -2937,10 +2815,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Youdao",
         "activator": ""
       }
@@ -2969,10 +2846,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "_360",
         "activator": ""
       },
@@ -2989,10 +2865,9 @@
         "allowChangeVersion": false,
         "application": "CCleaner64.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "CCleaner",
         "activator": ""
       },
@@ -3009,10 +2884,9 @@
         "allowChangeVersion": false,
         "application": "Dism++x64.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Dism",
         "activator": ""
       },
@@ -3029,10 +2903,9 @@
         "allowChangeVersion": false,
         "application": "QQPCSoftMgr.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SoftMgr",
         "activator": ""
       },
@@ -3049,10 +2922,9 @@
         "allowChangeVersion": false,
         "application": "WiseRegCleaner.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "WiseRegistryCleaner",
         "activator": ""
       }
@@ -3078,10 +2950,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "AVASTSoftware",
         "activator": ""
       },
@@ -3102,10 +2973,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": "",
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Chromium",
         "activator": ""
       },
@@ -3126,10 +2996,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Google",
         "activator": ""
       },
@@ -3150,10 +3019,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "MozillaFirefox",
         "activator": ""
       },
@@ -3174,10 +3042,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Opera",
         "activator": ""
       },
@@ -3198,10 +3065,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "TGBrowser",
         "activator": ""
       },
@@ -3222,10 +3088,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "TheWorld6",
         "activator": ""
       },
@@ -3246,10 +3111,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "TorBrowser",
         "activator": ""
       },
@@ -3270,10 +3134,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Yandex",
         "activator": ""
       },
@@ -3294,10 +3157,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "You1",
         "activator": ""
       }
@@ -3319,10 +3181,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "PotPlayerSetup",
         "activator": ""
       },
@@ -3341,10 +3202,9 @@
           "vepPlayer.exe"
         ],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "vepPlayer",
         "activator": ""
       },
@@ -3365,10 +3225,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "YouKu",
         "activator": ""
       }
@@ -3394,10 +3253,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "cloudmusic",
         "activator": ""
       },
@@ -3418,10 +3276,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "KuGou",
         "activator": ""
       },
@@ -3442,10 +3299,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "xiami",
         "activator": ""
       }
@@ -3467,10 +3323,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "_51setupfullv",
         "activator": ""
       },
@@ -3494,10 +3349,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "Changzhi",
         "activator": ""
       },
@@ -3518,10 +3372,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "MuMuInstaller",
         "activator": ""
       },
@@ -3542,10 +3395,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "noxsetupv",
         "activator": ""
       },
@@ -3562,10 +3414,9 @@
         "allowChangeVersion": false,
         "application": [],
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "XYAZSetup",
         "activator": ""
       }
@@ -3587,10 +3438,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "AxureRPSetup",
         "activator": "License：Koshy \n Key：wTADPqxn3KChzJxLmUr5jTTitCgsfRkftQQ1yIG9HmK83MYSm7GPxLREGn+Ii6xY"
       },
@@ -3611,10 +3461,9 @@
           }
         },
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "CADmini",
         "activator": ""
       },
@@ -3631,10 +3480,9 @@
         "allowChangeVersion": false,
         "application": "Office Tool Plus.exe",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "OfficeToolPlus",
         "activator": ""
       }
@@ -3656,10 +3504,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "CCFamilyCC",
         "installBeforeRestart": true,
         "activator": ""
@@ -3679,10 +3526,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "cnsqlserver",
         "installBeforeRestart": true,
         "activator": "TDKQD-PKV44-PJT4N-TCJG2-3YJ6B"
@@ -3700,10 +3546,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "CocosCreatorsetup",
         "activator": ""
       },
@@ -3722,10 +3567,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SQLServerReportingServices",
         "installBeforeRestart": true,
         "activator": ""
@@ -3745,10 +3589,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "SSMSSetupCHS",
         "installBeforeRestart": true,
         "activator": ""
@@ -3766,10 +3609,9 @@
         "allowChangeVersion": false,
         "application": "",
         "environmentVariable": null,
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "vsEnterprise",
         "installBeforeRestart": true,
         "activator": "NJVYC-BMHX2-G77MM-4XJMR-6Q8QF"
@@ -3789,10 +3631,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "WINDOWSX",
         "installBeforeRestart": true,
         "activator": ""
@@ -3812,10 +3653,9 @@
         "environmentVariable": {
           "path": "./bin"
         },
-        "service": null,
         "dataBackup": [],
         "Activator": "",
-        "callbackBaseDir": "D:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
+        "callbackBaseDir": "d:\\WorkPlatform\\framework\\modules\\command_modules\\wintools\\install",
         "callback": "winx",
         "installBeforeRestart": true,
         "activator": ""

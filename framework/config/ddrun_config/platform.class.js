@@ -57,6 +57,11 @@ class C{
 						//数据库目录
 						dataDir:`${wwwroot}/data/`
 					}
+				},
+				core:{
+					database:{
+                        prefix:"ddrun_"
+					}
 				}
 			}
 		;

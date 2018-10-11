@@ -2207,7 +2207,7 @@
         "icon": "",
         "downUrl": "SocksCap64-setup-4.7.exe.7z",
         "description": "",
-        "setupInstall": false,
+        "setupInstall": true,
         "allowConfig": false,
         "allowChangeVersion": false,
         "application": [],

@@ -141,7 +141,6 @@ class stringC{
                 _replaceReg = new RegExp(`^${_text}+|${_text}+$`,`ig`)
             ;
             if(_reg.test(str)){
-                console.log(_replaceReg);
                 str = str.replace(_replaceReg,``);
             }
         });
@@ -169,37 +168,37 @@ class stringC{
                 { reg:/\d/ig,replace:"\\d{1,}"},
                 //非打印字符
                 { reg:[
-                    /(\~)/ig,
-                    /(\`)/ig,
-                    /(\!)/ig,
-                    /(\@)/ig,
-                    /(\#)/ig,
-                    /(\%)/ig,
-                    /(\^)/ig,
-                    /(\&)/ig,
-                    /(\()/ig,
-                    /(\))/ig,
-                    /(\-)/ig,
-                    /(\_)/ig,
-                    /(\=)/ig,
-                    /(\+)/ig,
-                    /(\<)/ig,
-                    /(\>)/ig,
-                    /(\?)/ig,
-                    /(\/)/ig,
-                    /(\:)/ig,
-                    /(\;)/ig,
-                    /(\,)/ig,
-                    /(\")/ig,
-                    /(\')/ig,
-                    /(\.)/ig,
-                    /(\[)/ig,
-                    /(\])/ig,
-                    /(\{)/ig,
-                    /(\})/ig,
-                    /(\$)/ig,
-                    /(\\)/ig,
-                    /(\|)/ig
+                        /(\~)/ig,
+                        /(\`)/ig,
+                        /(\!)/ig,
+                        /(\@)/ig,
+                        /(\#)/ig,
+                        /(\%)/ig,
+                        /(\^)/ig,
+                        /(\&)/ig,
+                        /(\()/ig,
+                        /(\))/ig,
+                        /(\-)/ig,
+                        /(\_)/ig,
+                        /(\=)/ig,
+                        /(\+)/ig,
+                        /(\<)/ig,
+                        /(\>)/ig,
+                        /(\?)/ig,
+                        /(\/)/ig,
+                        /(\:)/ig,
+                        /(\;)/ig,
+                        /(\,)/ig,
+                        /(\")/ig,
+                        /(\')/ig,
+                        /(\.)/ig,
+                        /(\[)/ig,
+                        /(\])/ig,
+                        /(\{)/ig,
+                        /(\})/ig,
+                        /(\$)/ig,
+                        /(\\)/ig,
+                        /(\|)/ig
                     ],
                     replace:"\\$1"
                 }
@@ -472,7 +471,7 @@ class stringC{
         let 
         that = this
         ;
-        if(data == '') return '';
+        if(data === '') return '';
         var str =''; 
         for(var i=0;i<data.length;i++){
             if(that.isChinese(data[i])){

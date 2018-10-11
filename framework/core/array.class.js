@@ -250,6 +250,19 @@ class arrayC{
     }
 
     /**
+     * @func 是否是一个布尔值
+     * @param v
+     * @returns {boolean}
+     */
+    isBoolean(v){
+        if(v === false || v === true || v === null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
      * @func 获取一个元素的真值
      * @param obj
      */

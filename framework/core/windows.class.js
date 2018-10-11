@@ -133,6 +133,22 @@ class win32{
     }
 
     /**
+     * @func 让一个服务重启
+     * @param serviceName
+     * @param callback
+     */
+    restartService(serviceName,callback){
+        let
+            that = this,
+            cmd = [
+                `net stop "${serviceName}"`,
+                `net start "${serviceName}"`,
+            ]
+        ;
+        that.common.core.func.exec(cmd,callback);
+    }
+
+    /**
      * @func 保存一个命令
      * @param command
      * @param target_path

@@ -1,8 +1,19 @@
 class sqliteC{
     constructor(common){
         common.get_core(`array`);
+
+        common.get_config();
     }
 
+
+    table(table){
+        let
+            that = this,
+            databaseConfig = that.common.config.platform.core.database,
+            prefix = databaseConfig.prefix
+        ;
+        return `${prefix}${table}`;
+    }
     /**
      * @func 解析一个SQL 对像为SQL语句
      * @param tables
@@ -27,7 +38,7 @@ class sqliteC{
             });
         }else if(that.common.core.array.isArray(tables)){
             tables.forEach((table)=>{
-                tableArr.push(that.sqlObjectParse(table));
+                tableArr = tableArr.concat(that.sqlObjectParse(table));
             });
         }
         return tableArr;

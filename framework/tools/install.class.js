@@ -420,6 +420,14 @@ class installC{
         //处理后的环境变量信息
         softinfo.environmentVariableX = {};
         if(environmentVariable){
+            //如果是字符串，需要转为{ path:xxx}的格式
+            if(typeof environmentVariable === "string"){
+                environmentVariable = {
+                    path : environmentVariable
+                };
+            }
+        }
+        if(that.common.core.array.isObject(environmentVariable)){
             for(let p in environmentVariable){
                 let 
                     oneEvn = environmentVariable[p],

@@ -919,7 +919,8 @@ class fileC{
                     }
                     that.common.core.console.info(`node fs rename ${newTmpPath} to ${newPath}.`);
                     that.common.node.fs.rename(newTmpPath,newPath,function(err){
-                        that.common.core.console.info(`node fs rename ${newTmpPath} to ${newPath} success.`,4);
+                        that.common.core.console.info(`node fs rename ${newTmpPath} to ${newPath} success.`,4)
+                        that.deleteDirSync(renameTmpRoot);
                         if(callback)callback(err);
                     })
                 });

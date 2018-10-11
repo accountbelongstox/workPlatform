@@ -235,6 +235,7 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
 
     /**
      @ func 设置一个配置文件
+     * @param option 参数选项
      * @param option.path default 配置文件基本路径,可以是数组,数组时将设置多个
      * @param option.key default "" 设置xxx,设置下级 (xxx -> children_xxx)
      * @param option.keyPrefix default key 的前置空格或符号
@@ -423,6 +424,7 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
                         annotationReg = new RegExp(`^\\s*[${annotationRegText}]{1,}`),
                         notFindScopeGetKeyValue = that.getSetIniTagAndKv(tag,EOL,key,keyPrefix,value,status,assignmentSymbol,valueSymbol,changQuotePath,annotation)
                     ;
+
                     //如果没有查找到代码范围,并且无须判断此值一定要存在,则添加
                     if(!queryScopeIs && !checkKey){
                         //没有查询到范围代码,进入下一次
@@ -430,6 +432,10 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
                         that.common.core.console.info(`\t( ${showKey} ) : >>>>>> ${value} add success!`,3);
                     }else if(queryScopeIs){
                         if(!addValue){
+                            if(multiKey){
+
+                                console.log(keyValueReg,queryScopeIs,addValue,scopeCodeMin,scopeCodeMax,33);
+                            }
                             //只配置标签范围内的内容
                             for(let len = scopeCodeMin;len<scopeCodeMax;len++){
                                 let
@@ -517,33 +523,49 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
 
         let
             that = this,
-            keyQueryText,
             keyRegText = that.common.core.string.strToRegText(key),
             valueRegText = that.common.core.string.strToRegText(value),
-            keyValueReg = null
+            valueTexts = [],
+            valueText = ""
         ;
-        assignmentSymbol = that.common.core.string.trim(assignmentSymbol);
-        assignmentSymbol = that.common.core.string.strToRegText(assignmentSymbol);
-        if(assignmentSymbol)assignmentSymbol = `\\s*${assignmentSymbol}`;
-        if(multiKey){
-            keyQueryText = `${keyRegText}${assignmentSymbol}\\s*${valueRegText}`;
-        }else{
-            //用来查换是否有该值的key,如果没有指定key则是一个单值
-            keyQueryText = key ? keyRegText : valueRegText;
+
+        //为防止空格赋值符被过滤，所以非空格时才TRIM处理
+        if( !(/\s+/ig.test(assignmentSymbol))){
+            assignmentSymbol = that.common.core.string.trim(assignmentSymbol);
         }
-        keyValueReg = new RegExp(`^\\s*[${annotationRegText}]*\\s*${keyQueryText}${assignmentSymbol}.*$`,"ig");
-        return keyValueReg;
+        assignmentSymbol = that.common.core.string.strToRegText(assignmentSymbol);
+        if(!multiKey && !key){
+            //有KEY时一切都不用改变
+            //如果是单值,没有KEY,类似于 -table-spik 则不需要赋值符号
+            keyRegText = "";
+            assignmentSymbol = "";
+        }
+        if(keyRegText){
+            valueTexts.push(keyRegText);
+        }
+        if(assignmentSymbol){
+            valueTexts.push(assignmentSymbol);
+        }
+        if(valueRegText){
+            valueTexts.push(valueRegText);
+        }
+        valueText = valueTexts.join(`\\s*`);
+        valueText = `\\s*${valueText}\\s*`;
+        let
+            valQReg = new RegExp(`^\\s*[${annotationRegText}]${valueText}$`,"ig")
+        ;
+        console.log(valQReg);
+        return valQReg;
     }
 
     /**
      * @func  给出一个 key 和 value的组合 SetIni 的配合函数
      * @param key
      * @param value
-     * @param status
      * @param assignmentSymbol 赋值符号
      * @param valueSymbol
      * @param changQuotePath 一只改变值的路径
-     * @param QueryValue 查找到的值
+     * @param keyPrefix
      * @param annotation 注释符号
      * @returns {string}
      * @constructor

@@ -43,6 +43,7 @@ class func{
                 if(output.length < 2){
                     output  = output.join(``);
                 }
+                output = that.exists(output);
                 if(callback)callback(output);
             }else{
                 let
@@ -403,6 +404,39 @@ class func{
         }else{
             //以上条件都不成立的情况下最终返回空
             return _v;
+        }
+    }
+
+    /**
+     * @func 判断一个值是否存在
+     * @param val
+     */
+    exists(val){
+        let
+            that = this,
+            exists = 0
+        ;
+        if(that.common.core.array.isArray(val)){
+            if(val.length){
+                val.forEach((v)=>{
+                   if(v) exists++;
+                });
+            }else{
+                exists = val.length;
+            }
+        }else if(that.common.core.array.isObject(val)){
+            for(let p in val){
+                if(val[p]){
+                    exists++;
+                }
+            }
+        }else{
+            exists = val;
+        }
+        if(exists){
+            return val;
+        }else{
+            return false;
         }
     }
 }

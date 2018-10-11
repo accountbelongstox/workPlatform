@@ -47,7 +47,7 @@ var CKBUILDER_CONFIG = {
 		'gruntfile.js',
 		'less',
 		'node_modules',
-		'package.json',
+		'database.install.json',
 		'tests'
 	],
 	plugins : {

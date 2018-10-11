@@ -3,14 +3,7 @@ class timeC{
     /**
      * @tools 创建格式化时间
      */
-    format(date,fmt){
-        let thisDate;
-        if(!date){
-            thisDate = new Date();
-        }else{
-            thisDate = new Date(date);
-        }
-        if(!fmt)fmt = "yyyy-mm-dd hh:mm:ss";
+    format(fmt = "yyyy-mm-dd hh:mm:ss",thisDate=new Date()){
         var o = {
             "M+": thisDate.getMonth() + 1, //月份
             "d+": thisDate.getDate(), //日

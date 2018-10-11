@@ -1,0 +1,15 @@
+{
+  "default":{
+    "update_date":"TIMESTAMP default (datetime('now', 'localtime'))",
+    "delete_date":"TIMESTAMP default (datetime('now', 'localtime'))",
+    "add_date":"TIMESTAMP default (datetime('now', 'localtime'))"
+  },
+  "install":{
+    "addweb":{
+      "domain":"text",
+      "dir":"text",
+      "php":"varchar(20)",
+      "java":"varchar(20)"
+    }
+  }
+}

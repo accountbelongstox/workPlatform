@@ -9,6 +9,7 @@ class index{
         common.get_core("string");
         common.get_core("array");
         common.get_core("console");
+        common.get_core("time");
 
         common.get_config();
 
@@ -622,12 +623,12 @@ class index{
                                     _tmpInstall = that.option.installList[softtype].list[p]
                                 ;
                                 //如果文件名已经存在
-                                if(softOneName == _tmpInstall.downUrl){
+                                if(softOneName === _tmpInstall.downUrl){
                                     alreadyName = _tmpInstall.downUrl,
                                         alreadyMd5name = p;
                                 }
                                 //如果文件名被格式化后存在
-                                if(softName == _tmpInstall.name){
+                                if(softName === _tmpInstall.name){
                                     alreadySoftName = _tmpInstall.name,
                                         alreadyMd5name = p;
                                 }
@@ -660,9 +661,17 @@ class index{
             }else{
                 o = that.common.core.array.sort(o,function(a,b){return a.list.sort - b.list.sort});
                 //全部扫描完成
-                that.common.node.fs.writeFileSync(that.common.node.path.join(that.common.core.appPath.support,"install.create.json"),JSON.stringify(o),"utf8");
+                let
+                    installJsonFile = that.common.node.path.join(that.common.core.appPath.support,"install.json"),
+                    bakJsonFileNameTime = "install.bak."+that.common.core.time.format("yyyy-mm-dd-hh-mm-ss")+".json",
+                    bakJsonFileName = that.common.node.path.join(that.common.core.appPath.support,bakJsonFileNameTime),
+                    bakJsonContent = that.common.node.fs.readFileSync(installJsonFile)
+                ;
+                //备份原来文件
+                that.common.node.fs.writeFileSync(bakJsonFileName,bakJsonContent,"utf8");
+                //替换新的文件
+                that.common.node.fs.writeFileSync(installJsonFile,JSON.stringify(o),"utf8");
                 that.common.core.console.success(`Scanlist finish...`);
-                //console.log(o);
                 //打印出效果
                 that.list(true,o);
                 return o;
@@ -709,6 +718,10 @@ Group : ${softtype}
                     Startup:false,
                 },*/
                 //是否有数据备份
+                environmentVariable:null,
+                //是否要安装为服务
+                //TODO 如果安装服务,则根据命令查找环境变量路径提交安装
+                service:null,
                 dataBackup:[],
                 Activator:"",//激活程序
                 callbackBaseDir:__dirname,
