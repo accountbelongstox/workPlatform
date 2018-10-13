@@ -260,8 +260,9 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
      * @param option.changQuotePath default false 仅仅是改变值的路径,值必须是一个文件如dll的引用,传入一个目录用来改变其路径,不修改文件名
      * @param callback
      * @param sourceIniText 配置源文件
+     * @param debug 调试
      */
-    SetIni(option,callback,sourceIniText=null/*配置文件内容,每次队列只执行一次,且优先读取模版内容*/){
+    SetIni(option,callback,sourceIniText=null/*配置文件内容,每次队列只执行一次,且优先读取模版内容*/,debug=false){
         let
             that = this,
             iniDefaultPath = null,
@@ -281,7 +282,6 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
             sourceIniArray = [],
             annotation = that.SetIniDefaultValue(optionFast,'annotation',`#;`),//注释符号
             annotationRegText = that.common.core.string.strToRegText(annotation),
-            scopeCodeOneReg = new RegExp(`^[${annotationRegText}]\\s*$`,`i`),
             childrenSplit = ` -> `,
             closedSplit = ` <-> `
         ;
@@ -298,17 +298,14 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
                 // 备份至模版,此配置文件只读取一次
                 sourceIniText = that.GetIniInTemplateAndBackupToTmplate(iniPath,exampleConf,confName);
             }
-            sourceIniArray = sourceIniText.split(/[\r\n]+/);
-            if(filter){
-                sourceIniArray = that.common.core.array.filter(sourceIniArray);
-                //用来去除每一行的空值的正则 # ;
-                sourceIniArray.forEach((scopeCodeOne,index)=>{
-                    //去除无效项 # ;
-                    if(scopeCodeOneReg.test(scopeCodeOne)){
-                        sourceIniArray.splice(index,1);
-                    }
-                });
-            }
+/*            if(debug){
+                console.log(iniPath,exampleConf,confName,3432432);
+                return;
+            }*/
+
+            //获得配置文件转成的数组
+            sourceIniArray = that.common.core.string.iniTextToArray(sourceIniText,annotation,filter);
+
             (function startSetINI(len){
                 if(len >= option.length){
                     //首位为末尾各添加一个换行符
@@ -326,6 +323,7 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
                         key = that.SetIniDefaultValue(opt,'key'),
                         keyPrefix = that.SetIniDefaultValue(opt,'keyPrefix',``),
                         multiKey = that.SetIniDefaultValue(opt,`multiKey`,false),
+                        insertMultiKeyBefore = that.SetIniDefaultValue(opt,`insertMultiKeyBefore`,false),
                         childrenKey = key.split(childrenSplit),//->
                         isChildrenKey = (childrenKey.length > 1),
                         closedKey = key.split(closedSplit),//<->
@@ -419,10 +417,12 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
                     //查找到范围
                     queryScopeIs = ((scopeCodeMax - scopeCodeMin) > 0);
                     let
-                        keyValueReg = that.getKeyValueReg(key,value,assignmentSymbol,annotationRegText,multiKey),
+                        keyValueReg = that.getKeyValueReg(key,assignmentSymbol,annotationRegText,multiKey,value),
                         isQueryValue = false,
                         annotationReg = new RegExp(`^\\s*[${annotationRegText}]{1,}`),
-                        notFindScopeGetKeyValue = that.getSetIniTagAndKv(tag,EOL,key,keyPrefix,value,status,assignmentSymbol,valueSymbol,changQuotePath,annotation)
+                        notFindScopeGetKeyValue = that.getSetIniTagAndKv(tag,EOL,key,keyPrefix,value,status,assignmentSymbol,valueSymbol,changQuotePath,annotation),
+                        insertLocationIndex = null,
+                        valueExistsCount = []
                     ;
 
                     //如果没有查找到代码范围,并且无须判断此值一定要存在,则添加
@@ -431,51 +431,103 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
                         sourceIniArray.push(notFindScopeGetKeyValue);
                         that.common.core.console.info(`\t( ${showKey} ) : >>>>>> ${value} add success!`,3);
                     }else if(queryScopeIs){
-                        if(!addValue){
+                        //非添加配置,默认设置的值都必须是原先有的,为了避免错乱,如果要强制添加,需要开启 addValue = true
+                        let
+                            valueExistsIndex = null
+                        ;
+                        //只配置标签范围内的内容
+                        for(let len = scopeCodeMin;len<scopeCodeMax;len++){
+                            let
+                                scopeCodeOne = sourceIniArray[len]
+                            ;
+                            //多KEY时,需要连KEY带VALUE一起查找,否则无法确定是添加那个KEY
                             if(multiKey){
-
-                                console.log(keyValueReg,queryScopeIs,addValue,scopeCodeMin,scopeCodeMax,33);
-                            }
-                            //只配置标签范围内的内容
-                            for(let len = scopeCodeMin;len<scopeCodeMax;len++){
-                                let
-                                    scopeCodeOne = sourceIniArray[len],
-                                    newValue = ``
-                                ;
+                                if(keyValueReg.multi.test( scopeCodeOne ) ){
+                                    //查找到结果
+                                    valueExistsIndex = {
+                                        codeLen:len,
+                                        scopeCodeOne
+                                    };
+                                }
+                                //查找第一个出现的位置
+                                if(keyValueReg.normal.test( scopeCodeOne ) ){
+                                    if(insertLocationIndex === null){
+                                        insertLocationIndex = len;
+                                    }
+                                }
+                            }else{
+                                // 优先查找已经开启的选项
+                                // 如果有多个开启,则需要关闭多余的
+                                if(keyValueReg.enabled.test( scopeCodeOne ) ){
+                                    //统计打开的项,如果有多余则下方删除
+                                    valueExistsCount.push(len);
+                                    //查找到结果
+                                    valueExistsIndex = {
+                                        codeLen:len,
+                                        scopeCodeOne
+                                    };
+                                }
                                 // 如果配置已经有,则修改配置
                                 // 后续的配置一律删除,只保留一条
-                                if(keyValueReg.test( scopeCodeOne )){
-                                    let
-                                        setIntKV = that.getSetIniKV(key,keyPrefix,value,assignmentSymbol,valueSymbol,changQuotePath,annotation,scopeCodeOne,keyValueReg)
-                                    ;
-                                    //只要结果正确即可,不改变之前是否开启或关闭
-                                    if(valueDisabled || !status){
-                                        //关闭状态
-                                        annotationReg.test( scopeCodeOne ) ? newValue = setIntKV.disabled : newValue = setIntKV.enabled;
-                                    }else{
-                                        newValue = setIntKV.enabled;
-                                    }
-                                    if(valueTrim){
-                                        newValue = that.common.core.string.trim(newValue);
-                                    }
-                                    sourceIniArray[len] = newValue;
-                                    //查找到值是做一个标识
-                                    //后面的创建文件夹时需要用到
-                                    isQueryValue = true;
+                                if(keyValueReg.normal.test( scopeCodeOne ) && !valueExistsIndex ){
+                                    //查找到结果
+                                    valueExistsIndex = {
+                                        codeLen:len,
+                                        scopeCodeOne
+                                    };
                                 }
                             }
                         }
-                        // checkKey 检测是否有该值,
-                        // 如果上面没有查找到,
-                        // 又未申明了必须找到该值,则添加此值
-                        if((!isQueryValue && !checkKey) || addValue){
-                            // 没有查找到的配置,则要添加
+
+
+                        //查找到结果,直接替换当前行
+                        if(valueExistsIndex !== null){
                             let
-                                scopeIniTextArray = sourceIniArray.splice(0,scopeCodeMax)
+                                codeLen = valueExistsIndex.codeLen,
+                                scopeCodeOne = valueExistsIndex.scopeCodeOne,
+                                setIntKV = that.getSetIniKV(key,keyPrefix,value,assignmentSymbol,valueSymbol,changQuotePath,annotation,scopeCodeOne,keyValueReg),
+                                newValue = (function (){
+                                    //只要结果正确即可,不改变之前是否开启或关闭
+                                    let
+                                        result = null
+                                    ;
+                                    //且没有强制指定要开启
+                                    if(valueDisabled || !status){
+                                        //关闭状态
+                                        result = annotationReg.test( scopeCodeOne ) ?  setIntKV.disabled :  setIntKV.enabled;
+                                    }else {
+                                        result = setIntKV.enabled;
+                                    }
+                                    if(valueTrim){
+                                        result = that.common.core.string.trim(newValue);
+                                    }
+                                    return result;
+                                })()
                             ;
-                            scopeIniTextArray.push(notFindScopeGetKeyValue);
-                            sourceIniArray = scopeIniTextArray.concat(sourceIniArray);
-                            that.common.core.console.info(`\t( ${showKey} ) : >>>>>> ${value} add in iniTextScope success!`,4);
+                            sourceIniArray[codeLen] = newValue;
+                            //查找到值是做一个标识
+                            //后面的创建文件夹时需要用到
+                            isQueryValue = true;
+
+                            //如果要关闭其他查找到的项
+                            //从该数组遍历并关闭即可
+                            valueExistsCount.splice(0,1);//删除第一个被查找到的值的标记
+                            valueExistsCount.forEach((valueExistsLen)=>{
+                                //sourceIniArray[codeLen] = "#"+sourceIniArray[codeLen];
+                            });
+
+                        }else if((!isQueryValue && !checkKey) || addValue || multiKey){
+                            //没找到结果,但允许强制添加,如果是多KEY,则必须强制添加
+                            // checkKey 检测是否有该值,
+                            // 如果上面没有查找到,
+                            // 又未申明了必须找到该值,则添加此值
+                            let
+                                newValue = `${keyPrefix}${key}${assignmentSymbol}${value}`
+                            ;
+                            if(!insertMultiKeyBefore || insertMultiKeyBefore === null){
+                                insertLocationIndex = scopeCodeMax;
+                            }
+                            sourceIniArray.splice(insertLocationIndex, 0, newValue);
                         }else{
                             that.common.core.console.info(`\t( ${showKey} ) : >>>>>> ${value} set success!`,4);
                         }
@@ -511,22 +563,23 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
     }
 
     /**
+     *
      * @func 取得一个查询INI值的函数
      * @param key
-     * @param value
      * @param assignmentSymbol
      * @param annotationRegText
      * @param multiKey
-     * @returns {RegExp}
+     * @param value
+     * @returns {{normal: RegExp, multi: RegExp}}
      */
-    getKeyValueReg(key,value,assignmentSymbol,annotationRegText,multiKey){
+    getKeyValueReg(key,assignmentSymbol,annotationRegText,multiKey,value){
 
         let
             that = this,
             keyRegText = that.common.core.string.strToRegText(key),
             valueRegText = that.common.core.string.strToRegText(value),
             valueTexts = [],
-            valueText = ""
+            multiKeyRegArray = []
         ;
 
         //为防止空格赋值符被过滤，所以非空格时才TRIM处理
@@ -534,28 +587,35 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
             assignmentSymbol = that.common.core.string.trim(assignmentSymbol);
         }
         assignmentSymbol = that.common.core.string.strToRegText(assignmentSymbol);
-        if(!multiKey && !key){
-            //有KEY时一切都不用改变
-            //如果是单值,没有KEY,类似于 -table-spik 则不需要赋值符号
-            keyRegText = "";
-            assignmentSymbol = "";
-        }
         if(keyRegText){
             valueTexts.push(keyRegText);
+            multiKeyRegArray.push(keyRegText);
         }
         if(assignmentSymbol){
             valueTexts.push(assignmentSymbol);
+            multiKeyRegArray.push(assignmentSymbol);
         }
+        //如果是有多个KEY,查找时要连带值一起查找,否则无法分清是否设置那个KEY.
         if(valueRegText){
-            valueTexts.push(valueRegText);
+            multiKeyRegArray.push(valueRegText);
         }
-        valueText = valueTexts.join(`\\s*`);
-        valueText = `\\s*${valueText}\\s*`;
+
+        if(annotationRegText){
+            annotationRegText = `[${annotationRegText}]*`;
+        }
+
         let
-            valQReg = new RegExp(`^\\s*[${annotationRegText}]${valueText}$`,"ig")
+            keyValueJoinText = `\\s*${valueTexts.join(`\\s*`)}.*`,
+            multiKeyText = `\\s*${multiKeyRegArray.join(`\\s*`)}.*`,
+            normalQReg = new RegExp(`^\\s*${annotationRegText}${keyValueJoinText}$`,"ig"),
+            multiReg = new RegExp(`^\\s*${annotationRegText}${multiKeyText}$`,"ig"),
+            enabledReg = new RegExp(`^${keyValueJoinText}$`,"ig")
         ;
-        console.log(valQReg);
-        return valQReg;
+        return {
+            normal:normalQReg,
+            enabled:enabledReg,
+            multi:multiReg
+        };
     }
 
     /**
@@ -679,8 +739,9 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
     }
     /**
      * @func 取得Conf配置文件内容
-     * @param paths
+     * @param iniDir
      * @param exampleConf
+     * @param confName
      * @returns {string}
      * @constructor
      */
@@ -688,8 +749,8 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
         let
             that  = this
         ;
-        if(!exampleConf){
-            exampleConf = [];
+        if(!that.common.core.func.exists(exampleConf)){
+            exampleConf = [confName];
         }
         if(!confName){
             confName = that.common.node.path.parse(iniDir).base;

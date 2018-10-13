@@ -13,7 +13,7 @@ class installC{
         common.get_core("module");
 
         common.get_config();
-        common.config_load(`wintools.install`);
+        common.config_load(`windows.install`);
         common.get_support(`install`);
 	}
 
@@ -36,7 +36,7 @@ class installC{
         //工作目录
         that.option.workroomDir = that.option.workDir.workroom;
 
-        that.option.conf = that.common.config_load[`wintools.install`];
+        that.option.conf = that.common.config_load[`windows.install`];
 
 	}
 
@@ -144,7 +144,6 @@ class installC{
     @func 根据安装路径取得app安装地址
     */
     applicationDir(softInfo){
-
         let 
         that = this,
         //满足条件则被 安装到程序目录下
@@ -161,11 +160,11 @@ class installC{
             installToDirRegArray = []
             ;
 
-            if(typeof installToDirOne == "string"){
+            if(that.common.core.string.isString(installToDirOne)){
 
                 installToDirRegArray.push(installToDirOne);
 
-            }else if(typeof installToDirOne == "object"){
+            }else if(that.common.core.array.isObject(installToDirOne)){
 
                 installToDirRegArray = installToDirOne;
             }
@@ -820,7 +819,7 @@ class installC{
             if(configCallback){
                 let
                     opt = [
-                        "--wintools",
+                        "--windows",
                         "--config",
                         configCallback,
                         softinfo.name

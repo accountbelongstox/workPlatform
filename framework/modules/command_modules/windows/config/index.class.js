@@ -231,8 +231,8 @@ class index{
                         value:`512M`
                     });
                     SetIniList.push({
-                        key:`mysqld -> `,
-                        value:`skip-grant-tables`
+                        key:`mysqld -> skip-grant-tables`,
+                        value:``
                     });
                     SetIniList.push({
                         valueIsDirAndCreate:true,//值是目录且要创建
@@ -388,11 +388,18 @@ class index{
                             key:`DirectoryIndex`,
                             value:`index.php index.html index.htm`
                         });
-                        SetIniList.push({
+/*                        SetIniList.push({
                             valueSymbol:null,
                             multiKey:true,
                             key:`Include`,
                             value:`conf/extra/httpd-vhosts.conf`
+                        });*/
+                        SetIniList.push({
+                            valueSymbol:null,
+                            multiKey:true,
+                            insertMultiKeyBefore:true,
+                            key:`Include`,
+                            value:`conf/vhosts/*.conf`
                         });
                         SetIniList.push({
                             valueSymbol:null,
@@ -492,35 +499,50 @@ class index{
                             value:`"${phpCurrent}/php-cgi.exe" .php`
                         });
                         that.common.tools.config.SetIni(SetIniList,(ConfigContent)=>{
-                            that.common.tools.config.installHttpdModule(version,`mod_fcgid`,()=>{
-                                //一劳永逸强制解决 80 被占用问题
-                                let
-                                    stopMSService = [
-                                        `net stop http`,
-                                        `Sc config http start=disabled`
-                                    ],
-                                    httpd = that.common.node.path.join(version,`bin/httpd.exe`),
-                                    insatllCmd = [
-                                        `${httpd} -k install -n httpd`,
-                                        `net start httpd`
-                                    ],
-                                    cmds = stopMSService.concat(insatllCmd)
-                                    /*重新开始http
-                                    * net start http
-                                    net start Wms
-                                    net start WinRM
-                                    net start W3SVC
-                                    net start Spooler
-                                    net start PeerDistSvc
-                                    net start IISADMIN
-                                    sc config http start=demand & net start http
-                                    sc config http start=enabled
-                                    */
-                                ;
-                                that.common.core.func.exec(cmds,()=>{
-                                    startSetHttpd(++len);
-                                });
-                            },ConfigContent);
+                            //为避免apache无法启动员
+                            //将httpd-vhosts转存到vhosts目录
+                            let
+                                vhostsSet = [],
+                                vhostsNewPath = that.common.core.file.pathJoin(path,`conf/vhosts/httpd-vhosts.conf`,``)
+                            ;
+                            vhostsSet.push({
+                                key:`DocumentRoot`,
+                                value:that.common.config.platform.base.workDir.wwwroot
+                            });
+                            //重新设置配置文件地址
+                            that.common.tools.config.option.SetIniPublic.confName = `conf/extra/httpd-vhosts.conf`;
+                            that.common.tools.config.SetIni(vhostsSet,(vhostsContent)=>{
+                                that.common.core.file.writeFileSync(vhostsNewPath,vhostsContent);
+                                that.common.tools.config.installHttpdModule(version,`mod_fcgid`,()=>{
+                                    //一劳永逸强制解决 80 被占用问题
+                                    let
+                                        stopMSService = [
+                                            `net stop http`,
+                                            `Sc config http start=disabled`
+                                        ],
+                                        httpd = that.common.node.path.join(version,`bin/httpd.exe`),
+                                        insatllCmd = [
+                                            `${httpd} -k install -n httpd`,
+                                            `net start httpd`
+                                        ],
+                                        cmds = stopMSService.concat(insatllCmd)
+                                        /*重新开始http
+                                        * net start http
+                                        net start Wms
+                                        net start WinRM
+                                        net start W3SVC
+                                        net start Spooler
+                                        net start PeerDistSvc
+                                        net start IISADMIN
+                                        sc config http start=demand & net start http
+                                        sc config http start=enabled
+                                        */
+                                    ;
+                                    that.common.core.func.exec(cmds,()=>{
+                                        startSetHttpd(++len);
+                                    });
+                                },ConfigContent);
+                            },null,true);
                         });
                     }else{
                         startSetHttpd(++len);

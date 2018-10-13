@@ -76,9 +76,9 @@ class configSystemBak{
                                     AppData: {
                                         ignore: [],
                                         childrenDir:{
-                                            Local:that.load("wintools.systembak.UserdataAllBackupAndIgnore"),
-                                            LocalLow:that.load("wintools.systembak.UserdataAllBackupAndIgnore"),
-                                            Roaming:that.load("wintools.systembak.UserdataAllBackupAndIgnore")
+                                            Local:that.load("windows.systembak.UserdataAllBackupAndIgnore"),
+                                            LocalLow:that.load("windows.systembak.UserdataAllBackupAndIgnore"),
+                                            Roaming:that.load("windows.systembak.UserdataAllBackupAndIgnore")
                                         }
                                     }
                                 }
@@ -94,7 +94,7 @@ class configSystemBak{
                     localBackupDirectory : `E:/CompanyFile/developEvn/storage/systembak/program`,//系统备份的目录
                     localBackupScope : {
                         ignore : [],
-                        childrenDir:that.load("wintools.systembak.ProgramAllBackupAndIgnore")
+                        childrenDir:that.load("windows.systembak.ProgramAllBackupAndIgnore")
                     }
                 },
                 init:{

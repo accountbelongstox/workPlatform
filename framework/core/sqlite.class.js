@@ -202,7 +202,7 @@ class spliteC{
         if(where){
             where = ` where ${where}`;
         }
-        sql = `SELECT ${select} FROM \`${that.option.prefix}${table}\`${where}`;
+        sql += `SELECT ${select} FROM \`${that.option.prefix}${table}\`${where}`;
         that.option.data.all(sql, (err,result)=>{
             if(result.length === 0){
                 result = null;
@@ -225,8 +225,8 @@ class spliteC{
             tableValue = that.common.tools.sqlite.addValueParse(values),
             SQL = `INSERT INTO ${that.option.prefix+tableName} ${tableValue}`
         ;
-        console.log(SQL);
         that.option.data.run(SQL,(error)=>{
+            that.common.core.console.info(`add table ${tableName} success.`,6);
             if (error){
                 util.log('FAIL on add ' + error);
             }

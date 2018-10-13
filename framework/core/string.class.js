@@ -147,6 +147,36 @@ class stringC{
         return str;
     }
 
+    /**
+     *
+     * @func 将配置文件转为配置数组
+     * @param content 配置文件内容
+     * @param annotation 注释符
+     * @param filter 是否过滤无效项
+     */
+    iniTextToArray(content,annotation="#;",filter=true){
+
+        let
+            that = this,
+            sourceIniArray = content.split(/[\r\n]+/),
+            annotationRegText = that.strToRegText(annotation),
+            scopeCodeOneReg = new RegExp(`^[${annotationRegText}]\\s*$`,`i`),
+            resultArray = []
+        ;
+        if(filter){
+            sourceIniArray = that.common.core.array.filter(sourceIniArray);
+            //用来去除每一行的空值的正则 # ;
+            sourceIniArray.forEach((scopeCodeOne)=>{
+                //去除无效项 # ;
+                if(!scopeCodeOneReg.test(scopeCodeOne)){
+                    resultArray.push(scopeCodeOne);
+                }
+            });
+        }else{
+            resultArray = sourceIniArray;
+        }
+        return resultArray;
+    }
 
     /**
      * @tools 字符转正则字符.

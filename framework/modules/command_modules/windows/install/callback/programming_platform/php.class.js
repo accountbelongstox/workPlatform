@@ -15,7 +15,7 @@ class _phpC{
 
         let 
         opt = [
-            "--wintools",
+            "--windows",
             "--config",
             "--init",
             "--php"

@@ -221,48 +221,59 @@ if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )`
      * @tools 设置hosts
      */
     setHosts(keyValue,keyValueOrStatus,status=true){
-        if(typeof keyValueOrStatus == "string"){
+        let
+            that = this
+        ;
+        if(typeof keyValueOrStatus === "string"){
             keyValue = keyValue+ ` ${keyValueOrStatus}`;
-        }else{
+        }else if(that.common.core.array.isBoolean(keyValueOrStatus)){
             status = keyValueOrStatus;
         }
         if(keyValue){
-            let 
-            that = this,
-            keyValues = keyValue.split(/\s/),
-            key = keyValues[0],
-            value = keyValues[1] ? keyValues[1] : "",
-            homedir = that.homedir(),
-            driveRoot = that.common.node.path.parse(homedir).root,
-            hostsDir = that.common.node.path.join(driveRoot,`Windows/System32/drivers/etc/hosts`),
-            hostsContent = that.common.core.file.readFileSync(hostsDir),
-            keyRegText = that.common.core.string.strToRegText(key),
-            valueRegText = value ? that.common.core.string.strToRegText(value) : ``,
-            queryReg = new RegExp(`[\\n\\r]{1,}\\s*\\#*\\s*${keyRegText}\\s+${valueRegText}\\s*$`),
-            hostsMatch = hostsContent.match(queryReg),
-            keyAndValue = `\r\n${key} ${value}`
+            let
+                keyValues = keyValue.split(/\s/),
+                ip = keyValues[0],
+                domain = keyValues[1] ? keyValues[1] : "",
+                value = `${ip} ${domain}`,
+                homedir = that.homedir(),
+                EOL = that.os().EOL,
+                driveRoot = that.common.node.path.parse(homedir).root,
+                hostsDir = that.common.node.path.join(driveRoot,`Windows/System32/drivers/etc/hosts`),
+                hostsContent = that.common.core.file.readFileSync(hostsDir),
+                domainRegText = domain ? that.common.core.string.strToRegText(domain) : ``,
+                existsDomainReg = new RegExp(`.+?${domainRegText}\\s*$`),
+                hostsContentArray = that.common.core.string.iniTextToArray(hostsContent),
+                domainExistsIndex = 0//域名是否已经存在
             ;
-            if(hostsMatch){
-                //如果已经有值了,则先替换为正常的值待用
-                keyAndValue = `\r\n`+hostsMatch[0].replace(/^\s*\#*\s*|\n+|\r+/i,``).replace(/\s+/ig,' ');
-            }
+            hostsContentArray.forEach((hotsOne,index)=>{
+                if(existsDomainReg.test(hotsOne)){
+                    domainExistsIndex = index;
+                }
+            });
+
             //设置开启
             if (status){
                 //如果已经查找存在的值,则开启即可
-                if(hostsMatch){
-                    hostsContent = hostsContent.replace(hostsMatch[0],keyAndValue);
+                if(domainExistsIndex){
+                    hostsContentArray[domainExistsIndex] = value;
                 }else{
                     //如果没有查找到,则添加
-                    hostsContent += keyAndValue;
+                    hostsContentArray.push(value);
                 }
             }else{
                 //如果是关闭该项,在前面添加#号即可
-                if(hostsMatch){
+                if(domainExistsIndex){
                     //正则添加#号
-                    keyAndValue = keyAndValue.replace(/\r\n/,`\r\n#`);
-                    hostsContent = hostsContent.replace(hostsMatch[0],`${keyAndValue}`);
+                    let
+                        tmpValue = hostsContentArray[domainExistsIndex]
+                    ;
+                    tmpValue = tmpValue.replace(/^\s*\#+/,``);
+                    tmpValue = that.common.core.string.trim(tmpValue);
+                    tmpValue = `# ${tmpValue}`;
+                    hostsContentArray[domainExistsIndex] = tmpValue;
                 }
             }
+            hostsContent = hostsContentArray.join(EOL);
             that.common.core.console.success(`Set hosts in => ${keyValues} `);
             that.common.core.file.writeFileSync(hostsDir,hostsContent);
             return true;

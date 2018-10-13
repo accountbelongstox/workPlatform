@@ -1,6 +1,6 @@
 ﻿/**
  * @tools 系统备份执行
- * @command 备份系统 ddrun wintools systembak bak [bakdir]
+ * @command 备份系统 ddrun windows systembak bak [bakdir]
  */
 
 

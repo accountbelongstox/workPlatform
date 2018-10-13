@@ -22,7 +22,7 @@ class configC_{
 	                    description:`命令行模块`,
 	                    mustParams : {//必要的命令参数
 	                    	//windows工具命令
-	                    	wintools:that.load(`wintools`),
+                            windows:that.load(`windows`),
 	                    	zip:that.load(`zip`),
                             copyweb:that.load(`copyweb`),
                             develop:that.load(`develop`)
