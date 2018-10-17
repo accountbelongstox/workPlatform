@@ -1,8 +1,8 @@
 class C{
-	constructor(common){
+	constructor(o){
 
 	}
-	// that.common.config.platform.base.local.tmpDir
+	// that.o.config.platform.base.local.tmpDir
 	//最终方法,不可再用加载器以免死循环
 	run(){
 		let 
@@ -32,6 +32,18 @@ class C{
 
 								}
 							}
+						},
+                        globalShortcut:{
+                            //快捷键注册事件
+                            "Alt+F4":{
+                                event:"quit"
+                            },
+                            "Alt+Shift+F12":{
+                                event:"openDevTools"
+                            },
+                            "F11":{
+                                event:"windowmaxmin"
+                            },
 						}
 					},
 					sourceDir:{

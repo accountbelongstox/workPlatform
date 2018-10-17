@@ -1,6 +1,6 @@
 class __360C{
-	constructor(common){
-		common.get_core("console");
+	constructor(o){
+		
 	}
 
 	run(callback){
@@ -10,12 +10,12 @@ class __360C{
 		that = this
 		;
 
-		that.common.core.console.info(`start config software in _360`,4);
+		that.o.tool.console.info(`start config software in _360`,4);
 
 		/*
 		successfully
 		*/
-		that.common.core.console.success(`Software _360 installed successfully`);
+		that.o.tool.console.success(`Software _360 installed successfully`);
 		if(callback){
 			callback();
 		}

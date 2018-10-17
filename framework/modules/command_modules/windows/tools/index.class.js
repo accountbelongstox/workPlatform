@@ -1,15 +1,15 @@
 class C{
-    constructor(common){
+    constructor(o){
 
     }
 
     run(){
         let
             that = this,
-            ip = that.common.params.get("ip"),
-            domain = that.common.params.get("domain"),
-            value3 = that.common.params.get(3),
-            value4 = that.common.params.get(4),
+            ip = that.o.params.get("ip"),
+            domain = that.o.params.get("domain"),
+            value3 = that.o.params.get(3),
+            value4 = that.o.params.get(4),
             isIPReg = /^\d+\.\d+\.\d+\.\d+\s*$/
         ;
         if(!ip){
@@ -38,13 +38,13 @@ class C{
             let
                 hostsText = `${that.option.ip} ${that.option.domain}`
             ;
-            that.common.core.windows.setHosts(hostsText);
+            that.o.tool.windows.setHosts(hostsText);
         }else if(!that.option.ip && !that.option.domain){
-            that.common.core.console.error(`nod exists ip address and domain. [127.xx.xx.xx www.xxx.com]`);
+            that.o.tool.console.error(`nod exists ip address and domain. [127.xx.xx.xx www.xxx.com]`);
         }else if(!that.option.ip){
-            that.common.core.console.error(`nod exists ip address. (127.xx.xx.xx)`);
+            that.o.tool.console.error(`nod exists ip address. (127.xx.xx.xx)`);
         }else{
-            that.common.core.console.error(`fail ! nod exists domain. (www.xxx.com)`);
+            that.o.tool.console.error(`fail ! nod exists domain. (www.xxx.com)`);
         }
     }
 
@@ -59,13 +59,13 @@ class C{
             let
                 hostsText = `${that.option.ip} ${that.option.domain}`
             ;
-            that.common.core.windows.setHosts(hostsText,false);
+            that.o.tool.windows.setHosts(hostsText,false);
         }else if(!that.option.ip && !that.option.domain){
-            that.common.core.console.error(`nod exists ip address and domain. [127.xx.xx.xx www.xxx.com]`);
+            that.o.tool.console.error(`nod exists ip address and domain. [127.xx.xx.xx www.xxx.com]`);
         }else if(!that.option.ip){
-            that.common.core.console.error(`nod exists ip address. (127.xx.xx.xx)`);
+            that.o.tool.console.error(`nod exists ip address. (127.xx.xx.xx)`);
         }else{
-            that.common.core.console.error(`fail ! nod exists domain. (www.xxx.com)`);
+            that.o.tool.console.error(`fail ! nod exists domain. (www.xxx.com)`);
         }
     }
 

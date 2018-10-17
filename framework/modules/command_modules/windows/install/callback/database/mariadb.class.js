@@ -1,26 +1,26 @@
 class _mariadbC{
 
-	constructor(common){
-		common.get_core("console");
-        common.get_core("module");
-        common.get_core("func");
+	constructor(o){
+		
+        
+        
 
-        common.get_node("path");
+        
 	}
 
 	run(callback){
 		let
 			that = this,
 			MySQLService = `MySQL`,
-			tmpDir = that.common.core.file.getTmpDir(`.mariadb`),
-            mysqlDirPath = that.common.node.path.join(that.option.softinfo.environmentVariableX.MYSQL_HOME,"/bin"),
-            mysqldPath = that.common.node.path.join(mysqlDirPath,`mysqld.exe`),
-            mysqlPath = that.common.node.path.join(mysqlDirPath,`mysql.exe`),
+			tmpDir = that.o.tool.file.getTmpDir(`.mariadb`),
+            mysqlDirPath = that.o.node.path.join(that.option.softinfo.environmentVariableX.MYSQL_HOME,"/bin"),
+            mysqldPath = that.o.node.path.join(mysqlDirPath,`mysqld.exe`),
+            mysqlPath = that.o.node.path.join(mysqlDirPath,`mysql.exe`),
 			installSql = [
                 `${mysqldPath}  --install "${MySQLService}"`,
 				`net start mysql`
 			],
-            resetMysqlSQLPath = that.common.node.path.join(tmpDir,`resetRootPwd.sql`),
+            resetMysqlSQLPath = that.o.node.path.join(tmpDir,`resetRootPwd.sql`),
 			//重置 MySQL 密码
             resetMysqlRootPwd = `use mysql;
 update user set password=password("root") where user="root";
@@ -31,14 +31,14 @@ flush privileges;`,
 				`net start ${MySQLService}`
 			]
 		;
-		that.common.core.console.info(`start config software in ${that.option.softinfo.name}`,4);
+		that.o.tool.console.info(`start config software in ${that.option.softinfo.name}`,4);
 		//需要先检测编程平台PHP是否安装
-        that.common.core.func.exec(installSql,(exeInfo)=>{
-        	that.common.core.console.info(exeInfo,4);
-            that.common.core.file.writeFileSync(resetMysqlSQLPath,resetMysqlRootPwd);
-            that.common.core.func.execSync(resetSQL);
-            that.common.core.func.execSync(restartMySQL);
-            that.common.core.console.success(`Software ${that.option.softinfo.name} installed successfully`);
+        that.o.tool.func.exec(installSql,(exeInfo)=>{
+        	that.o.tool.console.info(exeInfo,4);
+            that.o.tool.file.writeFileSync(resetMysqlSQLPath,resetMysqlRootPwd);
+            that.o.tool.func.execSync(resetSQL);
+            that.o.tool.func.execSync(restartMySQL);
+            that.o.tool.console.success(`Software ${that.option.softinfo.name} installed successfully`);
             if(callback){
                 callback();
             }

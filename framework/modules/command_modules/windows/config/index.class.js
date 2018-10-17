@@ -2,17 +2,17 @@
 
 
 class index{
-    constructor(common){
-        common.get_core("file");
-        common.get_core("console");
-        common.get_core("func");
+    constructor(o){
+        
+        
+        
 
-        common.get_tools("config");
-        common.get_tools("install");
+        
+        
 
-        common.get_config();
+        
 
-        //common.get_support(`webserver`);
+        //
     }
 
     run(callback){
@@ -20,37 +20,37 @@ class index{
         that = this
         ;
         //所有软件的列表
-        that.option.softlist = that.common.tools.install.option.softlist;
+        that.option.softlist = that.o.func.install.option.softlist;
 
         that.option.extendSupport = that.option.conf.extend.support;
         //执行的命令
-        that.option.command = that.common.params.contain( that.option.extendSupport );
+        that.option.command = that.o.params.contain( that.option.extendSupport );
         //that.option.commandSupport = that.option.extendSupport[that.option.command] ? that.option.extendSupport[that.option.command].support : [];
         //指定的软件名
-        that.option.software = that.common.params.contain(that.option.softlist);
+        that.option.software = that.o.params.contain(that.option.softlist);
         //平台配置
-        that.option.platform = that.common.config.platform.base;
+        that.option.platform = that.o.config.platform.base;
         //工作目录
         that.option.workDir = that.option.platform.workDir;
         //资源目录
         that.option.sourceDir = that.option.platform.sourceDir;
         //没有查到的软件名
         if(!that.option.software){
-            that.common.core.console.error(`Not find software ${that.option.software}`);
+            that.o.tool.console.error(`Not find software ${that.option.software}`);
             if(callback)callback(null);
         //查找到软件名
         }else if(that[that.option.software]){
             //取得配置信息
-            //that.option.support = that.common.support.webserver[that.option.software];
+            //that.option.support = that.o.support.webserver[that.option.software];
             //that.option.supportInit = that.option.support.config[that.option.command];
             //软件安装信息
-            that.option.softinfo = that.common.tools.install.getSoftInfo(that.option.software);
+            that.option.softinfo = that.o.func.install.getSoftInfo(that.option.software);
             //提示
-            that.common.core.console.success(`Start config in ${that.option.software} :`);
+            that.o.tool.console.success(`Start config in ${that.option.software} :`);
             that[that.option.software](callback);
             //没有查找到方法
         }else{
-            that.common.core.console.error(`Not find config function ${that.option.software}`);
+            that.o.tool.console.error(`Not find config function ${that.option.software}`);
             if(callback)callback(null);
 
         }
@@ -66,10 +66,10 @@ class index{
             confName = "php.ini",
             tag = "",
             exampleConf = ["php.ini-development","php.ini-production"],
-            versions = that.common.tools.config.GetVersionFull(that.option.softinfo.name),
-            applicationDir = that.common.node.path.join(that.option.softinfo.applicationDir,`../`)
+            versions = that.o.func.config.GetVersionFull(that.option.softinfo.name),
+            applicationDir = that.o.node.path.join(that.option.softinfo.applicationDir,`../`)
         ;
-        that.common.tools.config.option.SetIniPublic = {
+        that.o.func.config.option.SetIniPublic = {
             confName,
             tag,
             exampleConf
@@ -83,88 +83,88 @@ class index{
                         path = versions[len],
                         SetIniList = []
                     ;
-                    that.common.tools.config.option.SetIniPublic[`path`]= path;
+                    that.o.func.config.option.SetIniPublic[`path`]= path;
 
                     SetIniList.push({
                         key:`extension_dir`,
-                        value:that.common.core.file.pathJoin(path,"ext",`"`)
+                        value:that.o.tool.file.pathJoin(path,"ext",`"`)
                     });
                     SetIniList.push({
                         valueIsDirAndCreate:true,
                         key:`session.save_path`,
-                        value:that.common.core.file.pathJoin(path,"tmp",`"`)
+                        value:that.o.tool.file.pathJoin(path,"tmp",`"`)
                     });
                     SetIniList.push({
                         valueIsDirAndCreate:true,
                         checkKey:true,
                         key:`XDebug -> xdebug.profiler_output_dir`,
-                        value:that.common.core.file.pathJoin(path,"tmp/xdebug",`"`)
+                        value:that.o.tool.file.pathJoin(path,"tmp/xdebug",`"`)
                     });
                     SetIniList.push({
                         valueIsDirAndCreate:true,
                         checkKey:true,
                         key:`XDebug -> xdebug.trace_output_dir`,
-                        value:that.common.core.file.pathJoin(path,"tmp/xdebug",`"`)
+                        value:that.o.tool.file.pathJoin(path,"tmp/xdebug",`"`)
                     });
                     SetIniList.push({
                         valueIsDirAndCreate:true,
                         checkKey:true,
                         key:`eAccelerator -> eaccelerator.cache_dir`,
-                        value:that.common.core.file.pathJoin(path,"tmp/eAccelerator",`"`)
+                        value:that.o.tool.file.pathJoin(path,"tmp/eAccelerator",`"`)
                     });
                     SetIniList.push({
                         valueIsDirAndCreate:true,
                         checkKey:true,
                         key:`xcache -> xcache.mmap_path`,
-                        value:that.common.core.file.pathJoin(path,"tmp/dev/zero",`"`)
+                        value:that.o.tool.file.pathJoin(path,"tmp/dev/zero",`"`)
                     });
                     SetIniList.push({
                         checkKey:true,
                         changQuotePath:true,
                         key:`opcache -> zend_extension`,
-                        value:that.common.core.file.pathJoin(path,"",`"`)
+                        value:that.o.tool.file.pathJoin(path,"",`"`)
                     });
                     SetIniList.push({
                         changQuotePath:true,
                         valueDisabled:true,
                         checkKey:true,
                         key:`XDebug -> zend_extension`,
-                        value:that.common.core.file.pathJoin(path,"",`"`)
+                        value:that.o.tool.file.pathJoin(path,"",`"`)
                     });
                     SetIniList.push({
                         changQuotePath:true,
                         valueDisabled:true,
                         checkKey:true,
                         key:`XDebug -> zend_extension_ts`,
-                        value:that.common.core.file.pathJoin(path,"ext",`"`)
+                        value:that.o.tool.file.pathJoin(path,"ext",`"`)
                     });
                     SetIniList.push({
                         changQuotePath:true,
                         valueDisabled:true,
                         checkKey:true,
                         key:`Zend -> zend_extension_ts`,
-                        value:that.common.core.file.pathJoin(path,"",`"`)
+                        value:that.o.tool.file.pathJoin(path,"",`"`)
                     });
                     SetIniList.push({
                         changQuotePath:true,
                         valueDisabled:true,
                         checkKey:true,
                         key:`ioncube -> zend_extension`,
-                        value:that.common.core.file.pathJoin(path,"",`"`)
+                        value:that.o.tool.file.pathJoin(path,"",`"`)
                     });
                     SetIniList.push({
                         checkKey:true,
                         valueDisabled:true,
                         key:`ZendDebugger -> zend_extension_manager.debug_server_ts`,
-                        value:that.common.core.file.pathJoin(path,"ZendDebugger",`"`)
+                        value:that.o.tool.file.pathJoin(path,"ZendDebugger",`"`)
                     });
                     SetIniList.push({
                         checkKey:true,
                         valueDisabled:true,
                         key:`zend_extension_manager.optimizer_ts`,
-                        value:that.common.core.file.pathJoin(path,"ZendOptimizer/Optimizer",`"`)
+                        value:that.o.tool.file.pathJoin(path,"ZendOptimizer/Optimizer",`"`)
                     });
-                    that.common.tools.config.SetIni(SetIniList,()=>{
+                    that.o.func.config.SetIni(SetIniList,()=>{
                         setIni(++len);
                     });
                 }
@@ -184,10 +184,10 @@ class index{
             tag = "",
             exampleConf = ["my-innodb-heavy-4G.ini","my-huge.ini","my-large.ini","my-medium.ini"],
             port = `3306`,
-            versions = that.common.tools.config.GetVersionFull(that.option.softinfo.name),
-            applicationDir = that.common.node.path.join(that.option.softinfo.applicationDir,`../`)
+            versions = that.o.func.config.GetVersionFull(that.option.softinfo.name),
+            applicationDir = that.o.node.path.join(that.option.softinfo.applicationDir,`../`)
         ;
-        that.common.tools.config.option.SetIniPublic = {
+        that.o.func.config.option.SetIniPublic = {
             confName,
             tag,
             exampleConf
@@ -201,7 +201,7 @@ class index{
                         path = versions[len],
                         SetIniList = []
                     ;
-                    that.common.tools.config.option.SetIniPublic[`path`]= path;
+                    that.o.func.config.option.SetIniPublic[`path`]= path;
                     SetIniList.push({
                         key:`mysqld -> port`,
                         value:port
@@ -212,7 +212,7 @@ class index{
                     });
                     SetIniList.push({
                         key:`mysqld -> basedir`,
-                        value:that.common.core.file.pathJoin(path,``,`"`)
+                        value:that.o.tool.file.pathJoin(path,``,`"`)
                     });
                     SetIniList.push({
                         key:`mysqld -> character-set-server`,
@@ -237,17 +237,17 @@ class index{
                     SetIniList.push({
                         valueIsDirAndCreate:true,//值是目录且要创建
                         key:`mysqld -> datadir`,
-                        value:that.common.core.file.pathJoin(dataDir,that.option.softinfo.name,`"`)
+                        value:that.o.tool.file.pathJoin(dataDir,that.option.softinfo.name,`"`)
                     });
                     SetIniList.push({
                         valueIsFileAndCreateDir:true,//值是文件且要创建上级目录
                         key:`mysqld -> log-bin`,
-                        value:that.common.core.file.pathJoin(path,"logs/logbin.log",`"`)
+                        value:that.o.tool.file.pathJoin(path,"logs/logbin.log",`"`)
                     });
                     SetIniList.push({
                         valueIsDirAndCreate:true,//值是目录且要创建
                         key:`mysqld -> tmpdir`,
-                        value:that.common.core.file.pathJoin(path,"tmp",`"`)
+                        value:that.o.tool.file.pathJoin(path,"tmp",`"`)
                     });
                     SetIniList.push({
                         key:`mysqld -> myisam_max_sort_file_size`,
@@ -255,13 +255,13 @@ class index{
                     });
                     SetIniList.push({
                         key:`client -> socket`,
-                        value:that.common.core.file.pathJoin(path,"tmp/mysql.sock",`"`)
+                        value:that.o.tool.file.pathJoin(path,"tmp/mysql.sock",`"`)
                     });
                     SetIniList.push({
                         key:`mysqld -> socket`,
-                        value:that.common.core.file.pathJoin(path,"tmp/mysql.sock",`"`)
+                        value:that.o.tool.file.pathJoin(path,"tmp/mysql.sock",`"`)
                     });
-                    that.common.tools.config.SetIni(SetIniList,()=>{
+                    that.o.func.config.SetIni(SetIniList,()=>{
                         setIni(++len);
                     });
                 }
@@ -282,11 +282,11 @@ class index{
             tag = "",
             port = `27017`,
             exampleConf = [],
-            versions = that.common.tools.config.GetVersionFull(that.option.softinfo.name),
-            applicationDir = that.common.node.path.join(that.option.softinfo.applicationDir,`../`),
+            versions = that.o.func.config.GetVersionFull(that.option.softinfo.name),
+            applicationDir = that.o.node.path.join(that.option.softinfo.applicationDir,`../`),
             SetIniListAll = []
         ;
-        that.common.tools.config.option.SetIniPublic = {
+        that.o.func.config.option.SetIniPublic = {
             confName,
             tag,
             exampleConf
@@ -300,16 +300,16 @@ class index{
                         path = versions[len],
                         SetIniList = []
                     ;
-                    that.common.tools.config.option.SetIniPublic[`path`]= path;
+                    that.o.func.config.option.SetIniPublic[`path`]= path;
                     SetIniList.push({
                         valueIsDirAndCreate:true,//值是目录且要创建
                         key:`dbpath`,
-                        value:that.common.core.file.pathJoin(dataDir,that.option.softinfo.name,``)
+                        value:that.o.tool.file.pathJoin(dataDir,that.option.softinfo.name,``)
                     });
                     SetIniList.push({
                         valueIsFileAndCreateDir:true,//值是文件且要创建上级目录
                         key:`logpath`,
-                        value:that.common.core.file.pathJoin(path,"logs/MongoDB.log",``)
+                        value:that.o.tool.file.pathJoin(path,"logs/MongoDB.log",``)
                     });
                     SetIniList.push({
                         key:`logappend`,
@@ -328,7 +328,7 @@ class index{
                         value:port
                     });
                     SetIniListAll.push(SetIniList);
-                    that.common.tools.config.SetIni(SetIniList,()=>{
+                    that.o.func.config.SetIni(SetIniList,()=>{
                         setIni(++len);
                     });
                 }
@@ -345,11 +345,11 @@ class index{
             that = this,
             confName = `conf/httpd.conf`,
             tag = "",
-            versions = that.common.tools.config.GetVersionFull(that.option.softinfo.name),
+            versions = that.o.func.config.GetVersionFull(that.option.softinfo.name),
             exampleConf = [],
-            phpCurrent = that.common.tools.config.phpCurrentApplicationDir()
+            phpCurrent = that.o.func.config.phpCurrentApplicationDir()
         ;
-        that.common.tools.config.option.SetIniPublic = {
+        that.o.func.config.option.SetIniPublic = {
             confName,
             tag,
             exampleConf,
@@ -367,22 +367,22 @@ class index{
                     let
                         version = versions[len]
                     ;
-                    if(that.common.core.file.isDirSync(version)){
+                    if(that.o.tool.file.isDirSync(version)){
                         let
                             path = version,
                             SetIniList = []
                         ;
                         //将 PHP 的 CIG 添加到配置中
-                        that.common.tools.config.GetOrAddMultiPHPsApiAndFCgiDConf(version);
+                        that.o.func.config.GetOrAddMultiPHPsApiAndFCgiDConf(version);
 
-                        that.common.tools.config.option.SetIniPublic[`path`]= path;
+                        that.o.func.config.option.SetIniPublic[`path`]= path;
                         SetIniList.push({
                             key:`Define SRVROOT`,
-                            value:that.common.core.file.pathJoin(path,"",``)
+                            value:that.o.tool.file.pathJoin(path,"",``)
                         });
                         SetIniList.push({
                             key:`DocumentRoot`,
-                            value:that.common.config.platform.base.workDir.wwwroot
+                            value:that.o.config.platform.base.workDir.wwwroot
                         });
                         SetIniList.push({
                             key:`DirectoryIndex`,
@@ -498,29 +498,29 @@ class index{
                             key:`FcgidWrapper`,
                             value:`"${phpCurrent}/php-cgi.exe" .php`
                         });
-                        that.common.tools.config.SetIni(SetIniList,(ConfigContent)=>{
+                        that.o.func.config.SetIni(SetIniList,(ConfigContent)=>{
                             //为避免apache无法启动员
                             //将httpd-vhosts转存到vhosts目录
                             let
                                 vhostsSet = [],
-                                vhostsNewPath = that.common.core.file.pathJoin(path,`conf/vhosts/httpd-vhosts.conf`,``)
+                                vhostsNewPath = that.o.tool.file.pathJoin(path,`conf/vhosts/httpd-vhosts.conf`,``)
                             ;
                             vhostsSet.push({
                                 key:`DocumentRoot`,
-                                value:that.common.config.platform.base.workDir.wwwroot
+                                value:that.o.config.platform.base.workDir.wwwroot
                             });
                             //重新设置配置文件地址
-                            that.common.tools.config.option.SetIniPublic.confName = `conf/extra/httpd-vhosts.conf`;
-                            that.common.tools.config.SetIni(vhostsSet,(vhostsContent)=>{
-                                that.common.core.file.writeFileSync(vhostsNewPath,vhostsContent);
-                                that.common.tools.config.installHttpdModule(version,`mod_fcgid`,()=>{
+                            that.o.func.config.option.SetIniPublic.confName = `conf/extra/httpd-vhosts.conf`;
+                            that.o.func.config.SetIni(vhostsSet,(vhostsContent)=>{
+                                that.o.tool.file.writeFileSync(vhostsNewPath,vhostsContent);
+                                that.o.func.config.installHttpdModule(version,`mod_fcgid`,()=>{
                                     //一劳永逸强制解决 80 被占用问题
                                     let
                                         stopMSService = [
                                             `net stop http`,
                                             `Sc config http start=disabled`
                                         ],
-                                        httpd = that.common.node.path.join(version,`bin/httpd.exe`),
+                                        httpd = that.o.node.path.join(version,`bin/httpd.exe`),
                                         insatllCmd = [
                                             `${httpd} -k install -n httpd`,
                                             `net start httpd`
@@ -538,7 +538,7 @@ class index{
                                         sc config http start=enabled
                                         */
                                     ;
-                                    that.common.core.func.exec(cmds,()=>{
+                                    that.o.tool.func.exec(cmds,()=>{
                                         startSetHttpd(++len);
                                     });
                                 },ConfigContent);

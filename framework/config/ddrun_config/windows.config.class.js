@@ -1,10 +1,10 @@
 class C{
-	constructor(common){
-        common.get_support(`install`);
-        common.get_core(`file`);
+	constructor(o){
+        
+        
 
-        common.get_node(`fs`);
-        common.get_node(`path`);
+        
+        
 	}
 
 
@@ -18,9 +18,9 @@ class C{
         versionMustParams = {},
         initParams = {}
         ;
-        for(let p in that.common.support.install){
+        for(let p in that.o.support.install){
         	let 
-        	oo = that.common.support.install[p]
+        	oo = that.o.support.install[p]
         	;
         	for(let p2 in oo){
 	        	let 
@@ -45,29 +45,29 @@ class C{
 	        	if(oo2.allowChangeVersion){
                     //需要拼接安装目录,并扫描安装目录下的全部版本
                     let
-                    softinfo = that.common.node.path.join(that.option.platform.base.sourceDir.application,oo2.group+"/"+oo2.name),
+                    softinfo = that.o.node.path.join(that.option.platform.base.sourceDir.application,oo2.group+"/"+oo2.name),
                     softversions = [],
                     files = 0,
                     folders = [],
                     docs = 0
                     ;
-                    if(that.common.node.fs.existsSync(softinfo)){
+                    if(that.o.node.fs.existsSync(softinfo)){
 
-                        softversions = that.common.node.fs.readdirSync(softinfo);
+                        softversions = that.o.node.fs.readdirSync(softinfo);
                         softversions.forEach((file)=>{
                             let
-                            filePath = that.common.node.path.join(softinfo,file)
+                            filePath = that.o.node.path.join(softinfo,file)
                             ;
 
-                            if(that.common.core.file.isFileSync(filePath)){
+                            if(that.o.tool.file.isFileSync(filePath)){
                                 files++;
                             }
 
-                            if(that.common.core.file.isDocFile(filePath)){
+                            if(that.o.tool.file.isDocFile(filePath)){
                                 docs++;
                             }
 
-                            if(that.common.core.file.isDirSync(filePath)){
+                            if(that.o.tool.file.isDirSync(filePath)){
                                 folders.push(file);
                             }
                         });

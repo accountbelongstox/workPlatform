@@ -7,10 +7,10 @@
 */
 class page{
     constructor(){
-        common.get_node('fs');
-        common.get_node('path');
-        common.get_node('electron');
-        common.get_module('listen',2);
+        
+        
+        
+        
         common.$ = require("./js/jquery-2.0.3.min.js");
 
         this.all_listener();

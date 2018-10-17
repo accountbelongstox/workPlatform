@@ -1,9 +1,6 @@
 class configC_{
 
-	constructor(common){
-		common.get_support("install");
-
-		common.get_node("path");
+	constructor(o){
 	}
 
 	/*
@@ -44,16 +41,16 @@ class configC_{
     */
     load(name){
         let
-        that = this,
-        p = that.common.node.path.join(__dirname,`./ddrun_config/${name}.class.js`),
-        c =  require(p),
-        c2 = new c(that.common)
+			that = this,
+			p = that.o.node.path.join(__dirname,`./ddrun_config/${name}.class.js`),
+			c =  require(p),
+			c2 = new c(that.o)
         ;
 
         c2.load = that.load;
-        c2.common = that.common;
+        c2.o = that.o;
         c2.option = {
-        	platform:that.common.config_load(`platform`)
+        	platform:that.o.config_load(`platform`)
         };
 
         let 

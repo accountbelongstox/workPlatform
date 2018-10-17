@@ -1,6 +1,6 @@
 class _mongodbC{
-	constructor(common){
-		common.get_core("console");
+	constructor(o){
+		
 	}
 
 	run(callback){
@@ -8,17 +8,17 @@ class _mongodbC{
             that = this,
             MongoDBserviceName = `MongoDB`,
             MongoDBBinDir = that.option.softinfo.environmentVariableX.path,
-            MongodDir = that.common.node.path.join(MongoDBBinDir,`mongod.exe`),
-            MongoDBRootDir = that.common.node.path.join(MongoDBBinDir,`../`),
+            MongodDir = that.o.node.path.join(MongoDBBinDir,`mongod.exe`),
+            MongoDBRootDir = that.o.node.path.join(MongoDBBinDir,`../`),
             confName = `${that.option.softinfo.name}.config`,
-            confPath = that.common.node.path.join(MongoDBRootDir,confName),
+            confPath = that.o.node.path.join(MongoDBRootDir,confName),
             installWindowsService = [
                 `${MongodDir} --config "${confPath}" --serviceName ${MongoDBserviceName} --install`,
                 `net start ${MongoDBserviceName}`
             ]
 		;
-        that.common.core.func.exec(installWindowsService,(info)=>{
-            that.common.core.console.success(`Software ${that.option.softinfo.name} installed successfully`);
+        that.o.tool.func.exec(installWindowsService,(info)=>{
+            that.o.tool.console.success(`Software ${that.option.softinfo.name} installed successfully`);
 
             if(callback){
                 callback();

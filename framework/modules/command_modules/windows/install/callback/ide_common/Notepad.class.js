@@ -1,6 +1,6 @@
 class _NotepadC{
-	constructor(common){
-		common.get_core("console");
+	constructor(o){
+		
 	}
 
 	run(callback){
@@ -9,17 +9,17 @@ class _NotepadC{
 		let
 			that = this,
         	applicationDir = that.option.softinfo.applicationDir,
-            appPath = that.common.node.path.join(applicationDir,`notepad++.exe`),
+            appPath = that.o.node.path.join(applicationDir,`notepad++.exe`),
             addRightMenu = `"${appPath}" `,
             addRightMenuFile = `"${appPath}" "%1"`
         ;
-        that.common.core.windows.addRightMenuSync(`Open notepad++`,addRightMenu);
-        that.common.core.windows.addRightMenuSync(`Open with notepad++`,addRightMenuFile,{type:`file`});
-		that.common.core.console.info(`start config software in ${that.option.softinfo.name}`,4);
+        that.o.tool.windows.addRightMenuSync(`Open notepad++`,addRightMenu);
+        that.o.tool.windows.addRightMenuSync(`Open with notepad++`,addRightMenuFile,{type:`file`});
+		that.o.tool.console.info(`start config software in ${that.option.softinfo.name}`,4);
 		/*
 		successfully
 		*/
-		that.common.core.console.success(`Software ${that.option.softinfo.name} installed successfully`);
+		that.o.tool.console.success(`Software ${that.option.softinfo.name} installed successfully`);
 		if(callback){
 			callback();
 		}

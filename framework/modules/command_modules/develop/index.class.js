@@ -1,23 +1,23 @@
 class developC{
-	constructor(common){
-        common.get_node(`fs`);
-        common.get_node(`path`);
-        common.get_node(`url`);
-        common.get_node(`child_process`);
-        common.get_node("readline");
+	constructor(o){
+        
+        
+        
+        
+        
 
-        common.get_tools(`install`);
-        common.get_tools(`develop`);
+        
+        
 
-        common.get_core(`console`);
-        common.get_core(`sqlite`,null,false);
+        
+        
     }
 
     run(){
         let
             that = this
         ;
-        that.common.node.readLine = that.common.node.readline.createInterface({
+        that.o.node.readLine = that.o.node.readline.createInterface({
             input: process.stdin,
             output: process.stdout
         });
@@ -28,20 +28,20 @@ class developC{
     addweb(){
         let
             that = this,
-            domain = that.common.params.get(`domain`),
+            domain = that.o.params.get(`domain`),
             isDomain = /[a-zA-Z0-9\-\_]+\.[a-zA-Z0-9\-\_]+/i
         ;
         if(!domain){
-            domain = that.common.params.get(2)
+            domain = that.o.params.get(2)
         }
         if(!domain){
             (function inputDomain(){
-                that.common.node.readLine.question(`Please enter a domain name. (www.xxx.com) : `, (domainInput) => {
+                that.o.node.readLine.question(`Please enter a domain name. (www.xxx.com) : `, (domainInput) => {
                     if(isDomain.test(domainInput)){
                         domain = domainInput;
                         addWebDomain(domain);
                     }else{
-                        that.common.core.console.error(`The domain name entered is incorrect, example: www.xxx.com .`);
+                        that.o.tool.console.error(`The domain name entered is incorrect, example: www.xxx.com .`);
                         inputDomain();
                     }
                 });
@@ -52,7 +52,7 @@ class developC{
 
         function addWebDomain(domainSource){
             (function phpVersion(){
-                that.common.node.readLine.question(`Input PHP version. [default:PHP70] : `, (phpVersion) => {
+                that.o.node.readLine.question(`Input PHP version. [default:PHP70] : `, (phpVersion) => {
                     phpVersion = "php70";
                     phpVersion = phpVersion.replace(/^\s*php/i,``);
                     if(phpVersion){
@@ -65,10 +65,10 @@ class developC{
                     }
                 });
             })();
-            //that.common.node.readLine.close();
+            //that.o.node.readLine.close();
             function addHttpConf(phpVersion){
                 let
-                    domainParse = that.common.tools.develop.parseDomain(domainSource),
+                    domainParse = that.o.func.develop.parseDomain(domainSource),
                     domainConf = domainParse[ phpVersion ],
                     tableName = `addweb`
                 ;
@@ -81,8 +81,8 @@ class developC{
                     }
                 }
                 //运行SQLITE数据库
-                that.common.core.sqlite.run();
-                that.common.core.sqlite.isTable(tableName,true,(exists)=>{
+                that.o.tool.sqlite.run();
+                that.o.tool.sqlite.isTable(tableName,true,(exists)=>{
                     let
                         domains = null
                     ;
@@ -94,7 +94,7 @@ class developC{
                             domain:domains.domain
                         }
                     ;
-                    that.common.core.sqlite.query(tableName,queryDomain,(result)=>{
+                    that.o.tool.sqlite.query(tableName,queryDomain,(result)=>{
                         if(!result){
                             let
                                 addDomain = {
@@ -104,7 +104,7 @@ class developC{
                                     java:``
                                 }
                             ;
-                            that.common.core.sqlite.add(tableName,addDomain,(info)=>{
+                            that.o.tool.sqlite.add(tableName,addDomain,(info)=>{
                                 addConfigFile();
                             });
                         }else{
@@ -118,8 +118,8 @@ class developC{
                             oneWeb = domainConf[p]
                         ;
                         let
-                            wwwroot = that.common.core.file.pathFormat(oneWeb.dir),
-                            confVHosts = `# Created At, ${that.common.core.time.format()}
+                            wwwroot = that.o.tool.file.pathFormat(oneWeb.dir),
+                            confVHosts = `# Created At, ${that.o.tool.time.format()}
 <VirtualHost *:80>
     Include ${oneWeb.phpConf}
     DirectoryIndex index.php index.html index.htm
@@ -127,22 +127,22 @@ class developC{
     ServerName ${oneWeb.domain}
     ServerAlias ${oneWeb.domains.join(` `)}
 </VirtualHost>`,
-                            httpdConfDir = that.common.node.path.join(oneWeb.apacheDir,`conf/vhosts/${oneWeb.domain}.conf`)
+                            httpdConfDir = that.o.node.path.join(oneWeb.apacheDir,`conf/vhosts/${oneWeb.domain}.conf`)
                         ;
-                        that.common.core.console.info(`create conffile => ${httpdConfDir}`,5);
-                        if(!that.common.core.file.isDirSync(wwwroot)){
-                            that.common.core.file.mkdirSync(wwwroot);
+                        that.o.tool.console.info(`create conffile => ${httpdConfDir}`,5);
+                        if(!that.o.tool.file.isDirSync(wwwroot)){
+                            that.o.tool.file.mkdirSync(wwwroot);
                         }
-                        that.common.core.file.writeFileSync(httpdConfDir,confVHosts);
+                        that.o.tool.file.writeFileSync(httpdConfDir,confVHosts);
                         oneWeb.domains.unshift(domain);
                         oneWeb.domains.forEach((domain)=>{
-                            that.common.core.windows.setHosts(`127.0.0.1`,domain,true);
+                            that.o.tool.windows.setHosts(`127.0.0.1`,domain,true);
                         });
                     }
 
-                    that.common.node.readLine.close();
-                    that.common.core.windows.restartService("httpd",(err)=>{
-                        that.common.node.readLine.close();
+                    that.o.node.readLine.close();
+                    that.o.tool.windows.restartService("httpd",(err)=>{
+                        that.o.node.readLine.close();
                     });
                 }
             }

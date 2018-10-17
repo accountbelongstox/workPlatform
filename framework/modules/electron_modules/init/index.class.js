@@ -1,7 +1,5 @@
 class electronIpcMain{
-    constructor(common){
-        common.get_node('url');
-        common.get_module('compiler',2);
+    constructor(o){
     }
 
     /*
@@ -40,8 +38,8 @@ class electronIpcMain{
                 frame: false
             });
 
-            that.common.module.compiler.build('index.html',function(dir){
-                _window.loadURL(that.common.node.url.format({
+            that.o.module.compiler.build('index.html',function(dir){
+                _window.loadURL(that.o.node.url.format({
                     pathname: dir,
                     protocol: 'file:',
                     slashes: true
@@ -61,8 +59,8 @@ class electronIpcMain{
                 resizable:false,
             });
 
-            that.common.module.compiler.build(`help.html`,function(dir){
-                help.loadURL(that.common.node.url.format({
+            that.o.module.compiler.build(`help.html`,function(dir){
+                help.loadURL(that.o.node.url.format({
                     pathname: dir,
                     protocol: 'file:',
                     slashes: true
@@ -77,11 +75,11 @@ class electronIpcMain{
             @explain 引入监听模型 
             */
             that.option._window = _window;
-            that.common.get_module('listen',2,that.option);
+            that.
             /*
             @explain 启动监听
             */
-            that.common.module.listen.on();
+            that.o.module.listen.on();
         });
         /*--------------session-------------------*/
         /*定义菜单*/

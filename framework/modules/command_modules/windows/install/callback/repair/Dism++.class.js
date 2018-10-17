@@ -1,6 +1,6 @@
 class _Dism++C{
-	constructor(common){
-		common.get_core("console");
+	constructor(o){
+		
 	}
 
 	run(callback){
@@ -10,12 +10,12 @@ class _Dism++C{
 		that = this
 		;
 
-		that.common.core.console.info(`start config software in ${that.option.softinfo.name}++`,4);
+		that.o.tool.console.info(`start config software in ${that.option.softinfo.name}++`,4);
 
 		/*
 		successfully
 		*/
-		that.common.core.console.success(`Software Dism++ installed successfully`);
+		that.o.tool.console.success(`Software Dism++ installed successfully`);
 		if(callback){
 			callback();
 		}

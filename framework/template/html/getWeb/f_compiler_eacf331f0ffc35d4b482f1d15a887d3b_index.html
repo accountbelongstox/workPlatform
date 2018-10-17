@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<title>抓取程序 - QQ 8718538</title>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<!--[if IE 8]><link href="css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plugins/charts/excanvas.min.js"></script>
+<script type="text/javascript" src="js/files/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- Fixed top -->
+	<div id="top" style="border-top: 2px solid #ef705b; -webkit-app-region: drag">
+		<div class="fixed" style="border-bottom: none;">
+			<a href="javascript:void(0);"  title="" class="logo"><img style="height: 20px;" src="img/logo.png" alt="" /></a>
+			<ul class="top-menu" style="float: left;">
+				<li class="dropdown">
+					<a class="user-menu" data-toggle="dropdown"><span style="margin-left: 0px;" > 定制数据抓取程序 - QQ 8718538 ( v<font id="currengVersionShow">*</font> ) </span></a>
+				</li>
+				<li class="dropdown">
+					<a class="user-menu" data-toggle="dropdown"><img id="statusIcon" src="img/icons/top/messages.png" width="16" height="16" alt=""  style="margin-top: 4px;"/><span id="status"> 请先选择网站... </span></a>
+				</li>
+			</ul>
+			<ul class="top-menu" style="-webkit-app-region: no-drag">
+				<li class="dropdown">
+					<a class="user-menu" data-toggle="dropdown"><img src="img/userpic.png" w alt="" /><span> 授权成功! <b class="caret"></b></span></a>
+				</li>
+				<li id="version_li" style="display: none;">
+					<div class="top-info" style="margin: 8px 0 0 0;padding: 0 15px;">
+						<a href="javascript:;" title="" class="red-square electron-click-softwareupdate" data-version="1.0"><i class="icon-arrow-up"></i></a>
+						<strong style="color: #ef705b; font-size: 12px; text-shadow: none;" id="softupdateInfo">升级新版本!</strong>
+					</div>
+					<div class="progress progress-micro" style=" display: none;   margin-top: 3px;" id="progress"><div class="bar" style="width: 0%;"></div></div>
+				</li>
+				<li><a class="fullview electron-ipc-windowmaxmin"></a></li>
+				<li><a class="fullview electron-ipc-quit" style="background: url('img/elements/uploader/deleteFile.png') no-repeat 50% 16px;"></a></li>
+			</ul>
+		</div>
+	</div>
+	<div style="height:64px;">
+		<div class="fixed" style="background: none;height: 66px;padding:0;z-index: 9999;">
+		    		<ul class="options-bar" style="height: 64px;border:none;">
+		    			<li style="width: 100%;">
+				    		<div class="pull-left bulk">
+			    			<div class="bar-select">
+								<div class="input-prepend">
+									<div class="btn-group">
+										<button class="btn dropdown-toggle" id="showSupportWebs" data-toggle="dropdown">切换抓取网站<span class="caret dd-caret"></span></button>
+										<ul class="dropdown-menu" id="selectSupportWeb" style="width: 507px;">
+											<li><a href="#"><i class="icon-cogs"></i>readData...</a></li>
+										</ul>
+									</div>
+									<button class="btn" id="supportWeb" type="button" style="width:300px;text-align: left;overflow: hidden;">载入中...</button>
+									<input type="button" class="btn btn-info" value="进入网站" style="width: 100px" id="getWeb"  />
+								</div>
+				            </div>
+
+
+			    			<div class="bar-select pull-left">
+				    			<span>抓取分类: </span>
+				                <select name="selectReadData" class="styled" id="selectReadData">
+				                    <option value="">请等待...</option>
+				                </select>
+				            </div>
+				            <div class="bar-button">
+								<div class="alert margin" style="padding: 4px 35px;display: none;margin: 0;" id="notTheFnInfo">
+									<button type="button" class="close" data-dismiss="alert">×</button>
+									功能还不支持此网站
+								</div>
+								<button type="button" class="btn btn-success" id="readData" style="display: none;">开始读取</button>
+								<button type="button" class="btn btn-warning" id="stopReadData" style="display: none;">中止读取</button>
+				            </div>
+				    		</div>
+				            <div class="bar-button">
+				            	<button type="button" style="visibility: hidden;" class="btn btn-success" id="saveData">保存数据</button>
+				            </div>
+			    			<div class="bar-select" >
+			    				<span>总数据 <font id="dataCount">-</font> 条 &nbsp;&nbsp;/&nbsp;&nbsp; 今日: <strong class="" style="color:red;" id="newData">*</strong></span>
+			    			</div>
+		    			</li>
+		    		</ul>
+		</div>
+	</div>
+
+	<div class="fixed" id="info" style="background: none;height: 60px;padding:0;border-bottom: none;"></div>
+	<!-- Content container -->
+	<div class="row-fluid" style="height:850px">
+		<webview style="height:850px" id="webViewShow" src="http://www.ddweb.com.cn" allowpopups></webview>
+	</div>
+	<script type="text/javascript">
+		let
+			start = true
+		;
+		if(start){
+            start = false;
+            const
+            	webViewShow = document.getElementById("webViewShow"),
+                elements = [
+                    "readData",
+                    "saveData",
+                    "supportWeb",
+                    "selectReadData",
+                    "dataCount",
+                    "webViewShow",
+                    "newData",
+                    "status",
+                    "statusIcon",
+                    "info",
+					"getWeb",
+					"stopReadData",
+					"selectSupportWeb",
+					"showSupportWebs",
+					"notTheFnInfo",
+					"version_li",
+					"currengVersionShow",
+					"progress",
+					"softupdateInfo"
+                ],
+                eles = (function (){
+                    let
+                        o = {}
+                    ;
+                    elements.forEach((ele)=>{
+                        o[ele] = $(document.getElementById(ele));
+                    });
+                    return o;
+                })(),//所有需要处理的元素
+				moduleObject = {
+                    $,
+                    jQurey:$,
+                    eles,
+                    document
+				},
+                loadModule = require("../load/load.class.js"),
+                load = new loadModule(moduleObject)
+            ;
+            webViewShow.addEventListener('dom-ready', () => {
+                load.webContents = webViewShow.getWebContents();
+				console.log(`webView ready ok!`);
+				//通过代码注入可以取得信息
+                load.module.web.start();
+            });
+		}
+/*
+*/
+	</script>
+</body>
+</html>

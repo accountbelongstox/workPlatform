@@ -1,6 +1,6 @@
 
 class index{
-    constructor(common){
+    constructor(o){
 
     }
 

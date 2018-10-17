@@ -1,8 +1,6 @@
 
 class ipcMainOn{
-    constructor(common){
-        common.get_module('compiler',2);
-        common.get_node('url');
+    constructor(o){
     }
 
     get_listen_list(){
@@ -58,10 +56,10 @@ class ipcMainOn{
             ipc_main_on:"app-transform-page",
             func:(event, arg)=>{
                 let 
-                html_template = that.common.core.appPath.html_template+arg
+                html_template = that.o.path.html_template+arg
                 ;
-                that.common.module.compiler.build(html_template,function(dir){
-                    that.option._window.loadURL(that.common.node.url.format({
+                that.o.module.compiler.build(html_template,function(dir){
+                    that.option._window.loadURL(that.o.node.url.format({
                         pathname: dir,
                         protocol: 'file:',
                         slashes: true

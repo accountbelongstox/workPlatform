@@ -1,7 +1,7 @@
 
 class AalBackupC{
-	constructor(common){
-		common.get_node("fs");
+	constructor(o){
+		
 	}
 
 	run(){
@@ -43,7 +43,7 @@ class AalBackupC{
         ;
         let
             applicationDir = that.option.platform.base.workDir.application,
-            applications = that.common.node.fs.readdirSync(applicationDir),
+            applications = that.o.node.fs.readdirSync(applicationDir),
             eChildrenDir = {}
         ;
         applications.forEach((folder)=>{
@@ -55,8 +55,8 @@ class AalBackupC{
                     }
                 }
                 let
-                childFolder = that.common.node.path.join(applicationDir,folder),
-                childFolders = that.common.node.fs.readdirSync(childFolder)
+                childFolder = that.o.node.path.join(applicationDir,folder),
+                childFolders = that.o.node.fs.readdirSync(childFolder)
                 ;
                 childFolders.forEach((childFold)=>{
                     eChildrenDir[folder].childrenDir[childFold] = {

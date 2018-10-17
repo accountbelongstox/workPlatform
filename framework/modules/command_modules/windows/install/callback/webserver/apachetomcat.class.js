@@ -1,6 +1,5 @@
 class _apachetomcatC{
-	constructor(common){
-		common.get_core("console");
+	constructor(o){
 	}
 
 	run(callback){
@@ -10,12 +9,12 @@ class _apachetomcatC{
 		that = this
 		;
 
-		that.common.core.console.info(`start config software in ${that.option.softinfo.name}`,4);
+		that.o.tool.console.info(`start config software in ${that.option.softinfo.name}`,4);
 
 		/*
 		successfully
 		*/
-		that.common.core.console.success(`Software ${that.option.softinfo.name} installed successfully`);
+		that.o.tool.console.success(`Software ${that.option.softinfo.name} installed successfully`);
 		if(callback){
 			callback();
 		}

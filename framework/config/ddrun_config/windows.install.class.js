@@ -1,5 +1,5 @@
 class C{
-	constructor(common){
+	constructor(o){
 
 	}
 

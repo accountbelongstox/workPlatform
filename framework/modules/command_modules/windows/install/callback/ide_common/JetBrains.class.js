@@ -1,8 +1,8 @@
 class _JetBrainsC{
-	constructor(common){
-		common.get_core("console");
-		common.get_core("windows");
-		common.get_core("func");
+	constructor(o){
+		
+		
+		
 	}
 
 	run(callback){
@@ -14,16 +14,16 @@ class _JetBrainsC{
 		pasteCmd = `<nul (set/p z=${regKey}) | clip`
 		;
 
-		that.common.core.console.info(`start config software in ${that.option.softinfo.name}`,4);
-		that.common.core.windows.setHosts(`0.0.0.0 account.jetbrains.com`,true);
-		that.common.core.func.execSync(pasteCmd);
+		that.o.tool.console.info(`start config software in ${that.option.softinfo.name}`,4);
+		that.o.tool.windows.setHosts(`0.0.0.0 account.jetbrains.com`,true);
+		that.o.tool.func.execSync(pasteCmd);
 		//设置编辑器所占的内存
 		/*
 		successfully
 		*/
-		that.common.core.console.success(`Software ${that.option.softinfo.name} installed successfully`);
+		that.o.tool.console.success(`Software ${that.option.softinfo.name} installed successfully`);
 		if(callback){
-			that.common.core.console.info(`
+			that.o.tool.console.info(`
 ----------------------------------<Register Keys>----------------------------------
 
 ${regKey}

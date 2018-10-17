@@ -49,7 +49,6 @@
     "electron": "^2.0.5",
     "electron-packager": "^12.1.0",
     "inquirer": "^6.0.0",
-    "jquery": "^3.3.1",
     "lodash": "^4.17.10",
     "mongodb": "^3.1.1",
     "nice-try": "^1.0.4",

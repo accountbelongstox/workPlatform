@@ -3,23 +3,23 @@
  * @explain 为了不过多占用资源,将使用临时文件作为缓存.
  */
 class index {
-    constructor(common) {
+    constructor(o) {
 
-        common.get_node('http');
-        common.get_node('https');
-        common.get_node('fs');
+        
+        
+        
         //cheerio 教程 https://cnodejs.org/topic/5203a71844e76d216a727d2e
-        common.get_node('cheerio');
-        common.get_node('request');
-        common.get_node('path');
-        common.get_node('url');
+        
+        
+        
+        
 
-        common.get_core('func');
+        
 
-        common.get_core('file');
-        common.get_core('network');
+        
+        
 
-        common.get_config();
+        
 
     }
 
@@ -31,19 +31,19 @@ class index {
         ;
 
         //需要下载的URL
-        that.option.copyWebBaseDownloadUrl = that.common.params.get('url');
+        that.option.copyWebBaseDownloadUrl = that.o.params.get('url');
         //当前需要启动的线程数
-        that.option.thread = that.common.params.get('thread',1);
+        that.option.thread = that.o.params.get('thread',1);
         //正在下载线程数
         that.option.currentDownloadThread = 0;
         //单个文件请求超时时间
-        that.option.timeout = that.common.params.get('timeout',30);
+        that.option.timeout = that.o.params.get('timeout',30);
         //是否将base64转为图片,默认不转
-        that.option.base64ToPng = that.common.params.get('base64',false);
+        that.option.base64ToPng = that.o.params.get('base64',false);
         //下载层级
-        that.option.level = that.common.params.get('level',3);
+        that.option.level = that.o.params.get('level',3);
         //默认编码,不管指定什么编码,都会自动查找修正
-        that.option.charset = that.common.params.get('charset',"utf8");
+        that.option.charset = that.o.params.get('charset',"utf8");
 
 
         //用来存放线程下载临时队列数据
@@ -57,22 +57,22 @@ class index {
         5.如果还有队列,将继续启动下载器.
         */
         //取得最基本的的保存地址,之后各文件的保存地址都要和此地址相连接
-        that.option.copyWebBasicSavePath = that.common.params.get('save',null,true);
+        that.option.copyWebBasicSavePath = that.o.params.get('save',null,true);
 
-        if(!that.option.copyWebBasicSavePath || !that.common.core.file.isDirSync(that.option.copyWebBasicSavePath) ){
+        if(!that.option.copyWebBasicSavePath || !that.o.tool.file.isDirSync(that.option.copyWebBasicSavePath) ){
             let
-            devRoot = that.common.config.devEnv.root
+            devRoot = that.o.config.devEnv.root
             ;
-            that.option.copyWebBasicSavePath = that.common.node.path.join(devRoot,that.conf.extend.save);
+            that.option.copyWebBasicSavePath = that.o.node.path.join(devRoot,that.conf.extend.save);
         }
 
         //url的基地址
-        that.option.basicURL = that.common.core.network.formatUrl(that.option.copyWebBaseDownloadUrl );
+        that.option.basicURL = that.o.tool.network.formatUrl(that.option.copyWebBaseDownloadUrl );
         //域名协议
-        that.option.protocol = that.common.node.url.parse(that.option.basicURL).protocol;
+        that.option.protocol = that.o.node.url.parse(that.option.basicURL).protocol;
         //本次下载的基本保存地址
-        firstSavaPath = that.common.core.network.URLGetLocalSaveAddress(that.option.copyWebBaseDownloadUrl ,that.option.copyWebBasicSavePath,true,false);
-        that.option.basicSavePath = that.common.node.path.parse(firstSavaPath).dir;
+        firstSavaPath = that.o.tool.network.URLGetLocalSaveAddress(that.option.copyWebBaseDownloadUrl ,that.option.copyWebBasicSavePath,true,false);
+        that.option.basicSavePath = that.o.node.path.parse(firstSavaPath).dir;
 
         //将URL添加到下载队列
         that.option.DownloadQueueURL = new Set();
@@ -124,7 +124,7 @@ class index {
         ;
         //非静态资源
         if(!currentDowloadUrlObject.isStaticSource){
-            that.common.core.network.HTMLGet({
+            that.o.tool.network.HTMLGet({
                 url:currentDowloadUrlObject.mergeUrl,
                 timeout:that.option.timeout
 
@@ -148,7 +148,7 @@ class index {
         $cheerio,
         currentDowloadUrl = currentDowloadUrlObject.mergeUrl,//当前下载路径
         currentSavePath = currentDowloadUrlObject.savePath,//当前下载保存目录 
-        currentSaveDir = that.common.node.path.parse(currentSavePath).dir,
+        currentSaveDir = that.o.node.path.parse(currentSavePath).dir,
         currentIsStaticSource = currentDowloadUrlObject.isStaticSource,//当前是否静态资源
         sourceList = that.conf.extend.queryHTMLTag,
         //HTML内部需要分析的标签,或文件
@@ -180,7 +180,7 @@ class index {
 
                             deleteOneArray.forEach( (deleteOne) =>{
                                 let
-                                queryTagText  = `\\<\\s*${HTMLTagName}.+?${needDeleteEleTag}\\s*\\=\\s*[\\'\\"]{1}.*${that.common.core.string.strToRegText(deleteOne)}.*[\\'\\"]{1}.+?\\>`,
+                                queryTagText  = `\\<\\s*${HTMLTagName}.+?${needDeleteEleTag}\\s*\\=\\s*[\\'\\"]{1}.*${that.o.tool.string.strToRegText(deleteOne)}.*[\\'\\"]{1}.+?\\>`,
                                 queryTagReg = new RegExp(queryTagText,"ig"),
                                 needDeleteTagContents = HTMLdata.match(queryTagReg)
                                 ;
@@ -198,7 +198,7 @@ class index {
         });
 
         //先在前面替换好要替换的数据后,再使用 cheerio 加载
-        $cheerio = that.common.node.cheerio.load(HTMLdata);
+        $cheerio = that.o.node.cheerio.load(HTMLdata);
         //cheerio加载的目的是方便读取一些属性,但是对于HTML的替换没有效果
 
 
@@ -299,7 +299,7 @@ class index {
         //保存文件
         //同时减去一个线程计数
         //并同时启动一个新的下载分离器
-        that.common.core.file.writeFile(currentSavePath,HTMLdata,that.option.charset);
+        that.o.tool.file.writeFile(currentSavePath,HTMLdata,that.option.charset);
 
     }
 
@@ -313,7 +313,7 @@ class index {
         that = this,
         currentDowloadUrl = currentDowloadUrlObject.mergeUrl,//当前下载路径
         currentSavePath = currentDowloadUrlObject.savePath,//当前下载保存目录 
-        currentSaveDir = that.common.node.path.parse(currentSavePath).dir,
+        currentSaveDir = that.o.node.path.parse(currentSavePath).dir,
         currentIsStaticSource = currentDowloadUrlObject.isStaticSource,//当前是否静态资源
         queryGetAllImages = styleContent.match(/(?<=url\s*\().+?(?=\))/ig)
         ;
@@ -349,7 +349,7 @@ class index {
         ;
         let img_save_path_parse = path.parse(src_save_path);
         console.log(img_save_path_parse)
-        that.common.core.file.mkdirSync(img_save_path_parse.dir);
+        that.o.tool.file.mkdirSync(img_save_path_parse.dir);
         request.head(http_src, function (err, res, body) {
             if (err) {
                 console.log(err);
@@ -380,7 +380,7 @@ class index {
         } = option;
 
         let
-        privateQueryField = that.common.core.string.trim(queryField),
+        privateQueryField = that.o.tool.string.trim(queryField),
         //将原代码本地化后的代码
         transformCode = privateQueryField,
         //绝对路径地址 //开头
@@ -404,10 +404,10 @@ class index {
         if( !isDataBase64 ){
 
 
-            mergeUrlObject = that.common.core.network.formatUrlAndGetIsSuper(privateQueryField,currentDowloadUrl);
+            mergeUrlObject = that.o.tool.network.formatUrlAndGetIsSuper(privateQueryField,currentDowloadUrl);
             mergeUrl = mergeUrlObject.downloadUrl;
             isSuper = mergeUrlObject.isSuper;
-            sourceUrlDownloadSavaPath = that.common.core.network.URLGetLocalSaveAddress(mergeUrl,null,true);
+            sourceUrlDownloadSavaPath = that.o.tool.network.URLGetLocalSaveAddress(mergeUrl,null,true);
 
 
             if(testCondition){
@@ -415,8 +415,8 @@ class index {
             }
 
             let
-            mergeUrlParse = that.common.node.url.parse( mergeUrl ),
-            basicUrlParse = that.common.node.url.parse( that.option.basicURL )
+            mergeUrlParse = that.o.node.url.parse( mergeUrl ),
+            basicUrlParse = that.o.node.url.parse( that.option.basicURL )
             ;
 
             if(mergeUrlParse.hostname != basicUrlParse.hostname){
@@ -424,30 +424,30 @@ class index {
             }
 
             //将替换代码修改为路径 
-            transformCode = that.common.node.url.parse(mergeUrl).pathname;
+            transformCode = that.o.node.url.parse(mergeUrl).pathname;
 
             //如果是顶级目录,则和根路径连接
             if(isSuper){
                 transformCode = "/"+sourceUrlDownloadSavaPath.replace(/^\//,``);
-                sourceUrlDownloadSavaPath = that.common.node.path.join( that.option.basicSavePath ,sourceUrlDownloadSavaPath);
+                sourceUrlDownloadSavaPath = that.o.node.path.join( that.option.basicSavePath ,sourceUrlDownloadSavaPath);
             }else{
                 if(!isRelativeUrl){
 
                     let
                     pathParentSymbol = privateQueryField.replace(/\w.+$/,``),
                     //检查是否达到顶层
-                    isPathTop = that.common.node.path.join(currentSaveDir,pathParentSymbol).length < currentSaveDir.length
+                    isPathTop = that.o.node.path.join(currentSaveDir,pathParentSymbol).length < currentSaveDir.length
                     ;
                     //达到顶级时 ../ 不能再作合成.因此最高只能以顶级域名为根目录
                     if(isPathTop){
                         privateQueryField = privateQueryField.replace(/^[\.\/\\]+/,``);
                     }
-                    sourceUrlDownloadSavaPath = that.common.node.path.join(currentSaveDir,privateQueryField.replace(/\?.+$/,``));
+                    sourceUrlDownloadSavaPath = that.o.node.path.join(currentSaveDir,privateQueryField.replace(/\?.+$/,``));
                     //如果是..开头的相对路径则不用替换
                     transformCode = privateQueryField;
                 } else {
                     transformCode = transformCode.replace(/^\/+/,``);
-                    sourceUrlDownloadSavaPath = that.common.node.path.join(currentSaveDir,sourceUrlDownloadSavaPath);
+                    sourceUrlDownloadSavaPath = that.o.node.path.join(currentSaveDir,sourceUrlDownloadSavaPath);
                 }
             }
 
@@ -462,10 +462,10 @@ class index {
 
                 while(level >= 0){
                     level -- ;
-                    checkUrlLevel = that.common.node.path.join(checkUrlLevel,"../");
+                    checkUrlLevel = that.o.node.path.join(checkUrlLevel,"../");
                 }
                 //超出层级
-                pageLevelNotOverflow = /[\.\\\/]+$/.test(that.common.node.path.parse(checkUrlLevel).base);
+                pageLevelNotOverflow = /[\.\\\/]+$/.test(that.o.node.path.parse(checkUrlLevel).base);
             }
 
             if( (isStaticSource || isHomologousDomain) && pageLevelNotOverflow /*超出层级则不添加*/){
@@ -487,15 +487,15 @@ class index {
 
                 let
                 base64 = privateQueryField.replace(/^data:image\/\w+;base64,/, ""),
-                imageFileName = that.common.core.encrypt.md5(base64)+".png",
+                imageFileName = that.o.tool.encrypt.md5(base64)+".png",
                 base64Buffer = Buffer.alloc(base64.length,base64, 'base64')
                 ;
 
-                sourceUrlDownloadSavaPath = that.common.node.path.join(currentSaveDir,imageFileName);
+                sourceUrlDownloadSavaPath = that.o.node.path.join(currentSaveDir,imageFileName);
                 transformCode = `${imageFileName}`;
 
                 if(Buffer.isBuffer(base64Buffer)){
-                    that.common.core.file.writeFile(sourceUrlDownloadSavaPath,base64Buffer)
+                    that.o.tool.file.writeFile(sourceUrlDownloadSavaPath,base64Buffer)
                }
             }
         }

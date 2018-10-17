@@ -1,7 +1,7 @@
 class _phpC{
-	constructor(common){
-		common.get_core("console");
-		common.get_core("module");
+	constructor(o){
+		
+		
 	}
 
 	run(callback){
@@ -11,7 +11,7 @@ class _phpC{
 		that = this
 		;
 
-		that.common.core.console.info(`start config software in ${that.option.softinfo.name}`,2);
+		that.o.tool.console.info(`start config software in ${that.option.softinfo.name}`,2);
 
         let 
         opt = [
@@ -21,11 +21,11 @@ class _phpC{
             "--php"
         ]
         ;
-        that.common.core.module.runModule(`command`,opt,()=>{
+        that.o.tool.module.runModule(`command`,opt,()=>{
 			/*
 			successfully
 			*/
-			that.common.core.console.success(`Software ${that.option.softinfo.name} installed successfully`);
+			that.o.tool.console.success(`Software ${that.option.softinfo.name} installed successfully`);
 			if(callback){
 				callback();
 			}

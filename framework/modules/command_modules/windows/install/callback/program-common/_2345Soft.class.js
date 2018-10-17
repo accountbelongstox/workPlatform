@@ -1,6 +1,6 @@
 class __2345SoftC{
-	constructor(common){
-		common.get_core("console");
+	constructor(o){
+		
 	}
 
 	run(callback){
@@ -10,12 +10,12 @@ class __2345SoftC{
 		that = this
 		;
 
-		that.common.core.console.info(`start config software in _2345Soft`,4);
+		that.o.tool.console.info(`start config software in _2345Soft`,4);
 
 		/*
 		successfully
 		*/
-		that.common.core.console.success(`Software _2345Soft installed successfully`);
+		that.o.tool.console.success(`Software _2345Soft installed successfully`);
 		if(callback){
 			callback();
 		}
