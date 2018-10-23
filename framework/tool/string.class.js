@@ -60,6 +60,17 @@ class stringC{
         return len;
     }
 
+    isNumber(n){
+        if( !(/^\d/.test(n))){
+            return null;
+        }
+        n = new Number(n);
+        if(n === n){
+            return n;
+        }else{
+            return null;
+        }
+    }
     /*
     @func 清洁字符串
     */

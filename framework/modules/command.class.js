@@ -18,7 +18,9 @@ class CC{
 
         if( that.o.tool.windows.IsAdmin() ){
             //运行一个命令行模型
-            that.o.tool.module.runModule(`command`,parameters);
+            that.o.tool.module.runModule(parameters,null,()=>{
+                that.o.tool.console.info("\r\n -- end!",6);
+            },true/*代表是命令行模式运行*/);
         }else{
             that.o.tool.console.error("This is not run as administrator.");
         }

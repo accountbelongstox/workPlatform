@@ -4,7 +4,7 @@ class timeC{
      * @tools 创建格式化时间
      * @params fmt false/转为时间戳  string/转为对应格式
      */
-    format(fmt,thisDate=new Date()){
+     format(fmt,thisDate=new Date()){
         let
             timestamp = false
         ;
@@ -30,7 +30,16 @@ class timeC{
         if(timestamp){
             fmt = thisDate.getTime()/1000;
         }else{
-            var o = {
+            let 
+            isTime = (`getMonth` in thisDate) ? true : null
+            ;
+
+            //不是时间格式 
+            if(!isTime){
+                return isTime;
+            }
+            let
+            o = {
                 "M+": thisDate.getMonth() + 1, //月份
                 "d+": thisDate.getDate(), //日
                 "h+": thisDate.getHours(), //小时
@@ -42,11 +51,11 @@ class timeC{
             if (/(y+)/.test(fmt)){
                 fmt = fmt.replace(RegExp.$1, (thisDate.getFullYear() + "").substr(4 - RegExp.$1.length));
             }
-            for (var k in o){
+            for (let k in o){
                 if (new RegExp("(" + k + ")","i").test(fmt)){
                     fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
                 }
-            }
+            } 
         }
         return fmt;
     }

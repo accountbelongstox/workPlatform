@@ -72,7 +72,6 @@ class compiler{
                     });
                 }
             });
-
             that.writeComplierHtmlSync(compiler_file,html,replaceArr,callback);
         });
     }

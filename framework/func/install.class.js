@@ -21,8 +21,7 @@ class installC{
         that.option.programFiles = that.option.workDir.programFiles;
         //工作目录
         that.option.workroomDir = that.option.workDir.workroom;
-
-        that.option.conf = that.o.config_load[`windows.install`];
+        that.option.conf = that.o.config_load(`windows.install`);
 
 	}
 
@@ -38,13 +37,10 @@ class installC{
             installList = that.o.support.install,
             callbackBaseDir = that.o.node.path.join(that.o.path.command_modules,`wintools/install`)
         ;
-
         for(let p in installList){
-
 	        let 
 	            installTypeOne = installList[p].list
 	        ;
-
             for(let o in installTypeOne ){
 		        let 
 		            installSoftOne = installTypeOne[o],
@@ -126,6 +122,7 @@ class installC{
         }
     }
 
+
     /*
     @func 根据安装路径取得app安装地址
     */
@@ -133,7 +130,7 @@ class installC{
         let 
         that = this,
         //满足条件则被 安装到程序目录下
-        installToDir=that.option.conf.extend.installToDir,
+        installToDir = that.option.conf.extend.installToDir,
         appBaseDir_ = that.option.applicationDir,
         insatllDir = ``,
         installPath = `${softInfo.group}/`
@@ -799,7 +796,6 @@ class installC{
             };
             softinfo.option = null;
             callbackClass.option.softinfo = softinfo;
-
             //回调前判断是否需要配置初始化
             if(configCallback){
                 let

@@ -1,15 +1,6 @@
 class developC{
 	constructor(o){
-        
-        
-        
-        
-        
 
-        
-        
-
-        
         
     }
 
@@ -17,6 +8,7 @@ class developC{
         let
             that = this
         ;
+        //console.log(that);
         that.o.node.readLine = that.o.node.readline.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -25,7 +17,7 @@ class developC{
     /**
      * @func 添加一个网站
      */
-    addweb(){
+    addweb(args,callback){
         let
             that = this,
             domain = that.o.params.get(`domain`),
@@ -81,8 +73,7 @@ class developC{
                     }
                 }
                 //运行SQLITE数据库
-                that.o.tool.sqlite.run();
-                that.o.tool.sqlite.isTable(tableName,true,(exists)=>{
+                that.o.tool.database_json.isTable(tableName,true,(exists)=>{
                     let
                         domains = null
                     ;
@@ -91,10 +82,11 @@ class developC{
                     }
                     let
                         queryDomain = {
-                            domain:domains.domain
+                            domain:domains.domain,
+                            c:"fdsf"
                         }
                     ;
-                    that.o.tool.sqlite.query(tableName,queryDomain,(result)=>{
+                    that.o.tool.database_json.query(tableName,queryDomain,`aaa,bbb`,(result)=>{
                         if(!result){
                             let
                                 addDomain = {
@@ -104,7 +96,7 @@ class developC{
                                     java:``
                                 }
                             ;
-                            that.o.tool.sqlite.add(tableName,addDomain,(info)=>{
+                            that.o.tool.database_json.add(tableName,addDomain,(info)=>{
                                 addConfigFile();
                             });
                         }else{
@@ -118,7 +110,7 @@ class developC{
                             oneWeb = domainConf[p]
                         ;
                         let
-                            wwwroot = that.o.tool.file.pathFormat(oneWeb.dir),
+                            wwwroot = that.o.tool.file.pathFormat(oneWeb.dir,"public_html"),
                             confVHosts = `# Created At, ${that.o.tool.time.format()}
 <VirtualHost *:80>
     Include ${oneWeb.phpConf}
@@ -143,6 +135,7 @@ class developC{
                     that.o.node.readLine.close();
                     that.o.tool.windows.restartService("httpd",(err)=>{
                         that.o.node.readLine.close();
+                        if(callback)callback();
                     });
                 }
             }

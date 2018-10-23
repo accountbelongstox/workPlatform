@@ -14,7 +14,7 @@ class configC_{
 		    platform:that.load(`platform`),
 		    framwork:{
 		        modules:{//framwork下的模型配置
-		            ddrun_modules:{
+		            command:{// 命令行执行时必须满
 	                    mustParamsIsOne:true,//表示必要的参数
 	                    description:`命令行模块`,
 	                    mustParams : {//必要的命令参数
@@ -24,9 +24,6 @@ class configC_{
                             copyweb:that.load(`copyweb`),
                             develop:that.load(`develop`)
 	                    }
-		            },
-		            electron_modules:{
-		            	
 		            }
 		        }
 		    }

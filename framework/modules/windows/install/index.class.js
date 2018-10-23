@@ -1,10 +1,10 @@
 
 class index{
-    //
     constructor(o){
+
     }
 
-    run(callback){
+    run(){
         let
             that = this
         ;
@@ -32,7 +32,6 @@ class index{
         that.option.softlist = that.list(false);
     }
 
-
     /*
     @func 安装一个软件
     */
@@ -42,7 +41,6 @@ class index{
         ;
         return that.onesoft(callback,softname,force);
     }
-
     /*
     @func 安装一个软件
     */
@@ -73,6 +71,7 @@ class index{
                 that.o.func.install.option[ p ] = that.option[ p ]
             }
         }
+
         if(!softname){
             that.o.tool.console.error(` not find software : ${that.option.onesoft}\n please use *--list* qurey soft list.`);
             that.query(callback,that.option.onesoft);
@@ -217,18 +216,18 @@ class index{
                             //如果软件是压缩文件,则先提取解压,再查找内部是否有setup.exe安装文件,如果有则执行安装文件
                         }else if(that.o.tool.file.isZipFile(softdir)){
                             let
-                                zipOpt =[
-                                    `zip`,
+                                args =[
                                     xTarget,
                                     `file:"${softdir}"`,
                                     `target:"${softinfo.applicationDir}"`
                                 ],
-                                zipModule = that.o.tool.module.getModule(`command`,zipOpt),
+                                zipModule = that.o.tool.module.getModule(`zip`,args),
                                 applicationDirExists = (that.o.node.fs.existsSync(softinfo.applicationDir) && !softinfo.setupInstall)
                             ;
                             if(applicationDirExists && force){
                                 that.o.tool.file.deleteSync(softinfo.applicationDir);
                             }
+                            console.log(zipModule);
                             //快速安装,不执行解压解压
                             (force || !applicationDirExists) ? zipModule.option.run = true : zipModule.option.run = false;
                             applicationDirExists = that.o.node.fs.existsSync(softinfo.applicationDir);

@@ -144,7 +144,9 @@ class sqliteC{
                     }
                 }else if(typeof values === "string"){
                     if(values){
-                        valuesArr.push(values);
+                        values.split(`,`).forEach((v)=>{
+                            valuesArr.push(v);
+                        });
                     }
                 }else if(that.o.tool.array.isArray(values)){
                     values.forEach((table)=>{

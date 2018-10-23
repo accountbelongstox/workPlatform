@@ -100,7 +100,7 @@ class moduleC{
     getCommandModuleNames(){
         let
             that = this,
-            moduleNames = that.o.node.fs.readdirSync(that.o.path.command_modules)
+            moduleNames = that.o.node.fs.readdirSync(that.o.path.modules)
         ;
         return moduleNames;
     }

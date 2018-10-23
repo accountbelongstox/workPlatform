@@ -6,6 +6,9 @@ class commonC{
         let
             that = this
         ;
+        if(!that.option){
+            that.option = {};
+        }
         //将调用此参数时传入的值都赋给类
         for(let p in object){
             that.option[p] = object[p];
@@ -25,7 +28,6 @@ class commonC{
             // 5.加载所有的模型
             that.get_modules();
 
-            that.option = {};
             // 3.加载所有工具类
             that.iniLoadAllCoreClass = true;
         }
