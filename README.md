@@ -6,9 +6,9 @@
 # 程序结构
 	# 主要类
 		- `that.o` 全部切面类
-		- `that.o.core` 所有核心类,核心类也可以直接在`that.o`上调用
-		- `that.o.func` 所有辅助方法类
-		- `that.o.tool` 所有核心工具类
+		- `that.load.core` 所有核心类,核心类也可以直接在`that.o`上调用
+		- `that.load.func` 所有辅助方法类
+		- `that.load.tool` 所有核心工具类
 
 	# 主要方法
-		- `that.o.core.appPath` 程序的全部主要路径集合
+		- `that.load.core.appPath` 程序的全部主要路径集合
