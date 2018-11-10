@@ -34,7 +34,6 @@ class compiler{
             })();
 		`
         ;
-        console.log(script);
         return script;
 
     }
