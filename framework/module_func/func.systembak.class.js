@@ -316,7 +316,7 @@ class systembakC{
     initnodejs(){
         let
             that = this,
-            apps = that.load.core.path.apps,
+            apps = that.load.path.apps,
             nodeJsPath = that.load.node.path.join(apps,"nodejs/"),
             requireInstall = that.option.extend.extend.requireInstall
         ;
@@ -371,7 +371,7 @@ class systembakC{
             //设置 framework 下 apps 基本的PATH
             //NODE.js等
             let
-                appsPath = that.load.core.path.apps,
+                appsPath = that.load.path.apps,
                 apps = that.load.node.fs.readdirSync(appsPath),
                 envObject = {
                     path : []

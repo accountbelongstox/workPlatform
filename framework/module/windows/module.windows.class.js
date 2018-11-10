@@ -266,11 +266,11 @@ if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )`
                 }
             }
             hostsContent = hostsContentArray.join(EOL);
-            that.load.module.console.success(`Set hosts in => ${keyValues} `);
+            that.load.console.success(`Set hosts in => ${keyValues} `);
             that.load.module.file.writeFileSync(hostsDir,hostsContent);
             result = true;
         }else{
-            that.load.module.console.error(`Not find set Key or Value ...`);
+            that.load.console.error(`Not find set Key or Value ...`);
         }
         if(callback){
             callback(result);
@@ -389,14 +389,14 @@ if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )`
                             setEnvValues = that.load.module.array.unique(setEnvValues);
                             //得出最终要设置的值
                             setEnvValue = setEnvValues.join(`;`);
-                            that.load.module.console.info(`SET ENVIRONMENT ${setEnvName} => ${setEnvValue}\n`,4);
+                            that.load.console.info(`SET ENVIRONMENT ${setEnvName} => ${setEnvValue}\n`,4);
                             //检查是否有重复的值
                         }else{
                             //如果没有重复 比添加添 JAVA_HOME 原环境变量中并没有
                             //得出最终要设置的值
                             setEnvValues = that.load.module.array.unique(setEnvValues);
                             setEnvValue = setEnvValues.join(`;`);
-                            that.load.module.console.info(`ADD ENVIRONMENT ${setEnvName} => ${setEnvValue}\n`,4);
+                            that.load.console.info(`ADD ENVIRONMENT ${setEnvName} => ${setEnvValue}\n`,4);
                         }
                         //此命令用于刷新环境变量,变量存在时需要先执行
                         commands.push(`wmic ENVIRONMENT where "name='${setEnvName}'" delete`);
@@ -861,7 +861,7 @@ if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )`
 
                         if(LinkParse.dir){
                             if(!ProgramsDir){
-                                that.load.module.console.error(`Not find ProgramsDir.`);
+                                that.load.console.error(`Not find ProgramsDir.`);
                                 shortcut(++i);
                                 return;
                             }
@@ -898,7 +898,7 @@ if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )`
                         that.load.module.file.mkdirSync(tmpDir);
                         if( deleteTempBak )commands.push(`del /f /q "${tmpVbs}"`);
                         result.push(application);
-                        that.load.module.console.info(`create ${Target} to ${ProgramsDir}`,4);
+                        that.load.console.info(`create ${Target} to ${ProgramsDir}`,4);
                         console.log(application);
                         that.load.module.func.exec(commands,()=>{
                             shortcutTypeFunc(++shortcutTypeLen);

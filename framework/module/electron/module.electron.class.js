@@ -6,25 +6,23 @@ class electronIpcMain{
     //创建一个窗口
     createWindow(){
         let
-            //此处的 that 来源于 electron.app 的赋值.因为该值在App 里不能直接调用
-            that = this.that,
+            that = this.that,//此处的 that 来源于 electron.app 的赋值.因为该值在App 里不能直接调用
             BrowserWindow = that.load.node.electron.BrowserWindow,
-            Menu = that.load.node.electron.Menu,
-            htmlUrl =  that.load.node.path.join(that.load.core.path.html_template,`${that.option.loadURLName}/index.html`)
+            Menu = that.load.node.electron.Menu
         ;
         //创建浏览器窗口
         that.load.window = new BrowserWindow({
-            width: 1350,
-            minWidth : 1350,
-            height: 1002,
-            minHeight : 1002,
-            frame: false,
-            autoHideMenuBar: true,
+            width: that.option.width,
+            minWidth: that.option.minWidth,
+            height: that.option.height,
+            minHeight: that.option.minHeight,
+            frame: that.option.frame,
+            autoHideMenuBar: that.option.autoHideMenuBar
         });
 
         Menu.setApplicationMenu(null);
 
-        that.load.module.electron_compiler.build(htmlUrl,function(buildHTML){
+        that.load.module.electron_compiler.build(that.option.url,function(buildHTML){
             // 加载应用的 index.html
             that.load.window.loadURL(that.load.node.url.format({
                 pathname: buildHTML,
@@ -42,11 +40,50 @@ class electronIpcMain{
     }
 
     //初始化
-    init(loadURLName){
+    init(object){
         let
-            that = this
+            that = this,
+            get = (name,v=null)=>{
+                if(object && object[name]){
+                    return object[name];
+                }else{
+                    return v;
+                }
+            },
+            url = get(`url`),
+            width = get(`width`,1350),
+            height = get(`height`,1002),
+            minWidth = get(`minWidth`,width),
+            minHeight = get(`minHeight`,height),
+            frame = get(`frame`,false),
+            autoHideMenuBar = get(`autoHideMenuBar`,true)
         ;
-        that.option.loadURLName = loadURLName;
+        that.option.url = (()=>{
+            if(!url){
+                that.load.console.error(`not electron page index.html`);
+                throw (new Error(`not electron page index.html `));
+            }
+            let
+                full_path = that.load.node.path.join(that.load.path.html_template,`/${url}`),
+                index_path = that.load.node.path.join(that.load.path.html_template,`/${url}/index.html`)
+            ;
+            if(that.load.module.file.isFileSync(full_path)){
+                return full_path;
+            }else if(that.load.module.file.isFileSync(index_path)){
+                return index_path;
+            }else{
+                that.load.console.error(`not find electron page index.html in ${index_path}`);
+                throw (new Error(`not find electron page index.html `));
+            }
+        })();
+
+        that.option.width = width;
+        that.option.height = height;
+        that.option.minWidth = minWidth;
+        that.option.minHeight = minHeight;
+        that.option.frame = frame;
+        that.option.autoHideMenuBar = autoHideMenuBar;
+
         that.load.node.electron.app.that = that;
         // 当Electron完成初始化并准备创建浏览器窗口时调用此方法
         // 部分 API 只能使用于 ready 事件触发后。
@@ -61,14 +98,14 @@ class electronIpcMain{
         that.load.node.electron.app.on('activate', () => {
             // macOS中点击Dock图标时没有已打开的其余应用窗口时,则通常在应用中重建一个窗口
             if (that.load.window === null) {
-                that.createWindow();
+                that.createWindow(that);
             }
         });
     }
 
 
     //监听事件
-    //绑定格式   class ="electron-ipc-xxxx"
+    //绑定格式   class="electron-ipc-xxxx"
     //数据传递   data-electron-ipc-args="xxx|xxx"
     //回调函数   data-electron-ipc-callback="xxx|xxx"
     HTMLListener(){

@@ -1,7 +1,15 @@
 class arrayC{
-	
-    //数组功能 -----------------------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * @func 将数组打乱 / 乱序
+     * @param arr
+     * @returns {Array|*|void}
+     */
+    upset(arr){
+        return arr.sort(function(){
+            return Math.random() > .5 ? -1 : 1;
+        });
+    }
     /*
     @func 数组去重复
     */
@@ -10,9 +18,9 @@ class arrayC{
             sourceArr = arr
         ;
         arr.forEach((item,index)=>{
-           if(typeof item === "string"){
-               arr[index] = item.toLowerCase();
-           }
+            if(typeof item === "string"){
+                arr[index] = item.toLowerCase();
+            }
         });
         let
             newArr = Array.from(new Set(arr))
@@ -27,8 +35,16 @@ class arrayC{
         return newArr;
     }
 
+    //大数组去重
+    unique_big(array){
+        let
+            that = this
+        ;
+        return Array.from(new Set(array));
+    }
+
     /*
-    @func 数组去空  
+    @func 数组去空
     */
     filter(arr){
         arr = arr.filter(item=>item);
@@ -48,8 +64,8 @@ class arrayC{
      * @returns {null|[int start,int end]}
      */
     arrInArrAtContinue(inArr,arr){
-        let 
-        a,b,_inArr
+        let
+            a,b,_inArr
         ;
 
         if(arr.length > inArr.length)return null;
@@ -99,8 +115,8 @@ class arrayC{
     iterator(arr){
         function iteratorFun(a){
             let i =(function(_a){
-                    return _a[Symbol.iterator]();
-                })(a);
+                return _a[Symbol.iterator]();
+            })(a);
             return i;
         }
         let iterator = new iteratorFun(arr);
@@ -111,9 +127,9 @@ class arrayC{
     @func 在数组中查找
     */
     find(arr,str,symbol=false/*不区分大小写*/){
-        let 
-        resulte = null,
-        tmpItem = null
+        let
+            resulte = null,
+            tmpItem = null
         ;
         arr.forEach((item,index)=>{
             if(symbol){
@@ -133,9 +149,9 @@ class arrayC{
     @func 在数组中查找 不区分大小写
     */
     findX(arr,str/*不区分大小写*/){
-        let 
-        resulte = null,
-        tmpItem = null
+        let
+            resulte = null,
+            tmpItem = null
         ;
         arr.forEach((item,index)=>{
             tmpItem = item;
@@ -153,8 +169,8 @@ class arrayC{
     @func 将一个对象转为数组
     */
     toArray(obj){
-        let 
-        objtype = (typeof obj)
+        let
+            objtype = (typeof obj)
         ;
         if(objtype === "string" || objtype === "boolean")return [obj];
         if(obj instanceof Array)return obj;
@@ -213,7 +229,7 @@ class arrayC{
         let
             r = false
         ;
-        if(arr instanceof Array){
+        if(arr && arr instanceof Array){
             r = true;
         }
         return r;
@@ -280,6 +296,37 @@ class arrayC{
             }
         }
         return r;
+    }
+
+    newArray(arr){
+        let
+            f = function (a){
+                this.o = a;
+                return this.o;
+            },
+            na = new f(arr)
+        ;
+        return na;
+    }
+
+    /**
+     * @func 判断数组是否为空
+     * @param arr
+     */
+    empty(arr){
+        let
+            that = this,
+            is_empty = true
+        ;
+        if(arr && arr.length){
+            arr.forEach((item)=>{
+                if(item){
+                    is_empty = false;
+                    return;
+                }
+            });
+        }
+        return is_empty;
     }
 }
 

@@ -10,7 +10,7 @@ class __2345SoftC{
 		that = this
 		;
 
-		that.load.module.console.info(`start config software in _2345Soft`,4);
+		that.load.console.info(`start config software in _2345Soft`,4);
 
 		/*
 		successfully

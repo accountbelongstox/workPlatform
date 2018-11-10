@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<title>抓取程序 - QQ 8718538</title>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<!--[if IE 8]><link href="css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plugins/charts/excanvas.min.js"></script>
+<script type="text/javascript" src="js/files/bootstrap.min.js"></script>
+</head>
+<body >
+	<!-- Fixed top -->
+	<div id="top" style=" -webkit-app-region: drag;-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;">
+		<div class="fixed" style="border-bottom: none;border-top: 2px solid #ef705b;">
+			<a href="javascript:void(0);"  title="" class="logo"><img style="height: 20px;" src="img/logo.png" alt="" /></a>
+			<ul class="top-menu" style="float: left;">
+				<li class="dropdown">
+					<a class="user-menu" data-toggle="dropdown"><span style="margin-left: 0px;" > 定制数据抓取程序 - QQ 8718538  <font id="currengVersionShow"></font> </span></a>
+				</li>
+			</ul>
+			<ul class="top-menu" style="-webkit-app-region: no-drag">
+				<li class="dropdown">
+					<a class="user-menu" data-toggle="dropdown"><img src="img/userpic.png" w alt="" /><span> 授权成功! <b class="caret"></b></span></a>
+				</li>
+				<li class="dropdown" >
+					<a class="user-menu e-c-check_update" data-toggle="dropdown" id="checkUpdate">检查更新!</a>
+				</li>
+				<li id="version_li" style="display: none;">
+					<div class="top-info" style="margin: 8px 0 0 0;padding: 0 15px;">
+						<a href="javascript:;" title="" class="green-square electron-click-softwareupdate"><i class="icon-arrow-up"></i></a>
+						<strong style="color: #ef705b; font-size: 12px; text-shadow: none;" id="softupdateInfo">升级新版本!</strong>
+					</div>
+					<div class="progress progress-micro" style=" display: none;   margin-top: 3px;" id="progress"><div class="bar" style="width: 0%;"></div></div>
+				</li>
+				<li><a class="fullview electron-ipc-windowmaxmin"></a></li>
+				<li><a class="fullview electron-ipc-quit" style="background: url('img/elements/uploader/deleteFile.png') no-repeat 50% 16px;"></a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="container">
+
+		<!-- Sidebar -->
+		<div id="sidebar" style="margin-right: 0;-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;">
+
+			<div class="sidebar-tabs">
+				<ul class="tabs-nav two-items">
+					<div class="input-prepend">
+						<div class="btn-group open" style="width: 100%;">
+							<button class="btn btn-warning electron-click-show_support_webs"  style="width: 100%;" >选择/切换 网站<span class="caret dd-caret"></span></button>
+							<ul class="dropdown-menu" id="selectSupportWeb" style="width: 501px;">
+								<li><a href="#"><i class="icon-cogs"></i>载入中...</a></li>
+							</ul>
+						</div>
+					</div>
+				</ul>
+
+				<div id="general">
+					<div class="widget" style="height: 260px;">
+						<button class="btn btn-block btn-success e-c-get_website" id="getWeb">进入网站 / 强刷</button>
+						<button type="button" class="btn btn-block btn-success e-c-read_data" id="readData" style="display: none;">开始读取</button>
+						<button type="button" class="btn btn-block btn-warning e-c-stop_read_data" id="stopReadData" style="display: none;">中止读取</button>
+						<button type="button" style="display: none;" class="btn btn-block btn-success  electron-click-save_data" id="saveData">保存数据</button>
+					</div>
+					<!-- Sidebar user -->
+					<div class="sidebar-user widget">
+						<div class="navbar"><div class="navbar-inner"><h6>站点信息</h6></div></div>
+						<ul class="user-links">
+							<li><a href="javascript:;" title="">预设账号 <button class="btn btn-info">设置</button><strong>+12</strong></a></li>
+							<li><a href="javascript:;" title="">密码字典<strong>+156</strong></a></li>
+							<li><a href="javascript:;" title="">New messages<strong>+45</strong></a></li>
+						</ul>
+					</div>
+					<!-- /sidebar user -->
+
+
+					<!-- Main navigation -->
+					<ul class="navigation widget" style="display: none;">
+						<li class="active"><a href="index.html" title=""><i class="icon-home"></i>Dashboard</a></li>
+						<li><a href="#" title="" class="expand"><i class="icon-reorder"></i>Form elements<strong>3</strong></a>
+							<ul>
+								<li><a href="forms.html" title="">Form components</a></li>
+								<li><a href="wysiwyg.html" title="">WYSIWYG editor</a></li>
+								<li><a href="form_wizards.html" title="">Wizards</a></li>
+							</ul>
+						</li>
+					</ul>
+					<!-- /main navigation -->
+
+				</div>
+
+
+			</div>
+		</div>
+		<!-- /sidebar -->
+
+
+		<!-- Content -->
+		<div id="content">
+
+			<!-- Content wrapper -->
+			<div class="wrapper">
+
+				<!-- Breadcrumbs line -->
+				<div class="crumbs" style="-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;">
+					<ul class="alt-buttons" style="float: left;">
+
+						<li class="dropdown" style="width: 180px;"><a href="#" title="" data-toggle="dropdown"><i class="ico-play"></i><span id="currentReadData">抓取分类</span> <strong></strong></a>
+							<ul class="dropdown-menu pull-left" id="selectReadData">
+								<li><a href="javascript:;" title=""><i class="icon-plus"></i>Add new task</a></li>
+							</ul>
+						</li>
+
+						<li class="dropdown"><a href="#" title="" data-toggle="dropdown"><i class="icon-comments"></i><span>抓取历史</span> <strong>(3 次)</strong></a>
+							<ul class="dropdown-menu pull-left">
+								<li><a href="#" title=""><i class="icon-plus"></i>Add new task</a></li>
+								<li><a href="#" title=""><i class="icon-reorder"></i>Statement</a></li>
+								<li><a href="#" title=""><i class="icon-cog"></i>Settings</a></li>
+							</ul>
+						</li>
+						<li class="dropdown"><a href="#" title="" data-toggle="dropdown"><i class="icon-tasks"></i><span>密码破解</span> <strong>(3 运行)</strong></a>
+							<ul class="dropdown-menu pull-left">
+								<li><a href="javascript:;" class="e-c-translate_pwd" title=""><i class="icon-plus"></i>Add new task</a></li>
+								<li><a href="#" title=""><i class="icon-reorder"></i>Statement</a></li>
+								<li><a href="#" title=""><i class="icon-cog"></i>Settings</a></li>
+							</ul>
+						</li>
+
+						<li>
+
+							<input type="button" class="btn btn-success" value="一键全部抓取">
+							<input type="button" class="btn btn-success" value="同步远程数据库">
+							<button class="btn  btn-info">设置一键抓取站点</button>
+						</li>
+					</ul>
+				</div>
+				<!-- /breadcrumbs line -->
+				<!-- Page header -->
+				<div class="page-header" style="-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;">
+					<div class="widget" style="margin: 0;">
+						<div class="well body" style="border:none;    padding: 15px 0;">
+							<pre class="pre-scrollable prettyprint linenums" style="overflow-x: hidden; overflow-y: scroll;height: 60px;">
+								<ol class="linenums" id="info" ></ol></pre>
+						</div>
+					</div>
+					<div class="page-title" style="margin: 0;padding: 0;">
+
+						<h6 class="widget-name" style=" width: 400px;   overflow: hidden;"><i class="icon-globe"></i><font id="supportWeb" style="    width: 90%;float: left;">...</font></h6>
+						<div class="alert margin" style="padding: 4px 35px;display: none;margin: 0;" id="notTheFnInfo">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							功能还不支持此网站
+						</div>
+
+					</div>
+					<ul class="page-stats" style="margin: 0;padding:0;">
+						<li style="width: 300px;">
+							<div class="showcase">
+								<img id="statusIcon" src="img/icons/top/messages.png" width="16" height="16" alt=""  style="margin-right: 10px;"/><span id="status">等待! </span>
+							</div>
+						</li>
+
+
+						<li >
+							<div class="general-stats widget" style="margin:0;">
+								<ul class="head">
+									<li style="width: 33%; margin: 0; padding: 0;background: #4444;  color: #000000;  border: none;"><span>当前</span></li>
+									<li style="width: 33%; margin: 0; padding: 0;background: green;    border: none;"><span>总量</span></li>
+									<li style="width: 34%; margin: 0; padding: 0;    border: none;"><span>今日</span></li>
+								</ul>
+								<ul class="body">
+									<li><strong id="getDataCurrentCount">0</strong></li>
+									<li><strong id="getDataCount">0</strong></li>
+									<li><strong id="getDataToDayCount">0</strong></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!-- /page header -->
+
+				<!-- Action tabs -->
+				<div class="actions-wrapper" style="margin: 0;">
+					<!-- Content container -->
+					<div class="row-fluid" style="height:840px;background: #fefefe;border: 1px solid #d5d5d5;overflow: hidden;">
+						<webview style="height:840px;overflow: hidden;" id="website" src="http://www.ddweb.com.cn" allowpopups ></webview>
+					</div>
+
+				</div>
+
+				<div style="position: absolute; left: 0; top: 195px; z-index: 99999; background: #fff; width: 100%;display: none;">
+
+					<h5 class="widget-name"><i class="icon-th"></i>Media table</h5>
+
+					<!-- Media datatable -->
+					<div class="widget">
+						<div class="navbar">
+							<div class="navbar-inner">
+								<h6>Media table</h6>
+								<div class="nav pull-right">
+									<a href="#" class="dropdown-toggle navbar-icon" data-toggle="dropdown"><i class="icon-cog"></i></a>
+									<ul class="dropdown-menu pull-right">
+										<li><a href="#"><i class="icon-plus"></i>Add new option</a></li>
+										<li><a href="#"><i class="icon-reorder"></i>View statement</a></li>
+										<li><a href="#"><i class="icon-cogs"></i>Parameters</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="table-overflow">
+							<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid"><div class="datatable-header"><div class="dataTables_filter" id="DataTables_Table_0_filter"><label><span>Filter records:</span> <input type="text" aria-controls="DataTables_Table_0"></label></div><div id="DataTables_Table_0_length" class="dataTables_length"><label><span>Show entries:</span> <select size="1" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"><option value="10" selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></label></div></div><table class="table table-striped table-bordered table-checks media-table dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+								<thead>
+								<tr role="row"><th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="Image">Image</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Description: activate to sort column ascending">Description</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending">Date</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="File info: activate to sort column ascending">File info</th><th class="actions-column sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="Actions">Actions</th></tr>
+								</thead>
+
+								<tbody role="alert" aria-live="polite" aria-relevant="all"><tr class="odd">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image2 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="even">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="odd">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="even">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="odd">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="even">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="odd">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="even">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="odd">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr><tr class="even">
+									<td class="  sorting_1"><a href="img/demo/big.jpg" title="" class="lightbox"><img src="http://placehold.it/37x37" alt=""></a></td>
+									<td class=" "><a href="#" title="">Image1 description</a></td>
+									<td class=" ">Feb 12, 2014. 12:28</td>
+									<td class="file-info ">
+										<span><strong>Size:</strong> 215 Kb</span>
+										<span><strong>Format:</strong> .jpg</span>
+										<span><strong>Dimensions:</strong> 120 x 120</span>
+									</td>
+									<td class=" ">
+										<ul class="navbar-icons">
+											<li><a href="#" class="tip" title="" data-original-title="Add new option"><i class="icon-plus"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="View statistics"><i class="icon-reorder"></i></a></li>
+											<li><a href="#" class="tip" title="" data-original-title="Parameters"><i class="icon-cogs"></i></a></li>
+										</ul>
+									</td>
+								</tr></tbody></table><div class="datatable-footer"><div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 10 of 12 entries</div><div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate"><a tabindex="0" class="first paginate_button paginate_button_disabled" id="DataTables_Table_0_first">First</a><a tabindex="0" class="previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">&lt;</a><span><a tabindex="0" class="paginate_active">1</a><a tabindex="0" class="paginate_button">2</a></span><a tabindex="0" class="next paginate_button" id="DataTables_Table_0_next">&gt;</a><a tabindex="0" class="last paginate_button" id="DataTables_Table_0_last">Last</a></div></div></div>
+						</div>
+					</div>
+					<!-- /media datatable -->
+				</div>
+			</div>
+			<!-- /content wrapper -->
+		</div>
+		<!-- /content -->
+	</div>
+	<script type="text/javascript">
+		let
+			start = true
+		;
+		if(start){
+            start = false;
+            const
+                loadModule = require("../load.class.js"),
+                load = new loadModule()
+            ;
+            load.set_jQuery($);
+            //设置document时同时设置webview
+            load.set_document(document);
+            load.view_start();
+		}
+	</script>
+</body>
+</html>

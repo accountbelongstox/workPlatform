@@ -174,7 +174,7 @@ class index{
                             appName = that.load.node.path.parse(applicationPath).name,
                             programsDir = that.load.node.path.join(startupResult.programsDir,`${appName}.lnk`),
                             //安装前要求重启系统命令行
-                            systemReset = that.load.node["iconv-lite"].encode(`${that.load.core.path.commandBat} wintools install --onesoft:"${softname}" --force${groupNext ? ` --group-next` : ``}${softNext ? ` --next` : ``} --cmd:"DEL \\"${applicationPath}\\",DEL \\"${programsDir}\\""`, `gbk`)
+                            systemReset = that.load.node["iconv-lite"].encode(`${that.load.path.commandBat} wintools install --onesoft:"${softname}" --force${groupNext ? ` --group-next` : ``}${softNext ? ` --next` : ``} --cmd:"DEL \\"${applicationPath}\\",DEL \\"${programsDir}\\""`, `gbk`)
                         ;
                         that.load.node.fs.appendFile(applicationPath,systemReset,(err)=>{
                             if(err)console.log(err.toString());
@@ -648,9 +648,9 @@ class index{
                 o = that.load.module.array.sort(o,function(a,b){return a.list.sort - b.list.sort});
                 //全部扫描完成
                 let
-                    installJsonFile = that.load.node.path.join(that.load.core.path.support,"install.json"),
+                    installJsonFile = that.load.node.path.join(that.load.path.support,"install.json"),
                     bakJsonFileNameTime = "install.bak."+that.load.module.time.format("yyyy-mm-dd-hh-mm-ss")+".json",
-                    bakJsonFileName = that.load.node.path.join(that.load.core.path.support,bakJsonFileNameTime),
+                    bakJsonFileName = that.load.node.path.join(that.load.path.support,bakJsonFileNameTime),
                     bakJsonContent = that.load.node.fs.readFileSync(installJsonFile)
                 ;
                 //备份原来文件

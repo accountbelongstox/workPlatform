@@ -749,7 +749,7 @@ LoadModule php${phpBaseVersion}_module "${moduleFileDir}"
         let
             configContent = ``,
             iniDirPathname = that.load.node.url.parse(iniDir).pathname,
-            templateRoot = that.load.core.path.template,
+            templateRoot = that.load.path.template,
             templateDir = that.load.node.path.join(templateRoot,iniDirPathname),
             confNameTemplatePath = that.load.node.path.join(templateDir,confName),
             allConfigs = exampleConf

@@ -11,7 +11,7 @@ class _phpC{
 		that = this
 		;
 
-		that.load.module.console.info(`start config software in ${that.option.softinfo.name}`,2);
+		that.load.console.info(`start config software in ${that.option.softinfo.name}`,2);
 
         let 
         opt = [
@@ -25,7 +25,7 @@ class _phpC{
 			/*
 			successfully
 			*/
-			that.load.module.console.success(`Software ${that.option.softinfo.name} installed successfully`);
+			that.load.console.success(`Software ${that.option.softinfo.name} installed successfully`);
 			if(callback){
 				callback();
 			}

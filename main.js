@@ -26,11 +26,15 @@ if(options[2] && options[2].toString().toLowerCase() === "ddrun"){
 	@runc 则此处指定需要载入的模版
 	*/
     func = `electron`;
-    option = `ddrun`;
+    //option = {
+    //  url:`ddrun`
+    //};
+    option = {
+        url:`get_data/index_electron.html`,
+        width:1700,
+        height:1131
+    };//数据抓取
 }
 
 load = new load_class(param);
 load.module[func].init(option);
-
-
-console.log(load.config.platform);

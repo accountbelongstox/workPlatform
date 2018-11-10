@@ -64,7 +64,7 @@ class index{
     bandizip(callback){
         let
             that = this,
-            zipSoftDir = that.load.node.path.join(that.load.core.path.apps,`Bandizip/Bandizip.exe`),
+            zipSoftDir = that.load.node.path.join(that.load.path.apps,`Bandizip/Bandizip.exe`),
             password = ``,
             target = ``,
             file = ``,
@@ -101,7 +101,7 @@ class index{
 	_7z(callback){
         let
             that = this,
-            zipSoftDir = that.load.node.path.join(that.load.core.path.bin,`7z.exe`),
+            zipSoftDir = that.load.node.path.join(that.load.path.bin,`7z.exe`),
             password = ``,
             target = ``,
             file = ``,

@@ -1,7 +1,6 @@
 
 class stringC{
-    constructor(load){
-        load.get_class(`module/time`);
+    constructor(o){
     }
 
     /**
@@ -12,15 +11,15 @@ class stringC{
         let
             that = this,
             theString = that.trim(str),
-            isNumber = /^\d+$/,
+            isNumber = that.isNumber(theString,true),
             isFloat = /^\d+\.\d+$/,
             isBoolean = /^(false|true)$/i,
             isNull = /^null$/i,
             result = null
         ;
-            //匹配整数
-        if(isNumber.test(theString)){
-            result = parseInt(theString);
+        //匹配整数
+        if(isNumber !== false){
+            result = isNumber;
             //匹配浮点
         }else if(isFloat.test(theString)){
             result = parseFloat(theString);
@@ -64,16 +63,25 @@ class stringC{
         return len;
     }
 
-    isNumber(n){
-        if( !(/^\d/.test(n))){
-            return null;
-        }
-        n = new Number(n);
+    /**
+     * @func 判断一个字符是否是数字 ,包含是否是科学计数
+     * @param n
+     * @param toNumber 返回时以数字形式
+     * @returns {boolean}
+     */
+    isNumber(n,toNumber=false){
+        let
+            is = false
+        ;
+        n = parseFloat( new Number(n) );
         if(n === n){
-            return n;
-        }else{
-            return null;
+            if(toNumber){
+                is = n;
+            }else{
+                is =  true;
+            }
         }
+        return is;
     }
     /*
     @func 清洁字符串
@@ -444,17 +452,17 @@ class stringC{
     @func 字符串转数组
     */
     stringToArray(str){
-        let 
-        a = [],
-        i = 0,
-        tmp = null
+        let
+            a = [],
+            i = 0,
+            tmp = null
         ;
 
         while(tmp = str.charAt(i)){
             a.push(tmp);
             i++;
         }
-        
+
         return a;
     }
 
@@ -477,8 +485,8 @@ class stringC{
     @func 字符串首字母大写
     */
     initialsUpper(str){
-        let 
-        that = this
+        let
+            that = this
         ;
 
         if(str){
@@ -496,9 +504,9 @@ class stringC{
     @func 根据common类的要求来处理加载类,比如abc.eee.class.js 会被处理成abcEee.则把.改成首字母大写
     */
     commonClassNameFormat(name){
-        let 
-        that = this,
-        a = name.split('.')
+        let
+            that = this,
+            a = name.split('.')
         ;
         for(let i=0;i<a.length;i++){
             if(i != 0){
@@ -513,11 +521,11 @@ class stringC{
     @func 将字符串中的汉字转unicode
     */
     chinesetounicode(data){
-        let 
-        that = this
+        let
+            that = this
         ;
         if(data === '') return '';
-        var str =''; 
+        var str ='';
         for(var i=0;i<data.length;i++){
             if(that.isChinese(data[i])){
                 str+="\\u"+parseInt(data[i].charCodeAt(0),10).toString(16);
@@ -525,7 +533,7 @@ class stringC{
                 str+=data[i];
             }
         }
-       return str;
+        return str;
     }
 
 
@@ -534,13 +542,45 @@ class stringC{
     @param temp
     */
     isChinese(temp){
-       let
-           re=/[^\u4e00-\u9fa5]/
-       ;
-       if(re.test(temp)){
-           return false ;
-       }
-       return true ;
+        let
+            that = this,
+            isChina = false,
+            regChina=/[\u4E00-\u9FFF]/
+        ;
+        if(regChina.test(temp)){
+            isChina = true;
+        }
+        return isChina;
+    }
+
+    /**
+     * @func 判断是否GBK
+     * @param str
+     */
+    isGBK(str){
+        let
+            that = this,
+            extend_str = `︻︼︽︾〒↑↓☉⊙●◎¤★☆■▓「」『』◆◇▲△▼▽◣◥◢◤№→←↘↙※㊣∑⌒∩【】〖〗＠□∮〓》∏√╳♀♂∞①≡╬╭╮╰╯╱╲▂▃▄▅▆▇█▁、∧ˉˇ¨‘’～‖∶”｜〃〔〕《．（）｛｝②③④⑤⑥⑦⑧⑨⑩≈≠＝≤≥＜＞≮≯∷±＋－×÷／∫∝∨∪∈∵∴⊥∠≌∽°′＄￡￥‰％℃￠┌┍┎┏┐┑┒┓—┄┈├┝┞┟┠┡┢┣|┆┊┬┭┮┯┰┱┲┳┼┽┾┿╀╂╁╃§○＃＆＼＾＿⊕╝╚╔╗═╓╩┨┷┗┛⊿+&*╆~┫-()$#：๑•.♬✿｡☂☃☄☇☈☒☢☺☻☼☽☾♠♡♢♣♤♥♦♧♨♩℡❣·۰۩☜☞☎☏✖╄►◄▧▨◐◑↔↕▪▫▌▬◊◦▣▤▥▦▩◘◙◈♫♪♭＊✰㊝〈〉︿﹀﹁﹂﹃﹄﹝﹞≦≧﹤﹥︵︶︷︸︹︺﹙﹚﹛﹜﹢≒∟㏒▶▷◀◁㍿♝♞♯♮☪♈₪«»™↖↗©®⁂✄☣☠㊊㊋㊌㊍㊎㊏㊐㊑㊒㊓㊔㊕㊖㊗㊘㊜㊞㊟㊠㊡㊢㊤㊥㊦㊧㊨㊩㊪㊫㊬㊭㊮㊯㊰✗✘✚✪✣✤✥✦✧✩✫✬✭✮✯✓✔✕･０╥﹏/{}﹋﹌﹕﹗',。〝〞﹣∥┦─┻۞‧❆⊹⊱⋛⋋⋌⋚⊰ⓛⓞⓥⓔ☀¸´¯✎❃❂❁❀✾✽✼✻✺✹✸✷﹎❤❉╅╊━˜╠╣∆‡†௰❝❞☁¡௫⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳ⒶⒷⒸⒹⓐⓑⓒⓓⓕⓖⓗⓘⓙⓚⓜⓝⓟⓠⓡⓢⓣⓤⓦⓧⓨⓩ￣³๏◕‿｀∀◡㋀㋁㋂㋃㋄㋅㋆㋇㋈㋉㋊㋋㏠㏡㏢㏣㏤㏥㏦㏧㏨㏩㏪㏫㏬㏭㏮㏯㏰㏱㏲㏳㏴㏵㏶㏷㏸㏹㏺㏻㏼㏽㏾㍘㍙㍚㍛㍜㍝㍞㍟㍠㍡㍢㍣㍤㍥㍦㍧㍨㍩㍪㍫㍬㍭㍮㍯㍰㊛㊚，；？！＂＇…“［］㏑㎎㎏㎜㎝㎞㎡㏄㏎㏕℉″℅㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛│┃┅┇┉┋└┕┖┘┙┚┤┥┧┩┪┴┵┶┸┹┺╇╈╉╋║╒╕╖╘╙╛╜╞╟╡╢╤╦╧╨╪╫▉▊▋▍▎▏１２３４５６７８９︱︳︴♁㈱﹊﹍―‥∕∣▔▕︰✲❈➹❥❦❧☭☊☋☌☍✟﹉@%`,
+            is_gbk_string = false
+        ;
+
+        if(that.isChinese(str)){
+            is_gbk_string = true;
+        }
+
+        if(!is_gbk_string){
+            for(let i =0;i<str.length;i++){
+                let
+                    str_one = str[i]
+                ;
+                if(extend_str.includes(str_one)){
+                    is_gbk_string = true;
+                    break;
+                }
+            }
+
+        }
+        return is_gbk_string;
     }
 
     /**
@@ -585,6 +625,79 @@ class stringC{
         }
         file_new_path = that.load.node.path.join(`${file_pathname}`,`${file_name}${prefix_string}${file_ext}`);
         return file_new_path
+    }
+
+
+    urlFormat(url){
+        let
+            that = this
+        ;
+        if(/^\s*https*\:\/\//.test(url)){
+            return url;
+        }else{
+            return `http://`+url;
+        }
+    }
+
+
+    urlToFileName(url){
+        url = url.replace(/^\s*https*\:\/+/i,``);
+        url = url.replace(/\:.+/i,``);
+        return url;
+    }
+
+
+    /**
+     * @func 判断是否是一个时间格式
+     * @param str
+     * @returns {*}
+     */
+    isTimeString(str){
+        if(typeof v === "string"){
+            v = [v];
+        }
+        let
+            timeStampLength = `1540228949`.length,
+            isTime = false
+        ;
+        if(/^(19|20)\d{2}[\-\\\/]{1}\d{1,2}/.test(str) || (/^\d+$/.test(str) && str.length === timeStampLength)){
+            isTime = true;
+        }
+        return isTime;
+    }
+
+    /**
+     * @func 将字符转为GBK 或任意编码 以二进制输出,  Buffer 将转字符串, 字符串转 Buffer
+     */
+    to(str,encoding = "utf8"){
+        let
+            that = this
+        ;
+        if(Buffer.isBuffer(str)){
+            str = that.load.node[`iconv-lite`].decode(str,encoding);
+            str = str.toString();
+            return str;
+        }
+        str = that.load.node[`iconv-lite`].encode(str,encoding);
+        str = Buffer.alloc(str.length,str,"binary");
+        return str;
+    }
+
+    /**
+     * @func 将字符转为另一个格式 默认由 UTF-8转GBK 返回一个二进制,  Buffer 将转字符串, 字符串转 Buffer
+     */
+    transformation(str,source_encode="utf8",target_encoding="GBK"){
+        let
+            that = this
+        ;
+        if(Buffer.isBuffer(str)){
+            str = that.load.node[`iconv-lite`].decode(str,source_encode);
+            str = str.toString();
+            if(!target_encoding) return str;
+        }
+        str = that.load.node[`iconv-lite`].encode(str,target_encoding);
+        str = Buffer.alloc(str.length, str, `binary`);
+        return str;
     }
 }
 

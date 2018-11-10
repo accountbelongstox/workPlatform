@@ -13,7 +13,7 @@ class DC{
             that.option.databaseName = "json";
         }
         if(!that.option.dataDir){
-            that.option.dataDir = that.load.module.file.pathFormat(that.load.core.path.data , `data.json`);
+            that.option.dataDir = that.load.module.file.pathFormat(that.load.path.data , `data.json`);
         }
         if(!that.option.data){
             let

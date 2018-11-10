@@ -33,9 +33,9 @@ class index{
         that.option.homedir =that.load.module.windows.homedir();
         //当前登陆用户名
         that.option.currentOSUser =that.load.module.windows.currentUser();
-        that.load.module.console.info(`systembak in ${command}:`,2);
+        that.load.console.info(`systembak in ${command}:`,2);
         if(!that[command]){
-            that.load.module.console.error(`not find function : ${command}:`);
+            that.load.console.error(`not find function : ${command}:`);
         }
     }
 
@@ -92,11 +92,11 @@ class index{
             });
         }
 
-        that.load.module.console.info(`\nPlease select the backup directory. \n`,5);
+        that.load.console.info(`\nPlease select the backup directory. \n`,5);
         systemBakDir.forEach((item,index)=>{
-            that.load.module.console.info(`${index+1}: ${item} `,7);
+            that.load.console.info(`${index+1}: ${item} `,7);
         });
-        that.load.module.console.success(`Please select the backup directory:\ndefault ${systemBakDir.length} : `,);
+        that.load.console.success(`Please select the backup directory:\ndefault ${systemBakDir.length} : `,);
         readSyncByRl('').then((res) => {
             let
                 selectNumber = parseInt(res)
@@ -118,10 +118,10 @@ class index{
                 //verifyCode = Math.floor(Math.random()*(9-1+1)+1)
             ;
 
-            that.load.module.console.info(`\nPlease input verification Code :${verifyCode}. \n`,8);
+            that.load.console.info(`\nPlease input verification Code :${verifyCode}. \n`,8);
             readSyncByRl('').then((res) => {
                 if(parseInt(res) !== verifyCode){
-                    that.load.module.console.error(`Verification code error, end`);
+                    that.load.console.error(`Verification code error, end`);
                     return;
                 }
                 that.load.node.fs.readFile(backupConfig,(err,data)=>{

@@ -10,12 +10,12 @@ class __51mnqC{
 		that = this
 		;
 
-		that.load.module.console.info(`start config software in _51mnq`,4);
+		that.load.console.info(`start config software in _51mnq`,4);
 
 		/*
 		successfully
 		*/
-		that.load.module.console.success(`Software _51mnq installed successfully`);
+		that.load.console.success(`Software _51mnq installed successfully`);
 		if(callback){
 			callback();
 		}

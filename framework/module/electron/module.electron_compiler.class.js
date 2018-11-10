@@ -8,10 +8,41 @@ class compiler{
 
     }
 
+    /**
+     * @func 载入基本的script
+     * @param run_callback 启动函数
+     */
+    load_script(run_callback=``){
+        let
+            that = this,
+            load_class_path = that.load.path.load_class,
+            //脚本注入
+            //设置jquery
+            //设置document
+            //设置webview 并从 web类启动初始化
+            script = `
+            (()=>{
+                const
+                    load_module = require("${load_class_path}"),
+                    load = new load_module()
+                ;
+                load.set_jQuery($);
+                load.set_document(document);
+                load.view_start(()=>{
+                    ${run_callback.toString()}
+                });
+            })();
+		`
+        ;
+        console.log(script);
+        return script;
+
+    }
+
     build(html_name='index.html',callback){
         let 
             that = this,
-            html_template = that.load.core.path.html_template,
+            html_template = that.load.path.html_template,
             html_file = (function (){
                 if(that.load.node.fs.existsSync(html_name)){
                     html_template = that.load.node.path.parse(html_name).dir;
@@ -23,6 +54,7 @@ class compiler{
             tags = [`include`,`data`],//支持的标签
             replaceArr = []
         ;
+        console.log(that.load_script());
         that.option.html_template = html_template;
         if(!that.load.node.fs.existsSync(html_file)){
             console.log(`Error : nod find html template -> ${html_file}`);
@@ -31,7 +63,7 @@ class compiler{
         let
             html_basename = that.load.node.path.basename(html_file),
             hash_file_name =  that.load.module.encrypt.md5( html_basename ),
-            compiler_file = that.load.node.path.join( html_template, `f_compiler_${hash_file_name}_${html_basename}`)
+            compiler_file = that.load.node.path.join( html_template, `$compiler_${html_basename}_${hash_file_name}`)//编译后的文件名
         ;
         /**
          * @tools 如果文件已经存在,则直接使用,无须再次编译.

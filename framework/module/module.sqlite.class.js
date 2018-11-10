@@ -22,7 +22,7 @@ class spliteC{
             that.option.prefix = "ddrun_";
         }
         try{
-            that.option.dataDir = that.load.core.path.data;
+            that.option.dataDir = that.load.path.data;
             that.option.sqlite = that.load.node.sqlite3;
             let
                 dataname = (function dataNameFn(){
@@ -45,7 +45,7 @@ class spliteC{
         }catch(err){
             let
                 errInfo = [
-                    `The splite3 model does not exist.`,`install command:`,`# cd /d ${that.load.core.path.root}`,`# ${that.load.node.path.join(that.load.core.path.apps,`nodejs/cnpm`)} install sqlite3 --target_arch=x64`
+                    `The splite3 model does not exist.`,`install command:`,`# cd /d ${that.load.path.root}`,`# ${that.load.node.path.join(that.load.path.apps,`nodejs/cnpm`)} install sqlite3 --target_arch=x64`
                 ]
             ;
             that.load.module.console.error(errInfo[0],errInfo[1],errInfo[2],errInfo[3]);

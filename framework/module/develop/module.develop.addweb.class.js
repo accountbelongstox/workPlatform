@@ -22,6 +22,10 @@ class DevelopAddWebC{
         let
             that = this
         ;
+        that.load.node.readLine = that.load.node.readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
         that.load.node.readLine.question(`Please enter a domain name. (www.xxx.com) : `, (domain) => {
             if(that.load.module_func.develop.is_domain(domain)){
                 that.selectPHPVersionAndSetDomain(domain,args,callback);

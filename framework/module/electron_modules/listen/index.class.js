@@ -56,7 +56,7 @@ class ipcMainOn{
             ipc_main_on:"app-transform-page",
             func:(event, arg)=>{
                 let 
-                html_template = that.load.core.path.html_template+arg
+                html_template = that.load.path.html_template+arg
                 ;
                 that.load.module.compiler.build(html_template,function(dir){
                     that.option._window.loadURL(that.load.node.url.format({

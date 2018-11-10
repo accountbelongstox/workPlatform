@@ -10,12 +10,12 @@ class __7z18C{
 		that = this
 		;
 
-		that.load.module.console.info(`start config software in _7z18`,4);
+		that.load.console.info(`start config software in _7z18`,4);
 
 		/*
 		successfully
 		*/
-		that.load.module.console.success(`Software _7z18 installed successfully`);
+		that.load.console.success(`Software _7z18 installed successfully`);
 		if(callback){
 			callback();
 		}

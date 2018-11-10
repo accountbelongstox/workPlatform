@@ -35,7 +35,7 @@ class installC{
             info = null,
             //软件安装列表
             installList = that.load.support.install,
-            callbackBaseDir = that.load.node.path.join(that.load.core.path.command_modules,`wintools/install`)
+            callbackBaseDir = that.load.node.path.join(that.load.path.command_modules,`wintools/install`)
         ;
         for(let p in installList){
 	        let 
