@@ -1,5 +1,5 @@
 /*
-@func 基本载入类 , 需要配合核心类 core/path , core/param 使用
+@start step
 1.载入node 基本类
 2.载入核心类
 3.加载支持文件
@@ -7,6 +7,11 @@
 5.加载工具类
 6.加载模型
 7.加载模型方法
+
+@func
+event           执行本地事件方法
+load_path       本地路径配置
+webview_start   设置webview类 在html指定webview的类 
 */
 class commonC{
     /**
@@ -1735,6 +1740,45 @@ class commonC{
                 info//输出信息
             }
         ;
+    }
+
+
+    /**
+     * @func 执行一个事件
+     * @param eventName
+     * @param args
+     * @param callback
+     * @returns {*}
+     */
+    event(eventName,args=null,callback){
+        let
+            that = this,
+            result = null,
+            //此处传入的因为直接 是load本身
+            //为了统一书写习惯  将 load 再往下一级
+            thatLoad = {
+                load:that
+            },
+            HTMLEventModule = that.module[`event-html`],
+            electronEventModule = that.module[`event-electron`]
+        ;
+        if(!that.eventObejct){
+            that.eventObejct = {};
+        }
+        if(!that.eventObejct[eventName]){
+            if(eventName in HTMLEventModule){
+                that.eventObejct[eventName] = HTMLEventModule[eventName];
+            }else if(eventName in electronEventModule){
+                that.eventObejct[eventName] = electronEventModule[eventName];
+            }
+        }
+        if(that.eventObejct[eventName]){
+            //electron 执行的 that 必须以参数的形式传入进却说
+            result = that.eventObejct[eventName](thatLoad,args,callback);
+        }else{
+            console.log(`event ${eventName} not exists!`);
+        }
+        return result;
     }
 }
 

@@ -19,9 +19,7 @@ class electronIpcMain{
             frame: that.option.frame,
             autoHideMenuBar: that.option.autoHideMenuBar
         });
-
         Menu.setApplicationMenu(null);
-
         that.load.module.electron_compiler.build(that.option.url,function(buildHTML){
             // 加载应用的 index.html
             that.load.window.loadURL(that.load.node.url.format({
@@ -36,6 +34,10 @@ class electronIpcMain{
             // 取消引用 window 对象，通常如果应用支持多窗口，则会将
             // 窗口存储在数组中,现在应该进行删除了.
             that.load.window = null;
+        });
+        //启动事件监听
+        that.load.window.webContents.on('dom-ready',()=>{
+            that.electronListener();
         });
     }
 
@@ -85,26 +87,25 @@ class electronIpcMain{
         that.option.autoHideMenuBar = autoHideMenuBar;
 
         that.load.node.electron.app.that = that;
-        // 当Electron完成初始化并准备创建浏览器窗口时调用此方法
+        // 当 electron 完成初始化并准备创建浏览器窗口时调用此方法
         // 部分 API 只能使用于 ready 事件触发后。
         that.load.node.electron.app.on('ready', that.createWindow);
         // 所有窗口关闭时退出应用.
         that.load.node.electron.app.on('window-all-closed', () => {
-            // macOS中除非用户按下 `Cmd + Q` 显式退出,否则应用与菜单栏始终处于活动状态.
-            if (process.platform !== 'darwin') {
+            // macOS 中除非用户按下 `Cmd + Q` 显式退出,否则应用与菜单栏始终处于活动状态.
+            if(process.platform !== 'darwin'){
                 that.load.node.electron.app.quit()
             }
         });
-        that.load.node.electron.app.on('activate', () => {
-            // macOS中点击Dock图标时没有已打开的其余应用窗口时,则通常在应用中重建一个窗口
+        that.load.node.electron.app.on('activate', ()=>{
+            // macOS 中点击 Dock 图标时没有已打开的其余应用窗口时,则通常在应用中重建一个窗口
             if (that.load.window === null) {
                 that.createWindow(that);
             }
         });
     }
 
-
-    //监听事件
+    //由HTML启动的监听事件
     //绑定格式   class="electron-ipc-xxxx"
     //数据传递   data-electron-ipc-args="xxx|xxx"
     //回调函数   data-electron-ipc-callback="xxx|xxx"

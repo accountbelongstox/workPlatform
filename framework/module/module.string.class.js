@@ -311,6 +311,10 @@ class stringC{
 
     /**
      * @func 通过字符串创建一个正则.
+     * @param str string
+     * @param gi regexp
+     * @param force boolean
+     * @param fast boolean
      */
     createRegExp(str,gi="gi",force=true,fast=false){
         let

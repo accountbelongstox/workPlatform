@@ -8,7 +8,7 @@ let
     load,
     param=null,
     option,
-    func=``
+    func_name=``
 ;
 
 if(options[2] && options[2].toString().toLowerCase() === "ddrun"){
@@ -18,23 +18,21 @@ if(options[2] && options[2].toString().toLowerCase() === "ddrun"){
     param = {
         is_command:true
     };
-    func = `command`;
+    func_name = `command`;
     option = options;
 }else{
-	/*
-	@u 非命令行由启动electorn
-	@runc 则此处指定需要载入的模版
-	*/
-    func = `electron`;
-    //option = {
-    //  url:`ddrun`
-    //};
-    option = {
+    func_name = `electron`;
+/*    option = { // 动点世纪工作平台
         url:`get_data/index_electron.html`,
         width:1700,
         height:1131
-    };//数据抓取
+    };*/
+    option = {//数据抓取平台
+        url:`get_data/index_electron.html`,
+        width:1700,
+        height:1131
+    };
 }
 
 load = new load_class(param);
-load.module[func].init(option);
+load.module[func_name].init(option);

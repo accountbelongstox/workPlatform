@@ -1225,7 +1225,8 @@ class fileC{
     }
 
     /*
-    @func 判断是否是一个合法路径
+    * @func 判断是否是一个合法路径
+    * @param
     */
     isPath(path){
         let
@@ -1233,14 +1234,14 @@ class fileC{
             //路径里禁止出现的字符
             ignores = `*?"<>|`.split(/\B/),
             isIgnore = false,
-            pathParse = null
+            pathParse
         ;
         path = that.load.module.string.trimX(path);
         pathParse = that.load.node.path.parse(path);
-        if(typeof path !== "string"){
+        if( typeof path !== "string"){
             return false;
         }
-        ignores.forEach((ignore)=>{
+        ignores.forEach( (ignore) => {
             if(path.includes(ignore)){
                 isIgnore = true;
             }
@@ -1296,12 +1297,12 @@ class fileC{
             that = this
         ;
 
-        if(!that.load.node.fs.existsSync(htmlPath)){
+        if( !that.load.node.fs.existsSync(htmlPath) ){
             console.log(`read - error : not find ${htmlPath}.`)
             return `<!-- not find ${htmlPath} -->`;
         }
         let
-            html=that.load.node.fs.readFileSync(htmlPath)
+            html = that.load.node.fs.readFileSync(htmlPath)
         ;
         if( html[0].toString(16).toLowerCase() === "ef" && html[1].toString(16).toLowerCase() === "bb" && html[2].toString(16).toLowerCase() === "bf" ) {
             html = html.slice(3);
@@ -1319,7 +1320,7 @@ class fileC{
      * @param unzipPath
      * @param callback
      */
-    unzip(zipPath,unzipPath,callback){
+    unzip( zipPath, unzipPath, callback ){
         let
             that = this
         ;

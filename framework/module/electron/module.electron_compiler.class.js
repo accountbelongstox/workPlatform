@@ -5,7 +5,7 @@
 class compiler{
 
     constructor(load){
-
+        // ---===
     }
 
     /**
@@ -15,12 +15,13 @@ class compiler{
     load_script(run_callback=``){
         let
             that = this,
-            load_class_path = that.load.path.load_class,
+            load_class_path = that.load.path.load_class
+        ;
             //脚本注入
             //设置jquery
             //设置document
             //设置webview 并从 web类启动初始化
-            script = `
+            return `
             (()=>{
                 const
                     load_module = require("${load_class_path}"),
@@ -34,8 +35,6 @@ class compiler{
             })();
 		`
         ;
-        return script;
-
     }
 
     build(html_name='index.html',callback){
