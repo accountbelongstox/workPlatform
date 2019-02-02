@@ -236,7 +236,7 @@ class networkC{
         ;
         //如果没有指定存放地址,则下载将被存放到临时文件中
         if(!savePath){
-            savePath = that.load.node.path.join(that.load.config.platform.base.local.tmpDir,".down")
+            savePath = that.load.node.path.join(that.load.config.basic.platform.base.local.tmpDir,".down")
         }
         
         if(!saveDir){

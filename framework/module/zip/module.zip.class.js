@@ -211,7 +211,7 @@ class index{
                     ;
                     filename = that.load.node.path.join(targetPathname,filename);
                 }
-                that.option.target = that.load.node.path.join(that.load.config.platform.base.local.tmpDir ,`.zip/${filename}` );
+                that.option.target = that.load.node.path.join(that.load.config.basic.platform.base.local.tmpDir ,`.zip/${filename}` );
                 break;
             case "c":
             //创建压缩时,方件是一个数组

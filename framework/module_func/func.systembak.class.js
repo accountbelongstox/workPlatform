@@ -5,17 +5,6 @@ class systembakC{
 
     constructor(load){
         
-        
-        
-        
-        
-        
-        
-
-        
-        
-
-        
     }
     /**
      * 清除其他备份,只保留最近3个备份.
@@ -293,7 +282,7 @@ class systembakC{
     getCurrentSystemOsIOSFile(){
         let
             that = this,
-            sourceDir = that.load.config.platform.base.sourceDir.thisOS,
+            sourceDir = that.load.config.basic.platform.base.sourceDir.thisOS,
             thisOS = that.load.node.fs.readdirSync(sourceDir),
             OSFileTest = /windows\_10/i,
             OSName = ``
@@ -341,7 +330,7 @@ class systembakC{
     initWindows(){
         let
             that = this,
-            base = that.load.config.platform.base,
+            base = that.load.config.basic.platform.base,
             sourceDir = base.sourceDir,
             workDir = base.workDir,
             tmpDir = that.load.node.path.join(base.local.tmpDir,`.init.windows`),

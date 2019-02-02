@@ -2,7 +2,7 @@ class C{
 	constructor(load){
 
 	}
-	// that.load.config.platform.base.local.tmpDir
+	// that.load.config.basic.platform.base.local.tmpDir
 	//最终方法,不可再用加载器以免死循环
 	run(){
 		let 

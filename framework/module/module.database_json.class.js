@@ -36,6 +36,17 @@ class DC{
     }
 
     /**
+     * @func 将数据库载入
+     */
+    load_data(data_name=null){
+        let
+            that = this
+        ;
+        if(!data_name)data_name='data';//默认载入基本表
+
+    }
+
+    /**
      * @func 查看是否有该表格
      * @param table
      * @param callback

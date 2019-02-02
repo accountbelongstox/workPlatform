@@ -9,7 +9,7 @@ class installC{
         that = this
         ;
 
-        that.option.platform = that.load.config.platform;
+        that.option.platform = that.load.config.basic.platform;
         that.option.srouceUrl = that.option.platform.base.web.srouceUrl;
         that.option.sourceDir = that.option.platform.base.sourceDir;
         that.option.workDir = that.option.platform.base.workDir;

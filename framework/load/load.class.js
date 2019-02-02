@@ -7,11 +7,28 @@
 5.加载工具类
 6.加载模型
 7.加载模型方法
+8.HTML加载启动方法 如下:
+	<script type="text/javascript">
+		(()=>{
+			const
+					path = require(`path`),
+					root_dir = path.join(__dirname,`../../../../`),
+					load_dir = path.join(root_dir,`framework/load/load.class.js`),
+					load_o = require(load_dir),
+					load = new load_o()
+			;
+			load.set_jQuery($);
+			//设置document时同时设置webview
+			load.set_document(document);
+			load.webview_start();
+		})();
+	</script>
 
 @func
 event           执行本地事件方法
 load_path       本地路径配置
-webview_start   设置webview类 在html指定webview的类 
+webview_start   设置webview类 在html指定webview的类
+
 */
 class commonC{
     /**
@@ -23,6 +40,9 @@ class commonC{
         let
             that = this
         ;
+
+        that.debug = true;//开启调试
+
         if(!that.option){
             that.option = {};
         }
@@ -46,32 +66,35 @@ class commonC{
             // 加载支持文件
             that.get_all_class("support");
             // 加载配置文件
-            that.get_config();
+            that.get_all_class(`config`,this,false);//不载入子目录
+            //that.get_config();
             // 加载所有工具类
             that.get_all_class("tool");
             // 加载所有的模型
             let
-                is_command = (object && object.is_command) ? object.is_command : false // 是否以命令方式加载
+                is_command = ( object && object.is_command ) ? object.is_command : false // 是否以命令方式加载
             ;
-            that.get_modules(is_command);
+            that.get_modules( is_command );
             // 加载模型附加工具类
             that.get_all_class("module_func");
             // 设置加载标识
             that.option.__initLoadAll = true;
         }
-        // 基本运行方法
+        // 前置运行方法
         that.run();
     }
 
     /**
      * @func 基本运行内容, 不同的软件写入不同的值
      */
-    run(){
+    run(c_run_func=null){
         let
             that = this
         ;
         // ... 首要执行函数 , 此函数只在程序启动时执行一次.
-
+        if(c_run_func){
+            c_run_func(that);
+        }
     }
 
     /**
@@ -187,8 +210,14 @@ class commonC{
             }
             (function eventListerner(len){
                 if(len >= webviews.length){
-                    //监听全部事件
-                    if(callback)callback();
+                    //从web模块启动
+                    if(callback){
+                        callback();
+                    }else if(`web` in that.module){
+                        that.module.web.start();
+                    }else{
+                        console.log(`html start not find function!`);
+                    }
                 }else{
                     let
                         WebView = webviews[len],
@@ -321,7 +350,7 @@ class commonC{
     /*
     @func 取得core基本类
     */
-    get_all_class(name,bind=this){
+    get_all_class(name,bind=this,loadChildrenDir=true){
         let
             that = this,
             dir = (()=>{
@@ -343,7 +372,7 @@ class commonC{
             ;
             if(is_load.test(class_file) && that.node.fs.lstatSync(path).isFile()){
                 class_file = class_file.replace(is_load,``).replace(/\.(class|json)\.js$|\.json$/,``);
-                that.get_class(`${name}/${class_file}`,bind);
+                that.get_class(`${name}/${class_file}`,bind,loadChildrenDir);
             }
         });
     }
@@ -352,9 +381,10 @@ class commonC{
      * @func
      * @param name_path
      * @param bind
+     * @param loadChildrenDir
      * @private
      */
-    get_class(name_path,bind=this){
+    get_class(name_path,bind=this,loadChildrenDir=true){
         let
             that = this,
             name_parse_to_array = name_path.split(/[\/\\]+/),
@@ -438,6 +468,12 @@ class commonC{
                         c = require(class_path),
                         m
                     ;
+                    console.log(class_path,isJson,12212);
+
+
+                    //TODO  .........................
+
+
                     if(isStatic){// 静态资源读取
                         m = that.set(name_path,that.node.fs.readFileSync(class_path),bind);
                     }else if(isJson){// json 直接载入
@@ -449,6 +485,8 @@ class commonC{
                             e.option = {};
                             if("run" in e){
                                 m = that.set(name_path,e.run(),bind);
+                            }else{
+                                m = {};
                             }
                         }catch(err){//非类时直接载入  module.exports = {}
                             m = that.set(name_path,c,bind);
@@ -501,7 +539,6 @@ class commonC{
                         mustParamsIsOne = config.mustParamsIsOne,
                         consoleType = 1
                     ;
-
                     if(p == `mustParams` && sourceChildren){
                         consoleType = 2;
                         that.console.info("* Necessary parameters :",consoleType);
@@ -637,7 +674,7 @@ class commonC{
                 if(!config && exeI===0){
                     //每次新建立的需要重新清除
                     that.option.beforeCommand = "";
-                    config = that.config.framwork.modules.command;
+                    config = that.config.basic.framwork.modules.command;
                     that.option.record = [];
                 }
                 //保存命令行执痕迹

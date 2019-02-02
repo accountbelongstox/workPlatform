@@ -49,7 +49,7 @@ class index {
 
         if(!that.option.copyWebBasicSavePath || !that.load.module.file.isDirSync(that.option.copyWebBasicSavePath) ){
             let
-            devRoot = that.load.config.devEnv.root
+            devRoot = that.load.config.basic.devEnv.root
             ;
             that.option.copyWebBasicSavePath = that.load.node.path.join(devRoot,that.conf.extend.save);
         }

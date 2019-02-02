@@ -9,7 +9,7 @@ class sqliteC{
     table(table){
         let
             that = this,
-            databaseConfig = that.load.config.platform.core.database,
+            databaseConfig = that.load.config.basic.platform.core.database,
             prefix = databaseConfig.prefix
         ;
         return `${prefix}${table}`;

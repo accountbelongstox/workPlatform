@@ -703,6 +703,30 @@ class stringC{
         str = Buffer.alloc(str.length, str, `binary`);
         return str;
     }
+
+    /**
+     * @func 查找字符串里是否有另一个字符串
+     */
+    is(stra,strb){
+        let
+            that = this
+        ;
+        if(stra.includes(strb)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * @func 正则查找一个字符串中的指定位置内容,通过前置和后置来匹配
+     */
+    reg_query_prefix(start_source,query_prefix,query_suffix){
+        let
+            that = this
+        ;
+
+    }
 }
 
 

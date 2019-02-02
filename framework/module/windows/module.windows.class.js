@@ -627,7 +627,7 @@ if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )`
                         // 是一个命令行
                         //命令行转义
                         let
-                            starUpTmpDir = that.load.node.path.join(that.load.config.platform.base.local.tmpDir,`.startup`),
+                            starUpTmpDir = that.load.node.path.join(that.load.config.basic.platform.base.local.tmpDir,`.startup`),
                             batFileName = (deleteStartUP && typeof deleteStartUP === "string") ?
                                 (function (){
                                     let
@@ -877,7 +877,7 @@ if exist "%temp%\\getadmin.vbs" ( del "%temp%\\getadmin.vbs" )`
                         application.link = application.link.replace(/^[\\\/]+/,``).replace(/\//g,`\\`);
 
                         let
-                            tmpDir = that.load.node.path.join(that.load.config.platform.base.local.tmpDir,`.shortcut`),
+                            tmpDir = that.load.node.path.join(that.load.config.basic.platform.base.local.tmpDir,`.shortcut`),
                             tmpVbs = that.load.node.path.join(tmpDir,`tmpStartup${Date.parse(new Date())}${Math.ceil(Math.random() * 10000)}.vbs`),
                             commands = [
                                 `if exist "${tmpVbs}" del /f /q "${tmpVbs}"`,

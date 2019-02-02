@@ -376,20 +376,19 @@
 		<!-- /content -->
 	</div>
 	<script type="text/javascript">
-		let
-			start = true
-		;
-		if(start){
-            start = false;
-            const
-                loadModule = require("../load.class.js"),
-                load = new loadModule()
-            ;
-            load.set_jQuery($);
-            //设置document时同时设置webview
-            load.set_document(document);
-            load.view_start();
-		}
+		(()=>{
+			const
+					path = require(`path`),
+					root_dir = path.join(__dirname,`../../../../`),
+					load_dir = path.join(root_dir,`framework/load/load.class.js`),
+					load_o = require(load_dir),
+					load = new load_o()
+			;
+			load.set_jQuery($);
+			//设置document时同时设置webview
+			load.set_document(document);
+			load.webview_start();
+		})();
 	</script>
 </body>
 </html>

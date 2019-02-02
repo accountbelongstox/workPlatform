@@ -1,4 +1,5 @@
 class electronIpcMain{
+
     constructor(load){
 
     }
@@ -28,14 +29,13 @@ class electronIpcMain{
                 slashes: true
             }));
         });
-
         // 关闭window时触发下列事件.
         that.load.window.on('closed', () => {
             // 取消引用 window 对象，通常如果应用支持多窗口，则会将
             // 窗口存储在数组中,现在应该进行删除了.
             that.load.window = null;
         });
-        //启动事件监听
+        // 启动事件监听
         that.load.window.webContents.on('dom-ready',()=>{
             that.electronListener();
         });
@@ -106,13 +106,13 @@ class electronIpcMain{
     }
 
     //由HTML启动的监听事件
-    //绑定格式   class="electron-ipc-xxxx"
-    //数据传递   data-electron-ipc-args="xxx|xxx"
-    //回调函数   data-electron-ipc-callback="xxx|xxx"
+    //绑定格式      class="electron-ipc-xxxx"
+    //数据传递      data-electron-ipc-args="xxx|xxx"
+    //回调函数      data-electron-ipc-callback="xxx|xxx"
     HTMLListener(){
         let
             that = this,
-            documentAll = that.load.document.all
+            documentAll = that.load.eles.document.all
         ;
         for(let p in documentAll){
             let
@@ -123,7 +123,7 @@ class electronIpcMain{
                     ;
                     if(documentItem){
                         try{
-                            eltItem = that.load.$(documentItem);
+                            eltItem = that.load.eles.$(documentItem);
                         }catch(err){
                             console.log(err);
                             eltItem = null;
@@ -144,19 +144,31 @@ class electronIpcMain{
                     classNames = className.split(/\s+/),
                     callback = ele.data('electron-callback')
                 ;
-                classNames.forEach((classNameItem)=>{
+                classNames.forEach( (classNameItem)=>{
                     let
-                        ipcRegExp = /^electron\-/i,
-                        eventTypeExp = /(?<=electron\-).+?(?=\-)/i,
-                        ipcReplace = /^electron\-[a-zA-Z0-9]+\-/i,
-                        eventName = classNameItem.replace(ipcReplace,``).toLowerCase()
+                        is_electron_event = (()=>{
+                            let
+                                QR = classNameItem.match(/electron\-.+/),
+                                QRTmp = [],
+                                result = null
+                            ;
+                            if(QR){
+                                QRTmp = QR[0].split(/\-+/);
+                                result = {
+                                    eventName: QRTmp[QRTmp.length-1],
+                                    eventType:QRTmp[1]
+                                }
+                            }
+                            return result;
+                        })()
                     ;
-                    if(classNameItem.match(ipcRegExp)){
+                    if( is_electron_event !== null ){
                         console.log(`Ipc 事件绑定 => ${classNameItem}`);
                         let
-                            eventType = (classNameItem.match(eventTypeExp))[0]
+                            eventType = is_electron_event.eventType,
+                            eventName = is_electron_event.eventName
                         ;
-                        if(eventType === "ipc"){//发送绑定
+                        if( eventType === "ipc" ){//发送绑定
                             ele.click((event)=>{
                                 event.stopPropagation();
                                 let
@@ -164,15 +176,14 @@ class electronIpcMain{
                                         let
                                             args = ele.data('electron-args')
                                         ;
-
-                                        if(args){
-                                            if(args.includes(`|`)){
+                                        if( args ){
+                                            if( args.includes(`|`) ){
                                                 args = args.split(/\|+/);
                                             }else if(args.includes(`,`)){
                                                 args = args.split(/\,+/);
                                             }
                                         }
-                                        if(args && (`length` in args) && args.length === 1){
+                                        if( args && (`length` in args) && args.length === 1){
                                             args = args[0];
                                         }
                                         return args;
@@ -237,7 +248,7 @@ class electronIpcMain{
         let
             that = this,
             ipcMain = that.load.node.electron.ipcMain,
-            globalShortcuts = that.load.config.platform.base.electron.globalShortcut
+            globalShortcuts = that.load.config.basic.platform.base.electron.globalShortcut
         ;
         ipcMain.on("electronListener", (event, arg) => {
             let

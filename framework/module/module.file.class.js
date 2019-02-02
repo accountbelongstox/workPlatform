@@ -1279,7 +1279,7 @@ class fileC{
     getTmpDir(pathname=null){
         let
             that = this,
-            tmpDir = that.load.config.platform.base.local.tmpDir
+            tmpDir = that.load.config.basic.platform.base.local.tmpDir
         ;
         if(pathname){
             tmpDir = that.load.node.path.join(tmpDir,pathname);

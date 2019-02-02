@@ -9,7 +9,7 @@ class index{
             that = this
         ;
         //平台配置 Object
-        that.option.platformBase = that.load.config.platform.base;
+        that.option.platformBase = that.load.config.basic.platform.base;
         //全局配置里的软件安装配置 Object
         that.option.sourceDir = that.option.platformBase.sourceDir;
         //工作目录 Object

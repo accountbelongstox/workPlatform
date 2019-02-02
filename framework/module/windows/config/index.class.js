@@ -1,17 +1,6 @@
 
-
-
 class index{
     constructor(load){
-        
-        
-        
-
-        
-        
-
-        
-
         //
     }
 
@@ -29,7 +18,7 @@ class index{
         //指定的软件名
         that.option.software = that.load.params.contain(that.option.softlist);
         //平台配置
-        that.option.platform = that.load.config.platform.base;
+        that.option.platform = that.load.config.basic.platform.base;
         //工作目录
         that.option.workDir = that.option.platform.workDir;
         //资源目录
@@ -382,7 +371,7 @@ class index{
                         });
                         SetIniList.push({
                             key:`DocumentRoot`,
-                            value:that.load.config.platform.base.workDir.wwwroot
+                            value:that.load.config.basic.platform.base.workDir.wwwroot
                         });
                         SetIniList.push({
                             key:`DirectoryIndex`,
@@ -507,7 +496,7 @@ class index{
                             ;
                             vhostsSet.push({
                                 key:`DocumentRoot`,
-                                value:that.load.config.platform.base.workDir.wwwroot
+                                value:that.load.config.basic.platform.base.workDir.wwwroot
                             });
                             //重新设置配置文件地址
                             that.load.module_func.config.option.SetIniPublic.confName = `conf/extra/httpd-vhosts.conf`;

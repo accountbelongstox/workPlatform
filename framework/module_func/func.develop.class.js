@@ -61,7 +61,7 @@ module.exports = class developC{
                 return domains
             })(),
             domain = domains.splice(0,1)[0],
-            wwwroot = that.load.config.platform.base.workDir.wwwroot,
+            wwwroot = that.load.config.basic.platform.base.workDir.wwwroot,
             webDir = that.load.node.path.join(wwwroot,domain),
             apacheVersions = that.load.module_func.config.GetVersionFull(`httpd`),
             o = {}

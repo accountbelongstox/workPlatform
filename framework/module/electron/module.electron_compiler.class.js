@@ -67,8 +67,9 @@ class compiler{
          * @tools 如果文件已经存在,则直接使用,无须再次编译.
          * @type
          */
+        console.log(that.load.config.basic,1234);
         let 
-            platform_config = that.load.config.platform,
+            platform_config = that.load.config.basic.platform,
             debug = platform_config.base.local.debug
         ;
         if(that.load.node.fs.existsSync(compiler_file) && !debug){
